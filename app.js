@@ -9,6 +9,25 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+//hbs helpers
+var hbs = require('hbs');
+
+//equal
+hbs.registerHelper('eq', function( a, b ){
+	var next =  arguments[arguments.length-1];
+	return (a === b) ? next.fn(this) : next.inverse(this);
+});
+
+// greater than
+hbs.registerHelper('gt', function( a, b ){
+	var next =  arguments[arguments.length-1];
+	return (a > b) ? next.fn(this) : next.inverse(this);
+});
+
+
+// console.log('hbs.helpers');
+// console.log(hbs.helpers);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
