@@ -78,6 +78,33 @@ pets =[{
 
 
 
+articles =[{
+  id: 1,
+  title: "Tips on how to take care of your pet",
+  category_id: 2,
+  author:"Author Name",
+  short_content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
+  content: "Some quick example text to build on the card title and make up the bulk of the card's content. \n Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content." ,
+  profile_img_url: "/images/repo/petcare-large.jpg",
+  likes:22,
+  created_on: "5 Jan 2021",
+  updated_on: "5 Jan 2021"
+},{
+  id: 1,
+  title: "Tips on how to take care of your pet",
+  category_id: 2,
+  author:"Author Name",
+  short_content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
+  content: "Some quick example text to build on the card title and make up the bulk of the card's content. \n Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content." ,
+  profile_img_url: "/images/repo/petcare.jpg",
+  likes:22,
+  created_on: "5 Jan 2021",
+  updated_on: "5 Jan 2021"
+}];
+
+
+
+
 // -- TEST MYSQL --------------------------------
 // const mysql = require('mysql');
 // const connection = mysql.createConnection({
@@ -124,7 +151,7 @@ router.get('/pets', function(req, res) {
   res.render('pets', { title: 'FosterPet - Pets' ,pets});
 });
 
-/* GET pets page */
+/* GET pet page by petid */
 router.get('/pets/:petId', function(req, res) {
   // pet.selectAll(function(data) {
   //   var hbsObj = { pets: data };
@@ -138,11 +165,33 @@ router.get('/pets/:petId', function(req, res) {
 });
 
 
+/* GET articles page */
+router.get('/articles', function(req, res) {
+  // pet.selectAll(function(data) {
+  //   var hbsObj = { pets: data };
+  //   console.log('Pets page');
+  //   res.render('pets', { title: 'FosterPet - Pets' ,hbsObj});
+  // });
+  
+  res.render('articles', { title: 'FosterPet - Articles' ,articles});
+});
 
-// /* GET articles page */
-// router.get('/articles', function(req, res, next) {
-//   console.log('Articles page');
-//   res.render('articles', { title: 'FosterPet - Pets' });
-// });
+/* GET article page by articleid */
+router.get('/articles/:articleId', function(req, res) {
+  // article.selectAll(function(data) {
+  //   var hbsObj = { articles: data };
+  //   console.log('Articles page');
+  //   res.render('articles', { title: 'FosterPet - Articles' ,hbsObj});
+  // });
+  var articleId = req.params.articleId;
+  article = articles[articleId-1];
+  console.log('articles');
+  console.log(article);
+  res.render('article', { title: 'FosterPet - '+ article.title ,article});
+});
+
+
+
+
 
 module.exports = router;
