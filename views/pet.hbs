@@ -1,14 +1,21 @@
   <!-- Header -->
-    <div class="header d-flex align-items-center" 
-    style="min-height: 300px; background-image: url({{pet.profile_img_url}}); background-size: cover; background-position: center center;">
+    <div class="header d-flex align-items-center pb-3" 
+    style="min-height: 250px; background-image: url({{pet.profile_img_url}}); background-size: cover; background-position: center center;">
       <!-- Mask -->
       <span class="mask bg-gradient-default opacity-8"></span>
       <!-- Header container -->
       <div class="container d-flex align-items-center">
-        <div class="row">
-          <div class="col-lg-7 col-md-10">
-            <h1 class="display-2 text-white">{{pet.pet_name}}</h1>
+        <div class="row col-12">
+          {{!-- <div class="col-12"> --}}
+            <div class="pr-4">
+              <h1 class="display-2 text-white">{{pet.pet_name}}</h1>           
+            </div>
+            <div class="py-3">
+              <a href="#!" class="btn btn-neutral">Apply for adoption</a>          
+            </div>
+          {{!-- </div> --}}
           </div>
+           
         </div>
       </div>
     </div>
