@@ -5,11 +5,13 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
+var petsRouter = require('./routes/pets');
+var articlesRouter = require('./routes/articles');
 var usersRouter = require('./routes/users');
 
 var app = express();
 
-//hbs helpers
+/** Handlebars helpers */
 var hbs = require('hbs');
 
 //equal
@@ -23,6 +25,9 @@ hbs.registerHelper('gt', function( a, b ){
 	var next =  arguments[arguments.length-1];
 	return (a > b) ? next.fn(this) : next.inverse(this);
 });
+
+/** Handlebars partials */
+hbs.registerPartial('petedit', '{{prefix}}');
 
 
 // console.log('hbs.helpers');
@@ -39,6 +44,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/pets', petsRouter);
+app.use('/articles', articlesRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
