@@ -35,7 +35,7 @@ router.get('/:petId', function(req, res) {
 /** POST */
 router.post('/', function(req, res) {
 
-  console.log('req.body');
+  console.log('req.body pets post');
   console.log(req.body);
 
   // pet.insertOne(
@@ -48,21 +48,42 @@ router.post('/', function(req, res) {
   // );
   console.log('after insert');
   insertedPetId = 100; //Change this by reading from database
-  res.redirect('/pets/'+insertedPetId); // send a message for success/error
+  // res.redirect('/pets/'+insertedPetId); // send a message for success/error
+
+  
+  err = false;
+  if (err){
+    res.status(500).json({
+      'message': 'Internal Error.'
+    });
+  } else {
+    res.status(200).json(insertedPetId);
+  }
 });
 
 /** PUT */
-router.put('/updateOne/:id', function(req, res) {
+router.put('/:id', function(req, res) {
 
-  console.log('req.body');
+  console.log('req.body pets put');
   console.log(req.body);
+  console.log('req.params.id');
+  console.log(req.params.id)
 
   var petId = req.params.id;
   var condition = 'id = ' + petId;
 
-  pet.updateOne(req.body, condition, function() {
-    res.redirect('/pets/'+petId); // send a message for success/error
-  });
+  // pet.updateOne(req.body, condition, function() {
+  //   res.redirect('/pets/'+petId); // send a message for success/error
+  // });
+
+  err = false;
+  if (err){
+    res.status(500).json({
+      'message': 'Internal Error.'
+    });
+  } else {
+    res.status(200).json(petId);
+  }
 
 });
 

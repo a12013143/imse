@@ -7,10 +7,10 @@
         </div>
       </div>
       <div class="row">
-        {{#if pet.id }}
+        {{#if article.id }}
         <div class="col-xl-12 order-xl-1">
           <div class="card card-profile shadow-none mb- d-block">
-            <img src="{{article.profile_img_url}}" alt="Image placeholder" class="card-img-top" style="max-height:500px; width:auto;">
+            <img src="{{article.profile_img_url}}" alt="Image placeholder" class="card-img-top" >
    
             <div class="card-body pb-0">
               <div class="row">
@@ -46,7 +46,10 @@
                        <h3 class="mb-0">{{#eq article.id 0}}Fill article info{{/eq}}{{#gt article.id 0}}Edit article{{/gt}} </h3>
                     </div>
                     <div class="col-4 text-right">
-                      <a href="#!" class="btn btn-sm btn-primary">Save</a>
+                      {{#if article.title}}<input id="article-id" name="id" type="hidden" value="{{article.id}}">{{/if}}
+                      <input type="checkbox" class="form-control-input" id="input-publish"/>
+                      <label class="form-control-label" for="input-publish">Publish</label>
+                      <button type="submit" class="btn btn-primary">Save</button>
                     </div>
                   </div>
                 </div>

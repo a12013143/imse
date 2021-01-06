@@ -16,7 +16,7 @@
 
 
 
-        //-------------CRUD-----------------//
+        //-------------CRUD PET------------------------------------------------//
         //Add pet
         $('#add-pet-form').on('submit', function(e) {
             console.log("TEST");
@@ -52,15 +52,16 @@
         $('#edit-pet-form').on('submit', function(e) {
             e.preventDefault();
             var data = objectifyForm($(this));
+            var petId = $('#pet-id').val();
             
             $.ajax({
-            url: url,
+            url: '/pets/'+petId,
             type: "PUT",
             data: JSON.stringify(data),
             contentType: "application/json",
             success: function(data, status) {
                 console.log(data);
-                $('.alert').addClass('alert-success').text("The new pet was succesfully edited").show();
+                $('.alert').addClass('alert-success').text("Pet was succesfully edited").show();
                 window.setTimeout(function(){
                     $('.alert').hide().removeClass('alert-success');
                 },500);
@@ -79,16 +80,104 @@
         //Delete pet
         $(document).on('click', '.trash-pet', function(e) {
             e.preventDefault();
+            var petId = $('#pet-id').val();
             $.ajax({
             url: '/pets/' + petId,
             type: 'DELETE',
             success: function(data, status) {
                 console.log(data);
-                $('.alert').addClass('alert-success').text("The new pet was succesfully deleted").show();
+                $('.alert').addClass('alert-success').text("Article was succesfully deleted").show();
                 window.setTimeout(function(){
                     $('.alert').hide().removeClass('alert-success');
                 },500);
             
+            },
+            error: function(error) {
+                console.log(error);
+                $('.alert').addClass('alert-danger').text("An error ocurred during deleting. Try again.").show();
+                window.setTimeout(function(){
+                    $('.alert').hide().removeClass('alert-danger');
+                },500);
+            }
+            });
+        });
+
+
+
+        //-------------CRUD ARTICLE---------------------------------------------//
+        //Add article
+        $('#add-article-form').on('submit', function(e) {
+            console.log("TEST");
+            e.preventDefault();
+            
+            var data = objectifyForm($(this));
+            console.log(data);
+            
+            $.ajax({
+            url: "/articles/",
+            type: "POST",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            success: function(data, status) {
+                console.log(data);
+                $('.alert').addClass('alert-success').text("The new article was succesfully added").show();
+                window.setTimeout(function(){
+                    $('.alert').hide().removeClass('alert-success');
+                },500);
+            
+            },
+            error: function(error) {
+                console.log(error);
+                $('.alert').addClass('alert-danger').text("An error ocurred during inserting. Try again.").show();
+                window.setTimeout(function(){
+                    $('.alert').hide().removeClass('alert-danger');
+                },500);
+            }
+            });
+        });
+    
+        //Edit article
+        $('#edit-article-form').on('submit', function(e) {
+            e.preventDefault();
+            var data = objectifyForm($(this));
+            var articleId = $('#article-id').val();
+            
+            $.ajax({
+            url: "/articles/"+articleId,
+            type: "PUT",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            success: function(data, status) {
+                console.log(data);
+                $('.alert').addClass('alert-success').text("Article was succesfully edited").show();
+                window.setTimeout(function(){
+                    $('.alert').hide().removeClass('alert-success');
+                },500);
+            
+            },
+            error: function(error) {
+                console.log(error);
+                $('.alert').addClass('alert-danger').text("An error ocurred during editing. Try again.").show();
+                window.setTimeout(function(){
+                    $('.alert').hide().removeClass('alert-danger');
+                },500);
+            }
+            });
+        });
+    
+        //Delete article
+        $(document).on('click', '.trash-article', function(e) {
+            e.preventDefault();
+            var articleId = $('#article-id').val();
+            $.ajax({
+            url: '/articles/' + articleId ,
+            type: 'DELETE',
+            success: function(data, status) {
+                console.log(data);
+                $('.alert').addClass('alert-success').text("Article was succesfully deleted").show();
+                window.setTimeout(function(){
+                    $('.alert').hide().removeClass('alert-success');
+                },500);
             },
             error: function(error) {
                 console.log(error);

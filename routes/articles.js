@@ -35,7 +35,7 @@ router.get('/:articleId', function(req, res) {
 /** POST */
 router.post('/', function(req, res) {
 
-  console.log('req.body');
+  console.log('req.body articles post');
   console.log(req.body);
 
   // article.insertOne(
@@ -48,21 +48,41 @@ router.post('/', function(req, res) {
   // );
   console.log('after insert');
   insertedArticleId = 100; //Change this by reading from database
-  res.redirect('/articles/'+insertedArticleId); // send a message for success/error
+  //res.redirect('/articles/'+insertedArticleId); // send a message for success/error
+
+  err = false;
+  if (err){
+    res.status(500).json({
+      'message': 'Internal Error.'
+    });
+  } else {
+    res.status(200).json(insertedArticleId);
+  }
 });
 
 /** PUT */
-router.put('/updateOne/:id', function(req, res) {
+router.put('/:id', function(req, res) {
 
-  console.log('req.body');
+  console.log('req.body articles put');
   console.log(req.body);
+  console.log('req.params.id');
+  console.log(req.params.id);
 
   var articleId = req.params.id;
   var condition = 'id = ' + articleId;
 
-  article.updateOne(req.body, condition, function() {
-    res.redirect('/articles/'+articleId); // send a message for success/error
-  });
+  // article.updateOne(req.body, condition, function() {
+  //   res.redirect('/articles/'+articleId); // send a message for success/error
+  // });
+
+  err = false;
+  if (err){
+    res.status(500).json({
+      'message': 'Internal Error.'
+    });
+  } else {
+    res.status(200).json(articleId);
+  }
 
 });
 
