@@ -140,58 +140,5 @@ router.get('/register', function(req, res, next) {
 });
 
 
-/* GET pets page */
-router.get('/pets', function(req, res) {
-  // pet.selectAll(function(data) {
-  //   var hbsObj = { pets: data };
-  //   console.log('Pets page');
-  //   res.render('pets', { title: 'FosterPet - Pets' ,hbsObj});
-  // });
-  
-  res.render('pets', { title: 'FosterPet - Pets' ,pets});
-});
-
-/* GET pet page by petid */
-router.get('/pets/:petId', function(req, res) {
-  // pet.selectAll(function(data) {
-  //   var hbsObj = { pets: data };
-  //   console.log('Pets page');
-  //   res.render('pets', { title: 'FosterPet - Pets' ,hbsObj});
-  // });
-  var petId = req.params.petId;
-  pet = pets[petId-1];
-  console.log(pet);
-  res.render('pet', { title: 'FosterPet - Pets' ,pet});
-});
-
-
-/* GET articles page */
-router.get('/articles', function(req, res) {
-  // pet.selectAll(function(data) {
-  //   var hbsObj = { pets: data };
-  //   console.log('Pets page');
-  //   res.render('pets', { title: 'FosterPet - Pets' ,hbsObj});
-  // });
-  
-  res.render('articles', { title: 'FosterPet - Articles' ,articles});
-});
-
-/* GET article page by articleid */
-router.get('/articles/:articleId', function(req, res) {
-  // article.selectAll(function(data) {
-  //   var hbsObj = { articles: data };
-  //   console.log('Articles page');
-  //   res.render('articles', { title: 'FosterPet - Articles' ,hbsObj});
-  // });
-  var articleId = req.params.articleId;
-  article = articles[articleId-1];
-  console.log('articles');
-  console.log(article);
-  res.render('article', { title: 'FosterPet - '+ article.title ,article});
-});
-
-
-
-
 
 module.exports = router;
