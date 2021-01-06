@@ -1,24 +1,16 @@
 
- <!-- Header -->
-    <div class="header bg-gradient-primary py-6 py-lg-6 pt-lg-6">
-      <div class="container">
-        <div class="header-body">
-          <div class="row align-items-center py-4">
-            <div class="col-lg-6 col-5">
-                <h1 class="font-weight-bold text-white">{{title}}</h1>
-              <p class="text-white"> Find one you like, and you'll find a great friend.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="separator separator-bottom separator-skew zindex-100">
-        <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
-          <polygon class="fill-white" points="2560 0 2560 100 0 100"></polygon>
-        </svg>
-      </div>
-    </div>
+
     <!-- Page content -->
     <div class="container mt--12">
+
+      <div class="row align-items-center py-4 mt--250">
+        <div class="col-lg-6 col-5">
+            <h1 class="font-weight-bold text-white">{{title}}</h1>
+          <p class="text-white"> Find one you like, and you'll find a great friend.</p>
+          <a href="/articles/new" class="btn btn-sm btn-neutral">Post new pet</a>
+        </div>
+      </div>
+
       <div class="row py-6 py-lg-6 pt-lg-6">
         {{#each pets}}
             <div class="col-xl-4 col-md-6">

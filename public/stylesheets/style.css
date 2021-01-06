@@ -2,6 +2,15 @@
   text-transform: none;
 }
 
+/* Header  cards*/
+
+.mt--10percent{
+  margin-top:-20%!important;
+}
+.mt--250{
+  margin-top:-220px!important;
+}
+
 /* Cards  */
 .card-img-250{
   height:250px;
@@ -16,3 +25,4 @@
   max-width: 100%;
   width: auto;
 }
+

@@ -1,15 +1,11 @@
-  <!-- Header -->
-    <div class="header d-flex align-items-center pb-3" 
-    style="min-height: 250px; background-image: url({{article.profile_img_url}}); background-size: cover; background-position: center center;">
-      <!-- Mask -->
-      <span class="mask bg-gradient-default opacity-8"></span>
-      <!-- Header container -->
 
-      </div>
-    </div>
     <!-- Page content -->
     <div class="container mt--6">
-
+      <div class="row align-items-center py-4 mt--250">
+        <div class="col-lg-6 col-5">
+            <h1 class="font-weight-bold text-white">{{title}}</h1>
+        </div>
+      </div>
       <div class="row">
         <div class="col-xl-12 order-xl-1">
           <div class="card card-profile shadow-none mb-0">
@@ -36,6 +32,15 @@
           <div class="card shadow-none mt-0">
           <div class="tab-content">
             <div id="edit" class="tab-pane tab-example-result fade" role="tabpanel" aria-labelledby="alerts-component-tab">
+
+                            <!-- Alerts -->
+              <div class="alert alert-success m-4 d-none" role="alert">
+              This is a success alert—check it out!
+              </div>
+              <form id="{{#if pet.id }}edit{{else}}add{{/if}}-pet-form" role="form" method="{{#if pet.id }}put{{else}}post{{/if}}" action="/pets/{{#if pet.id }}{{pet.id}}{{/if}}">
+                
+
+
               <div class="card-header">
                 <div class="row align-items-center">
                   <div class="col-8">
@@ -100,9 +105,6 @@
             </div>
             <div id="view" class="tab-pane fade active show" role="tabpanel" aria-labelledby="alerts-html-tab">
               <div class="card-header">
-                <div class="row align-items-center">
-                  <h1> {{article.title}}</h1>                  
-                </div>
                  <div class="row align-items-center">
                    <p>{{article.short_content}}</p>
                  </div>                

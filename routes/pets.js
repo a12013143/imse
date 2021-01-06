@@ -10,8 +10,8 @@ router.get('/', function(req, res) {
   //   console.log('Pets page');
   //   res.render('pets', { title: 'Pets' ,hbsObj});
   // });
-  
-  res.render('pets', { title: 'Pets' ,pets});
+  var header_image = "/images/repo/ronald.jpg";
+  res.render('pets', { title: 'Pets' ,pets, header_image});
 });
 
 router.get('/:petId', function(req, res) {
@@ -28,7 +28,8 @@ router.get('/:petId', function(req, res) {
     pet = pets[petId-1];
     console.log(pet);
   }
-  res.render('pet', { title: 'Pets - '+pet.pet_name ,pet});
+  var header_image = pet.profile_img_url;
+  res.render('pet', { title: 'Pets - '+pet.pet_name ,pet,header_image});
 });
 
 /** POST */

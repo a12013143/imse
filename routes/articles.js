@@ -10,8 +10,8 @@ router.get('/', function(req, res) {
   //   console.log('Articles page');
   //   res.render('articles', { title: 'Articles' ,hbsObj});
   // });
-  
-  res.render('articles', { title: 'Articles' ,articles});
+  var header_image = "/images/repo/ronald.jpg";
+  res.render('articles', { title: 'Articles' ,articles,header_image});
 });
 
 router.get('/:articleId', function(req, res) {
@@ -28,7 +28,8 @@ router.get('/:articleId', function(req, res) {
     article = articles[articleId-1];
     console.log(article);
   }
-  res.render('article', { title: 'Articles - '+article.article_name ,article});
+  var header_image = article.profile_img_url;
+  res.render('article', { title: article.title ,article, header_image});
 });
 
 /** POST */

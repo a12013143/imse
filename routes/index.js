@@ -124,19 +124,20 @@ articles =[{
 /* GET home page. */
 router.get('/', function(req, res, next) {
   var pets3 = pets.slice(0,3);
-  res.render('index', { title: 'FosterPet' , pets3});
+  var header_image = "/images/repo/petcare-large.jpg";
+  res.render('index', { title: 'FosterPet' , pets3, header_image});
 });
 
 /* GET login page. */
 router.get('/login', function(req, res, next) {
   console.log('Login page');
-  res.render('login', {});
+  res.render('login', {title:'Login'});
 });
 
 /* GET register page. */
 router.get('/register', function(req, res, next) {
   console.log('Register page');
-  res.render('register', {});
+  res.render('register', {title:'Register'});
 });
 
 

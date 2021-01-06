@@ -1,26 +1,18 @@
-    <!-- Header -->
-    <div class="header d-flex align-items-center pb-3" 
-    style="min-height: 250px; background-image: url({{pet.profile_img_url}}); background-size: cover; background-position: center center;">
-      <!-- Mask -->
-      <span class="mask bg-gradient-default opacity-8"></span>
-      <!-- Header container -->
-      <div class="container d-flex align-items-center">
-        <div class="row col-12">
+
+    <!-- Page content -->
+    <div class="container mt--6">
+
+      <div class="row col-12 mt--250">
           {{!-- <div class="col-12"> --}}
             <div class="pr-4">
-              <h1 class="display-2 text-white">{{pet.name}}</h1>           
+              <h1 class="display-2 text-white">{{pet.pet_name}}</h1>           
             </div>
             <div class="py-3">
               <button id="adoption-apply" class="btn btn-neutral">Apply for adoption</button>          
             </div>
           {{!-- </div> --}}
-          </div>
-           
-        </div>
       </div>
-    </div>
-    <!-- Page content -->
-    <div class="container mt--6">
+
       <div class="row">
         <div class="col-xl-4 order-xl-2">
           <div class="card card-profile">
