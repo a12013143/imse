@@ -192,14 +192,16 @@
               </div>
             </div>
           </div>
+          {{#if pet.id}}
           <ul class="nav nav-tabs-code py-3" id="alerts-tab" role="tablist">
             <li class="nav-item">
               <a class="nav-link" id="alerts-component-tab" data-toggle="tab" href="#edit" role="tab" aria-controls="alerts-component" aria-selected="false">Edit</a>
-            </li>
+            </li>            
             <li class="nav-item">
               <a class="nav-link active" id="alerts-html-tab" data-toggle="tab" href="#view" role="tab" aria-controls="alerts-html" aria-selected="true">View</a>
             </li>
           </ul>
+          {{/if}}
           </div>
         </div>
       </div>
