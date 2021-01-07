@@ -119,6 +119,7 @@ router.put('/:id', function(req, res) {
   console.log('req.params.id');
   console.log(req.params.id)
 
+
   var adoptionId = req.params.id;
   var condition = 'id = ' + adoptionId;
 

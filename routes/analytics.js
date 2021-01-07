@@ -18,21 +18,40 @@ var user = {
 analytics =[{
   id: 1,
   url:'/articles/1',
-  type: 'article',
-  page_id:2,
-  pet_id:null,
   user_id:2,
   time:30,
   created_on: "5 Jan 2021"
 },{
     id: 1,
-    type: 'pet',
     url:'/pets/1',
-    page_id:2,
-    user_id:2,
     time:60,
+    user_id:2,
     created_on: "5 Jan 2021"
 }];
+
+//hardcoded data
+analyticsAggregated =[{
+  id: 1,
+  url:'/articles/1',// groupby page
+  page_id:1, // this is extracted from url
+  article:{title:"Article Title"},
+  type: 'article', // this is extracted from url
+  visits:3 ,  // count ids 
+  visitors:2, // count user_ids for page
+  time:30, //sum for page
+  created_on: "5 Jan 2021"
+},{
+  id: 1,
+  url:'/articles/1',
+  page_id:1, // this is extracted from url
+  article:{title:"Article Title"},
+  type: 'article', // this is extracted from url
+  visits:3 ,  // count ids 
+  visitors:2, // count user_ids for page
+  time:30,
+  created_on: "5 Jan 2021"
+}];
+
 
 
 
@@ -84,6 +103,7 @@ router.get('/', function(req, res) {
   // });
   
   var header_image = "/images/repo/petcare-large.jpg";
+  var analytics = analyticsAggregated;
   res.render('analytics', { title: 'Analytics' ,analytics,header_image,user});
 });
 

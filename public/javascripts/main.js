@@ -303,6 +303,7 @@
         //-------------CRUD Analytics---------------------------------------------//
         //Add analytics
         var analyticsStartTime = new Date();
+        
          function addAnalytics () {
             
             var analyticsEndTime = new Date();
@@ -340,8 +341,11 @@
 
         $(window).bind('beforeunload', function(){
             addAnalytics();
-            return 'Are you sure you want to leave?'
+            //return 'Are you sure you want to leave?'
         });
         
+
+         $('#analytics-table').DataTable();
+
     });
 // });

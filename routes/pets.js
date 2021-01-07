@@ -26,7 +26,7 @@ pets =[{
   short_content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
   content: "Some quick example text to build on the card title and make up the bulk of the card's content. \n Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content." ,
   profile_img_url: "/images/repo/harry.jpg",
-  likes:22,
+  favourites:22,  // This is extraacted joined with favourites table!!
   applications:1
 },{
   id: 2,
