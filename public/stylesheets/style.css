@@ -2,6 +2,11 @@
   text-transform: none;
 }
 
+/* Nav */
+.dropdown-menu-xl {
+  min-width: 260px!important;
+}
+
 /* Header  cards*/
 
 .mt--10percent{

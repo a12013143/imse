@@ -24,6 +24,9 @@
             
             var data = objectifyForm($(this));
             console.log(data);
+
+            data.createdAt = d.toISOString();
+            data.updatedAt = d.toISOString();
             
             $.ajax({
             url: "/pets/",
@@ -32,18 +35,18 @@
             contentType: "application/json",
             success: function(data, status) {
                 console.log(data);
-                $('.alert').addClass('alert-success').text("The new pet was succesfully added").show();
+                $('.alert').removeClass('d-none').addClass('alert-success').text("The new pet was succesfully added").show();
                 window.setTimeout(function(){
-                    $('.alert').hide().removeClass('alert-success');
-                },500);
+                   $('.alert').addClass('d-none').removeClass('alert-success');
+                },1500);
             
             },
             error: function(error) {
                 console.log(error);
-                $('.alert').addClass('alert-danger').text("An error ocurred during inserting. Try again.").show();
+                $('.alert').removeClass('d-none').addClass('alert-danger').text("An error ocurred during inserting. Try again.").show();
                 window.setTimeout(function(){
-                    $('.alert').hide().removeClass('alert-danger');
-                },500);
+                   $('.alert').addClass('d-none').removeClass('alert-danger');
+                },1500);
             }
             });
         });
@@ -53,6 +56,8 @@
             e.preventDefault();
             var data = objectifyForm($(this));
             var petId = $('#pet-id').val();
+
+            data.updatedAt = d.toISOString();
             
             $.ajax({
             url: '/pets/'+petId,
@@ -61,18 +66,18 @@
             contentType: "application/json",
             success: function(data, status) {
                 console.log(data);
-                $('.alert').addClass('alert-success').text("Pet was succesfully edited").show();
+                $('.alert').removeClass('d-none').addClass('alert-success').text("Pet was succesfully edited").show();
                 window.setTimeout(function(){
-                    $('.alert').hide().removeClass('alert-success');
-                },500);
+                   $('.alert').addClass('d-none').removeClass('alert-success');
+                },1500);
             
             },
             error: function(error) {
                 console.log(error);
-                $('.alert').addClass('alert-danger').text("An error ocurred during editing. Try again.").show();
+                $('.alert').removeClass('d-none').addClass('alert-danger').text("An error ocurred during editing. Try again.").show();
                 window.setTimeout(function(){
-                    $('.alert').hide().removeClass('alert-danger');
-                },500);
+                   $('.alert').addClass('d-none').removeClass('alert-danger');
+                },1500);
             }
             });
         });
@@ -86,24 +91,59 @@
             type: 'DELETE',
             success: function(data, status) {
                 console.log(data);
-                $('.alert').addClass('alert-success').text("Article was succesfully deleted").show();
+                $('.alert').removeClass('d-none').addClass('alert-success').text("Article was succesfully deleted").show();
                 window.setTimeout(function(){
-                    $('.alert').hide().removeClass('alert-success');
-                },500);
+                   $('.alert').addClass('d-none').removeClass('alert-success');
+                },1500);
             
             },
             error: function(error) {
                 console.log(error);
-                $('.alert').addClass('alert-danger').text("An error ocurred during deleting. Try again.").show();
+                $('.alert').removeClass('d-none').addClass('alert-danger').text("An error ocurred during deleting. Try again.").show();
                 window.setTimeout(function(){
-                    $('.alert').hide().removeClass('alert-danger');
-                },500);
+                   $('.alert').addClass('d-none').removeClass('alert-danger');
+                },1500);
             }
             });
         });
 
 
+        //-------------CRUD ADOPTION------------------------------------------------//
+        //Add article
+         $('#add-adoption-form').on('submit', function(e) {
+            console.log("TEST");
+            e.preventDefault();
+            
+            var data = objectifyForm($(this));
+            console.log(data);
 
+            var d = new Date();
+            data.createdAt = d.toISOString();
+            data.updatedAt = d.toISOString();
+            
+            $.ajax({
+            url: "/adoptions/",
+            type: "POST",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            success: function(data, status) {
+                console.log(data);
+                $('.alert').removeClass('d-none').addClass('alert-success').text("Adoption request was successfully sent.").show();
+                window.setTimeout(function(){
+                   $('.alert').addClass('d-none').removeClass('alert-success');
+                },1500);
+            },
+            error: function(error) {
+                console.log(error);
+                $('.alert').removeClass('d-none').addClass('alert-danger').text("An error ocurred. Try again.").show();
+                window.setTimeout(function(){
+                   $('.alert').addClass('d-none').removeClass('alert-danger');
+                },1500);
+            }
+            });
+        });
+        
+        
         //-------------CRUD ARTICLE---------------------------------------------//
         //Add article
         $('#add-article-form').on('submit', function(e) {
@@ -112,6 +152,9 @@
             
             var data = objectifyForm($(this));
             console.log(data);
+
+            data.createdAt = d.toISOString();
+            data.updatedAt = d.toISOString();
             
             $.ajax({
             url: "/articles/",
@@ -120,18 +163,18 @@
             contentType: "application/json",
             success: function(data, status) {
                 console.log(data);
-                $('.alert').addClass('alert-success').text("The new article was succesfully added").show();
+                $('.alert').removeClass('d-none').addClass('alert-success').text("The new article was succesfully added").show();
                 window.setTimeout(function(){
-                    $('.alert').hide().removeClass('alert-success');
-                },500);
+                   $('.alert').addClass('d-none').removeClass('alert-success');
+                },1500);
             
             },
             error: function(error) {
                 console.log(error);
-                $('.alert').addClass('alert-danger').text("An error ocurred during inserting. Try again.").show();
+                $('.alert').removeClass('d-none').addClass('alert-danger').text("An error ocurred during inserting. Try again.").show();
                 window.setTimeout(function(){
-                    $('.alert').hide().removeClass('alert-danger');
-                },500);
+                   $('.alert').addClass('d-none').removeClass('alert-danger');
+                },1500);
             }
             });
         });
@@ -141,6 +184,8 @@
             e.preventDefault();
             var data = objectifyForm($(this));
             var articleId = $('#article-id').val();
+
+            data.updatedAt = d.toISOString();
             
             $.ajax({
             url: "/articles/"+articleId,
@@ -149,18 +194,18 @@
             contentType: "application/json",
             success: function(data, status) {
                 console.log(data);
-                $('.alert').addClass('alert-success').text("Article was succesfully edited").show();
+                $('.alert').removeClass('d-none').addClass('alert-success').text("Article was succesfully edited").show();
                 window.setTimeout(function(){
-                    $('.alert').hide().removeClass('alert-success');
-                },500);
+                   $('.alert').addClass('d-none').removeClass('alert-success');
+                },1500);
             
             },
             error: function(error) {
                 console.log(error);
-                $('.alert').addClass('alert-danger').text("An error ocurred during editing. Try again.").show();
+                $('.alert').removeClass('d-none').addClass('alert-danger').text("An error ocurred during editing. Try again.").show();
                 window.setTimeout(function(){
-                    $('.alert').hide().removeClass('alert-danger');
-                },500);
+                   $('.alert').addClass('d-none').removeClass('alert-danger');
+                },1500);
             }
             });
         });
@@ -174,17 +219,17 @@
             type: 'DELETE',
             success: function(data, status) {
                 console.log(data);
-                $('.alert').addClass('alert-success').text("Article was succesfully deleted").show();
+                $('.alert').removeClass('d-none').addClass('alert-success').text("Article was succesfully deleted").show();
                 window.setTimeout(function(){
-                    $('.alert').hide().removeClass('alert-success');
-                },500);
+                   $('.alert').addClass('d-none').removeClass('alert-success');
+                },1500);
             },
             error: function(error) {
                 console.log(error);
-                $('.alert').addClass('alert-danger').text("An error ocurred during deleting. Try again.").show();
+                $('.alert').removeClass('d-none').addClass('alert-danger').text("An error ocurred during deleting. Try again.").show();
                 window.setTimeout(function(){
-                    $('.alert').hide().removeClass('alert-danger');
-                },500);
+                   $('.alert').addClass('d-none').removeClass('alert-danger');
+                },1500);
             }
             });
         });

@@ -6,117 +6,49 @@ var router = express.Router();
 // js objects, to be replaced with dynamic content
 
 
-
-pets =[{
+// hardcoded user data
+var user = {
   id: 1,
-  pet_name: "Harry",
-  category_id: 2,
-  age_years:1,
-  age_months:0,
-  neutered:true,
+  name: "Grese Hyseni",
+  email:"hysenigrese@gmail.com",
+  password: "hashvalue",
+  phone:"06763949302",
   address:"Vienna, Austria",
-  short_content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-  content: "Some quick example text to build on the card title and make up the bulk of the card's content. \n Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content." ,
-  profile_img_url: "/images/repo/harry.jpg",
-  likes:22,
-  applications:1
+  profile_img_url: "/images/repo/user.png"
+};
+
+//hardcoded data
+user.adoptions =[{
+  id: 1,
+  pet_id: 3,
+  pet: {
+    id: 3,
+    pet_name: "Roko",
+    profile_img_url: "/images/repo/roko.jpg"},
+  user_id: 2,
+  user : {
+    id: 2,
+    name: "Hannah Poor",
+    profile_img_url:"/images/repo/user.png",
+    email:"test@gmail.com"},
+  status: "Initiated",
+  message: "I would like to adopt this lovely pet."
 },{
   id: 2,
-  pet_name: "Ron",
-  category_id: 2,
-  age_years:1,
-  age_months:0,
-  neutered:true,
-  address:"Vienna, Austria",
-  owner:"Grese Hyseni",
-  owner_id:2,
-  short_content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-  content: "Some quick example text to build on the card title and make up the bulk of the card's content. \n Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content." ,
-  profile_img_url: "/images/repo/ronald.jpg",
-  likes:22,
-  applications:1
-},{
-  id: 3,
-  pet_name: "Hermione",
-  category_id: 2,
-  age_years:1,
-  age_months:0,
-  neutered:true,
-  address:"Vienna, Austria",
-  short_content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-  content: "Some quick example text to build on the card title and make up the bulk of the card's content. \n Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content." ,
-  profile_img_url: "/images/repo/hermione.jpg",
-  likes:22,
-  applications:1
-},{
-  id: 4,
-  pet_name: "Dobby",
-  category_id: 2,
-  age_years:1,
-  age_months:0,
-  neutered:true,
-  address:"Vienna, Austria",
-  short_content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-  content: "Some quick example text to build on the card title and make up the bulk of the card's content. \n Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content." ,
-  profile_img_url: "/images/repo/dobby2.jpg",
-  likes:22,
-  applications:1
-},{
-  id: 5,
-  pet_name: "Roko",
-  category_id: 2,
-  age_years:1,
-  age_months:0,
-  neutered:true,
-  address:"Vienna, Austria",
-  short_content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-  content: "Some quick example text to build on the card title and make up the bulk of the card's content. \n Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content." ,
-  profile_img_url: "/images/repo/roko.jpg",
-  likes:22,
-  applications:1
+  pet_id: 2,
+  pet: {
+    id: 3,
+    pet_name: "Ron",  
+    profile_img_url: "/images/repo/ronald.jpg"},
+  user_id: 3,
+  user : {
+    id: 3,
+    name: "User User",
+    profile_img_url:"/images/repo/user.png",
+    email:"test@gmail.com"},
+  status: "In progress",
+  message: "Hi, I am interested to adopt this pet."
 }];
-
-
-
-articles =[{
-  id: 1,
-  title: "Tips on how to take care of your pet",
-  category_id: 2,
-  author:"Author Name",
-  short_content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-  content: "Some quick example text to build on the card title and make up the bulk of the card's content. \n Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content." ,
-  profile_img_url: "/images/repo/petcare-large.jpg",
-  likes:22,
-  created_on: "5 Jan 2021",
-  updated_on: "5 Jan 2021"
-},{
-  id: 1,
-  title: "Tips on how to take care of your pet",
-  category_id: 2,
-  author:"Author Name",
-  short_content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-  content: "Some quick example text to build on the card title and make up the bulk of the card's content. \n Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content." ,
-  profile_img_url: "/images/repo/petcare.jpg",
-  likes:22,
-  created_on: "5 Jan 2021",
-  updated_on: "5 Jan 2021"
-}];
-
-
-
-
-// -- TEST MYSQL --------------------------------
-// const mysql = require('mysql');
-// const connection = mysql.createConnection({
-//   host: 'localhost',
-//   user: 'user',
-//   password: 'password',
-//   database: 'database name'
-// });
-// connection.connect((err) => {
-//   if (err) throw err;
-//   console.log('Connected!');
-// });
 
 
 // -- END TEST MYSQL, delete after --------------------------------
@@ -125,7 +57,7 @@ articles =[{
 router.get('/', function(req, res, next) {
   var pets3 = pets.slice(0,3);
   var header_image = "/images/repo/petcare-large.jpg";
-  res.render('index', { title: 'FosterPet' , pets3, header_image});
+  res.render('index', { title: 'FosterPet' , pets3, header_image,user});
 });
 
 /* GET login page. */
@@ -139,6 +71,16 @@ router.get('/register', function(req, res, next) {
   console.log('Register page');
   res.render('register', {title:'Register'});
 });
+
+/* GET profile page. */
+router.get('/profile/:userId', function(req, res, next) {
+  console.log('Profile page');
+  var show_adoptions = req.query.showAdoptions;
+  console.log('show_adoptions');
+  console.log(show_adoptions);
+  res.render('profile', {title:user.name,user,show_adoptions});
+}); 
+
 
 
 

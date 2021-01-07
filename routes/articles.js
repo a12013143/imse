@@ -3,6 +3,75 @@ var router = express.Router();
 //var article = require('../models/article.js');
 
 
+// hardcoded user data
+var user = {
+  id: 1,
+  name: "Grese Hyseni",
+  email:"hysenigrese@gmail.com",
+  password: "hashvalue",
+  phone:"06763949302",
+  address:"Vienna, Austria",
+  profile_img_url: "/images/repo/user.png"
+};
+
+//hardcoded data
+articles =[{
+  id: 1,
+  title: "Tips on how to take care of your pet",
+  category_id: 2,
+  author:"Author Name",
+  short_content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
+  content: "Some quick example text to build on the card title and make up the bulk of the card's content. \n Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content." ,
+  profile_img_url: "/images/repo/petcare-large.jpg",
+  likes:22,
+  created_on: "5 Jan 2021",
+  updated_on: "5 Jan 2021"
+},{
+  id: 1,
+  title: "Tips on how to take care of your pet",
+  category_id: 2,
+  author:"Author Name",
+  short_content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
+  content: "Some quick example text to build on the card title and make up the bulk of the card's content. \n Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content." ,
+  profile_img_url: "/images/repo/petcare.jpg",
+  likes:22,
+  created_on: "5 Jan 2021",
+  updated_on: "5 Jan 2021"
+}];
+
+//hardcoded adoption data
+//hardcoded data
+user.adoptions =[{
+  id: 1,
+  pet_id: 3,
+  pet: {
+    id: 3,
+    pet_name: "Roko",
+    profile_img_url: "/images/repo/roko.png"},
+  user_id: 2,
+  user : {
+    id: 2,
+    name: "Hannah Poor",
+    profile_img_url:"/images/repo/user.png"},
+  status: "Initiated",
+  message: "I would like to adopt this lovely pet."
+},{
+  id: 2,
+  pet_id: 2,
+  pet: {
+    id: 3,
+    pet_name: "Ron",  
+    profile_img_url: "/images/repo/ronald.jpg"},
+  user_id: 3,
+  user : {
+    id: 3,
+    name: "User User",
+    profile_img_url:"/images/repo/user.jpg"},
+  status: "In progress",
+  message: "Hi, I am interested to adopt this pet."
+}];
+
+
 /*# GET */
 router.get('/', function(req, res) {
   // article.selectAll(function(data) {
@@ -11,7 +80,7 @@ router.get('/', function(req, res) {
   //   res.render('articles', { title: 'Articles' ,hbsObj});
   // });
   var header_image = "/images/repo/ronald.jpg";
-  res.render('articles', { title: 'Articles' ,articles,header_image});
+  res.render('articles', { title: 'Articles' ,articles,header_image,user});
 });
 
 router.get('/:articleId', function(req, res) {
@@ -29,7 +98,7 @@ router.get('/:articleId', function(req, res) {
     console.log(article);
   }
   var header_image = article.profile_img_url;
-  res.render('article', { title: article.title ,article, header_image});
+  res.render('article', { title: article.title ,article, header_image,user});
 });
 
 /** POST */
