@@ -16,7 +16,6 @@ var app = express();
 /** Handlebars helpers */
 var hbs = require('hbs');
 
-
 //equal
 hbs.registerHelper('eq', function( a, b ){
 	var next =  arguments[arguments.length-1];
