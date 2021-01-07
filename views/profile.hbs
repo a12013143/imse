@@ -120,7 +120,7 @@
                       </thead>
                       <tbody class="list">
                         {{#each user.adoptions}}
-                        <tr>
+                        <tr data-adoption_id="{{this.id}}">
                           <th scope="row">
                             <div class="media align-items-center">
                               <a href="#" class="avatar rounded-circle mr-3">
@@ -158,8 +158,8 @@
                                 <i class="fas fa-ellipsis-v"></i>
                               </a>
                               <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                <a id="approve-adoption-request" class="dropdown-item" href="#">Approve</a>
-                                <a id="decline-adoption-request" class="dropdown-item" href="#">Decline</a>
+                                <a id="update-adoption-status" data-status="Approved" class="dropdown-item" href="#">Approve</a>
+                                <a id="update-adoption-status" data-status="Declined" class="dropdown-item" href="#">Decline</a>
                                 <a class="dropdown-item" href="mailto:{{user.email}}">Contact by email</a>
                               </div>
                             </div>

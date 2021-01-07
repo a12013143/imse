@@ -25,6 +25,7 @@
             var data = objectifyForm($(this));
             console.log(data);
 
+            var d = new Date();
             data.createdAt = d.toISOString();
             data.updatedAt = d.toISOString();
             
@@ -57,6 +58,7 @@
             var data = objectifyForm($(this));
             var petId = $('#pet-id').val();
 
+            var d = new Date();
             data.updatedAt = d.toISOString();
             
             $.ajax({
@@ -142,6 +144,43 @@
             }
             });
         });
+
+        //update-adoption-status
+        $('#update-adoption-status').on('click',function(e){
+            
+            e.preventDefault()
+            var status = $(this).data('#status');
+            var adoptionId = $(this).closest('tr').data('adoption_id');
+            console.log('adoptionid');
+            console.log(adoptionId);
+            var data = {id:adoptionId,status:status};
+
+            var d = new Date();
+            data.updatedAt = d.toISOString();
+            
+            $.ajax({
+            url: "/adoptions/"+adoptionId,
+            type: "PUT",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            success: function(data, status) {
+                console.log(data);
+                $('.alert').removeClass('d-none').addClass('alert-success').text("Article was succesfully edited").show();
+                window.setTimeout(function(){
+                   $('.alert').addClass('d-none').removeClass('alert-success');
+                },1500);
+            
+            },
+            error: function(error) {
+                console.log(error);
+                $('.alert').removeClass('d-none').addClass('alert-danger').text("An error ocurred during editing. Try again.").show();
+                window.setTimeout(function(){
+                   $('.alert').addClass('d-none').removeClass('alert-danger');
+                },1500);
+            }
+            });
+
+        });
         
         
         //-------------CRUD ARTICLE---------------------------------------------//
@@ -153,6 +192,7 @@
             var data = objectifyForm($(this));
             console.log(data);
 
+            var d = new Date();
             data.createdAt = d.toISOString();
             data.updatedAt = d.toISOString();
             
@@ -185,6 +225,7 @@
             var data = objectifyForm($(this));
             var articleId = $('#article-id').val();
 
+            var d = new Date();
             data.updatedAt = d.toISOString();
             
             $.ajax({
