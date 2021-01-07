@@ -1,0 +1,100 @@
+
+
+ 
+
+    <!-- Page content -->
+    <div class="container mt--12">
+
+                <!-- Card stats -->
+          <div class="row mt--10percent">
+            <div class="col-xl-4 col-md-6">
+              <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Find a dog</h5>
+                      <span class="h2 font-weight-bold mb-0">210 dogs available for adoption</span>
+                    </div>
+                    <div class="col-auto">
+                       <a href="#!" class="btn btn-sm btn-primary">See all</a>
+                      {{!-- <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                        <i class="ni ni-active-40"></i>
+                      </div> --}}
+                    </div>
+                  </div>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                    <span class="text-nowrap">Since last month</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-4 col-md-6">
+              <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Find a cat</h5>
+                      <span class="h2 font-weight-bold mb-0">150 cats available for adoption</span>
+                    </div>                    
+                    <div class="col-auto">
+                      <a href="#!" class="btn btn-sm btn-primary">See all</a>
+                      {{!-- <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                        <i class="ni ni-active-40"></i>
+                      </div> --}}
+                    </div>
+                  </div>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                    <span class="text-nowrap">Since last month</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-4 col-md-6">
+              <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Find other pet</h5>
+                      <span class="h2 font-weight-bold mb-0">400 pets available for adoption</span>
+                    </div>                    
+                    <div class="col-auto">
+                      <a href="#!" class="btn btn-sm btn-primary">See all</a>
+                      {{!-- <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                        <i class="ni ni-active-40"></i>
+                      </div> --}}
+                    </div>
+                  </div>
+                  <p class="mt-3 mb-0 text-sm">
+                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                    <span class="text-nowrap">Since last month</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+      <div class="row py-6 py-lg-6 pt-lg-6">
+      
+      {{!-- Change to articles --}}
+         {{#each pets3}}
+            <div class="col-xl-4 col-md-6">
+              <div class="card">
+                <!-- Card body -->
+                <div class="card-img-250" style="background-image:url('{{this.profile_img_url}}')">
+                  {{!-- <img class="card-img-top" src="{{this.profile_img_url}}" alt="{{this.pet_name}}"> --}}
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">{{this.pet_name}}</h5>
+                  <p class="card-text">{{this.content}}</p>
+                  <a href="/pets/{{this.id}}" class="btn btn-primary">Read more</a>
+                </div>
+              </div>
+            </div>
+        {{/each}}
+      </div>
+    </div>
