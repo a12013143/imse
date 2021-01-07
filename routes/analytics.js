@@ -17,8 +17,9 @@ var user = {
 //hardcoded data
 analytics =[{
   id: 1,
+  url:'/articles/1',
   type: 'article',
-  article_id:2,
+  page_id:2,
   pet_id:null,
   user_id:2,
   time:30,
@@ -26,12 +27,14 @@ analytics =[{
 },{
     id: 1,
     type: 'pet',
-    article_id:null,
-    pet_id:2,
+    url:'/pets/1',
+    page_id:2,
     user_id:2,
     time:60,
     created_on: "5 Jan 2021"
 }];
+
+
 
 //hardcoded adoption data
 //hardcoded data

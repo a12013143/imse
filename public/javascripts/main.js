@@ -26,9 +26,12 @@
             var data = objectifyForm($(this));
             console.log(data);
 
+
             var d = new Date();
-            data.createdAt = d.toISOString();
-            data.updatedAt = d.toISOString();
+            var dateArray= d.toLocaleDateString("en-US").split("/");
+            var date= ('0' + dateArray[0]).slice(-2) + '/' + ('0' + dateArray[1]).slice(-2) + '/' + dateArray[2];
+            data.createdAt = date;
+            data.updatedAt = date;
             
             $.ajax({
             url: "/pets/",
@@ -59,8 +62,11 @@
             var data = objectifyForm($(this));
             var petId = $('#pet-id').val();
 
+
             var d = new Date();
-            data.updatedAt = d.toISOString();
+            var dateArray= d.toLocaleDateString("en-US").split("/");
+            var date= ('0' + dateArray[0]).slice(-2) + '/' + ('0' + dateArray[1]).slice(-2) + '/' + dateArray[2];
+            data.updatedAt = date;
             
             $.ajax({
             url: '/pets/'+petId,
@@ -122,9 +128,12 @@
             var data = objectifyForm($(this));
             console.log(data);
 
+
             var d = new Date();
-            data.createdAt = d.toISOString();
-            data.updatedAt = d.toISOString();
+            var dateArray= d.toLocaleDateString("en-US").split("/");
+            var date= ('0' + dateArray[0]).slice(-2) + '/' + ('0' + dateArray[1]).slice(-2) + '/' + dateArray[2];
+            data.createdAt = date;
+            data.updatedAt = date;
             
             $.ajax({
             url: "/adoptions/",
@@ -159,7 +168,9 @@
             var data = {id:adoptionId,status:status};
 
             var d = new Date();
-            data.updatedAt = d.toISOString();
+            var dateArray= d.toLocaleDateString("en-US").split("/");
+            var date= ('0' + dateArray[0]).slice(-2) + '/' + ('0' + dateArray[1]).slice(-2) + '/' + dateArray[2];
+            data.updatedAt = date;
             
             $.ajax({
             url: "/adoptions/"+adoptionId,
@@ -197,9 +208,12 @@
             var data = objectifyForm($(this));
             console.log(data);
 
+
             var d = new Date();
-            data.createdAt = d.toISOString();
-            data.updatedAt = d.toISOString();
+            var dateArray= d.toLocaleDateString("en-US").split("/");
+            var date= ('0' + dateArray[0]).slice(-2) + '/' + ('0' + dateArray[1]).slice(-2) + '/' + dateArray[2];
+            data.createdAt = date;
+            data.updatedAt = date;
             
             $.ajax({
             url: "/articles/",
@@ -230,8 +244,11 @@
             var data = objectifyForm($(this));
             var articleId = $('#article-id').val();
 
+
             var d = new Date();
-            data.updatedAt = d.toISOString();
+            var dateArray= d.toLocaleDateString("en-US").split("/");
+            var date= ('0' + dateArray[0]).slice(-2) + '/' + ('0' + dateArray[1]).slice(-2) + '/' + dateArray[2];
+            data.updatedAt = date;
             
             $.ajax({
             url: "/articles/"+articleId,
@@ -294,10 +311,15 @@
             
             var data = objectifyForm($('#page-data'));
             data.time = analyticsEndTime.getSeconds() - analyticsStartTime.getSeconds();
-            console.log(data);
+            data.url = window.location.pathname; 
 
             var d = new Date();
-            data.createdAt = d.toISOString();
+            var dateArray= d.toLocaleDateString("en-US").split("/");
+            data.createdAt = ('0' + dateArray[0]).slice(-2) + '/' + ('0' + dateArray[1]).slice(-2) + '/' + dateArray[2];
+           
+
+            console.log(data);
+
             
             $.ajax({
             url: "/analytics/",
@@ -313,9 +335,12 @@
             });
         };
 
+        //Analytics Charts
+        
+
         $(window).bind('beforeunload', function(){
             addAnalytics();
-            //return 'Are you sure you want to leave?'
+            return 'Are you sure you want to leave?'
         });
         
     });

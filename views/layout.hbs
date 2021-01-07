@@ -192,7 +192,7 @@
         <!-- Mask -->
         <span class="mask bg-gradient-default opacity-8"></span>
         <form id="page-data">
-          <input type="hidden" name="data-type" value="{{#if article}}article{{else}}{{#if pet}}pet{{else}}other{{/if}}{{/if}}"/>
+          <input type="hidden" name="type" value="{{#if article}}article{{else}}{{#if pet}}pet{{else}}other{{/if}}{{/if}}"/>
           <input type="hidden" name="user_id" value="{{user.id}}"/>
           <input type="hidden" name="pet_id" value="{{pet.id}}"/>
           <input type="hidden" name="article_id" value="{{article.id}}"/>
@@ -227,6 +227,7 @@
   
   <script src="../assets/vendor/jquery/dist/jquery.min.js"></script>
   <script src="../assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
   <script src="../assets/vendor/js-cookie/js.cookie.js"></script>
   <script src="../assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
   <script src="../assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
