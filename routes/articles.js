@@ -74,11 +74,18 @@ user.adoptions =[{
 
 /*# GET */
 router.get('/', function(req, res) {
+
+  console.log('req.qury articles get');
+  console.log(req.query);
+
+  // Get pets by query data
+
   // article.selectAll(function(data) {
   //   var hbsObj = { articles: data };
   //   console.log('Articles page');
   //   res.render('articles', { title: 'Articles' ,hbsObj});
   // });
+  
   var header_image = "/images/repo/ronald.jpg";
   res.render('articles', { title: 'Articles' ,articles,header_image,user});
 });

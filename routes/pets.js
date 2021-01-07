@@ -119,11 +119,18 @@ user.adoptions =[{
 
 /*# GET */
 router.get('/', function(req, res) {
+
+  console.log('req.qury pets get');
+  console.log(req.query);
+
+  // Get pets by query data
+
   // pet.selectAll(function(data) {
   //   var hbsObj = { pets: data };
   //   console.log('Pets page');
   //   res.render('pets', { title: 'Pets' ,hbsObj});
   // });
+
   var header_image = "/images/repo/ronald.jpg";
   res.render('pets', { title: 'Pets' ,pets, header_image,user});
 });

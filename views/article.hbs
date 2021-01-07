@@ -47,7 +47,7 @@
                     </div>
                     <div class="col-4 text-right">
                       {{#if article.title}}<input id="article-id" name="id" type="hidden" value="{{article.id}}">{{/if}}
-                      <input type="checkbox" class="form-control-input" id="input-publish"/>
+                      <input type="checkbox" class="form-control-input" name="publish" id="input-publish"/>
                       <label class="form-control-label" for="input-publish">Publish</label>
                       <button type="submit" class="btn btn-primary">Save</button>
                     </div>
@@ -61,7 +61,7 @@
                         <div class="col-lg-6">
                           <div class="form-group">
                             <label class="form-control-label" for="input-title">Title</label>
-                            <input type="text" id="input-name" class="form-control" placeholder="Title" value="{{article.title}}">
+                            <input type="text" name="name" id="input-name" class="form-control" placeholder="Title" value="{{article.title}}">
                           </div>
                         </div>
                     <div class="col-lg-6">
@@ -73,7 +73,7 @@
                         <div class="col-lg-6">
                           <div class="form-group">
                             <label class="form-control-label" for="input-category">Category</label>
-                            <select name="category" type="text" id="input-category" class="form-control">
+                            <select name="category" type="text" name="category" id="input-category" class="form-control">
                               <option value="1">General</option>
                               <option selected value="2">Cats</option>
                               <option selected value="2">Dogs</option>
@@ -85,7 +85,7 @@
                         <div class="col-lg-6">
                           <div class="form-group">
                             <label class="form-control-label" for="input-author">Author</label>
-                            <input type="text" id="input-author" class="form-control" placeholder="Author" value="{{article.author}}">
+                            <input type="text" name="author" id="input-author" class="form-control" placeholder="Author" value="{{article.author}}">
                           </div>
                         </div>
                       </div>

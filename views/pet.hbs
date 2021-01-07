@@ -15,36 +15,36 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <input type="hidden" id="input-user_id" class="form-control" value="{{user.id}}">
-                    <input type="hidden" id="input-pet_id" class="form-control" value="{{pet.id}}">
+                    <input type="hidden" name="user_id" id="input-user_id" class="form-control" value="{{user.id}}">
+                    <input type="hidden" name="pet_id" id="input-pet_id" class="form-control" value="{{pet.id}}">
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label" for="input-name">Name</label>
-                        <input readonly type="text" id="input-name" class="form-control" placeholder="First Name" value="{{user.name}}">
+                        <input readonly type="text" name="name" id="input-name" class="form-control" placeholder="First Name" value="{{user.name}}">
                       </div>
                     </div>
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label" for="input-email">Email</label>
-                        <input readonly type="email" name="input-email" class="form-control" placeholder="Email" value="{{user.email}}"/>
+                        <input readonly type="email" name="email" id="input-email" class="form-control" placeholder="Email" value="{{user.email}}"/>
                       </div>
                     </div>
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label" for="input-phone">Phone</label>
-                        <input readonly type="phone" name="input-phone" class="form-control" placeholder="Email" value="{{user.phone}}"/>
+                        <input readonly type="phone" name="phone" id="input-phone" class="form-control" placeholder="Email" value="{{user.phone}}"/>
                       </div>
                     </div>
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label" for="input-email">Address</label>
-                        <textarea readonly class="form-control" name="input-address" rows="3">{{user.address}}</textarea>
+                        <textarea readonly class="form-control" name="address" id="input-address" rows="3">{{user.address}}</textarea>
                       </div>
                     </div>
                     <div class="col-lg-12">
                       <div class="form-group">
                         <label class="form-control-label" for="input-message">Message</label>
-                        <textarea class="form-control" name="input-message" rows="4">I am interested in adopting this lovely pet!</textarea>
+                        <textarea class="form-control" name="message" id ="input-message" rows="4">I am interested in adopting this lovely pet!</textarea>
                       </div>
                     </div>
                 </div>
