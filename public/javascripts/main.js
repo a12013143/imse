@@ -16,6 +16,7 @@
 
 
 
+
         //-------------CRUD PET------------------------------------------------//
         //Add pet
         $('#add-pet-form').on('submit', function(e) {
@@ -110,6 +111,8 @@
         });
 
 
+
+
         //-------------CRUD ADOPTION------------------------------------------------//
         //Add article
          $('#add-adoption-form').on('submit', function(e) {
@@ -183,6 +186,8 @@
         });
         
         
+
+
         //-------------CRUD ARTICLE---------------------------------------------//
         //Add article
         $('#add-article-form').on('submit', function(e) {
@@ -275,5 +280,43 @@
             });
         });
 
+
+
+
+        //-------------CRUD Analytics---------------------------------------------//
+        //Add analytics
+        var analyticsStartTime = new Date();
+         function addAnalytics () {
+            
+            var analyticsEndTime = new Date();
+            console.log("TEST");
+
+            
+            var data = objectifyForm($('#page-data'));
+            data.time = analyticsEndTime.getSeconds() - analyticsStartTime.getSeconds();
+            console.log(data);
+
+            var d = new Date();
+            data.createdAt = d.toISOString();
+            
+            $.ajax({
+            url: "/analytics/",
+            type: "POST",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            success: function(data, status) {
+                console.log(data);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+            });
+        };
+
+        $(window).bind('beforeunload', function(){
+            addAnalytics();
+            //return 'Are you sure you want to leave?'
+        });
+        
     });
 // });

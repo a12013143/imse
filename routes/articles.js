@@ -75,7 +75,7 @@ user.adoptions =[{
 /*# GET */
 router.get('/', function(req, res) {
 
-  console.log('req.qury articles get');
+  console.log('req.query articles get');
   console.log(req.query);
 
   // Get pets by query data

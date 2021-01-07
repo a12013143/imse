@@ -194,8 +194,6 @@
     </div>
   </nav>
 
-  
-
   <!-- Main content -->
   <div class="main-content bg-gradient-white pb-3" id="panel">  
     
@@ -203,17 +201,20 @@
       <div class="header d-flex align-items-center pb-3" style="min-height: 320px; background-image: url({{header_image}}); background-size: cover; background-position: center center;">
         <!-- Mask -->
         <span class="mask bg-gradient-default opacity-8"></span>
-        
+        <form id="page-data">
+          <input type="hidden" name="data-type" value="{{#if article}}article{{else}}{{#if pet}}pet{{else}}other{{/if}}{{/if}}"/>
+          <input type="hidden" name="user_id" value="{{user.id}}"/>
+          <input type="hidden" name="pet_id" value="{{pet.id}}"/>
+          <input type="hidden" name="article_id" value="{{article.id}}"/>
+        </form>        
         <!-- Header container -->
         <div class="separator separator-bottom separator-skew zindex-100">
         <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
           <polygon class="fill-white" points="2560 0 2560 100 0 100"></polygon>
         </svg>
         </div>
-
       </div>
    
-
     {{{body}}}
 
   </div>

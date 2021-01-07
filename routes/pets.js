@@ -120,7 +120,7 @@ user.adoptions =[{
 /*# GET */
 router.get('/', function(req, res) {
 
-  console.log('req.qury pets get');
+  console.log('req.query pets get');
   console.log(req.query);
 
   // Get pets by query data
@@ -136,6 +136,10 @@ router.get('/', function(req, res) {
 });
 
 router.get('/:petId', function(req, res) {
+
+  console.log('req.session pets get by petid');
+  console.log(req.session);
+
   // pet.selectOne(function(data) {
   //   var hbsObj = { pets: data };
   //   console.log('Pets page');
@@ -147,7 +151,6 @@ router.get('/:petId', function(req, res) {
     pet = {id : 0,pet_name :"New pet",profile_img_url:"/images/pawprint-blue.png"};
   }else{
     pet = pets[petId-1];
-    console.log(pet);
   }
   var header_image = pet.profile_img_url;
   res.render('pet', { title: 'Pets - '+pet.pet_name ,pet,header_image,user});
