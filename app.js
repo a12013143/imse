@@ -5,9 +5,35 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
+var petsRouter = require('./routes/pets');
+var articlesRouter = require('./routes/articles');
+var adoptionsRouter = require('./routes/adoptions');
+var analyticsRouter = require('./routes/analytics');
 var usersRouter = require('./routes/users');
 
 var app = express();
+
+/** Handlebars helpers */
+var hbs = require('hbs');
+
+//equal
+hbs.registerHelper('eq', function( a, b ){
+	var next =  arguments[arguments.length-1];
+	return (a === b) ? next.fn(this) : next.inverse(this);
+});
+
+// greater than
+hbs.registerHelper('gt', function( a, b ){
+	var next =  arguments[arguments.length-1];
+	return (a > b) ? next.fn(this) : next.inverse(this);
+});
+
+/** Handlebars partials */
+hbs.registerPartial('petedit', '{{prefix}}');
+
+
+// console.log('hbs.helpers');
+// console.log(hbs.helpers);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -20,6 +46,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/pets', petsRouter);
+app.use('/articles', articlesRouter);
+app.use('/adoptions', adoptionsRouter);
+app.use('/analytics', analyticsRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
