@@ -1,6 +1,7 @@
 var express = require('express');
+const sqlitebasics = require('../config/sqlitebasics');
 var router = express.Router();
-//var pet = require('../models/pet.js');
+var _pet = require('../models/pet.js');
 
 
 // hardcoded user data
@@ -125,35 +126,38 @@ router.get('/', function(req, res) {
 
   // Get pets by query data
 
-  // pet.selectAll(function(data) {
-  //   var hbsObj = { pets: data };
-  //   console.log('Pets page');
-  //   res.render('pets', { title: 'Pets' ,hbsObj});
-  // });
+  sqlitebasics.selectall("pet", function(data) {
+    pets = data;
+    console.log('Pets page');
+    var header_image = "/images/repo/ronald.jpg";
+    res.render('pets', { title: 'Pets' ,pets,header_image,user});
+  });
 
-  var header_image = "/images/repo/ronald.jpg";
-  res.render('pets', { title: 'Pets' ,pets, header_image,user});
+  //var header_image = "/images/repo/ronald.jpg";
+  //res.render('pets', { title: 'Pets' ,pets, header_image,user});
 });
 
 router.get('/:petId', function(req, res) {
 
   console.log('req.session pets get by petid');
   console.log(req.session);
-
-  // pet.selectOne(function(data) {
-  //   var hbsObj = { pets: data };
-  //   console.log('Pets page');
-  //   res.render('pets', { title: 'Pets' ,hbsObj});
-  // });
+  let temp = petId;
+  
 
   var petId = req.params.petId;
   if(petId == "new"){
     pet = {id : 0,pet_name :"New pet",profile_img_url:"/images/pawprint-blue.png"};
   }else{
-    pet = pets[petId-1];
+    //pet = pets[petId-1];
+    _pet.selectone(temp, function(data) {
+      pet = data;
+       console.log('Pet page');
+       var header_image = pet.profile_img_url;
+       res.render('pet', { title: 'Pets'+pet.name,pet,header_image,user});
+     });
   }
-  var header_image = pet.profile_img_url;
-  res.render('pet', { title: 'Pets - '+pet.pet_name ,pet,header_image,user});
+ 
+  //res.render('pet', { title: 'Pets - '+pet.pet_name ,pet,header_image,user});
 });
 
 /** POST */

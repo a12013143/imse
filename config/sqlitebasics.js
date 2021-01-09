@@ -6,19 +6,61 @@ const db = connection.db;
 
 //creating generic basic sql queries
 
-var sqlitebasics = {
+const sqlitebasics = {
   selectall: function(table, callback) {
-    var queryString = 'SELECT * FROM ' + table + ';';
+    let queryString = 'SELECT * FROM ' + table + ';';
+    console.log(queryString);
     db.all(queryString, [], (err, rows) => {
       if(err) {
         throw err;
       }
-      console.log(rows);
+      console.log("DB select all query.");
       callback(rows);
     });
+  },
+
+  insertone: function(table, values) {
+    let queryString = 'INSERT INTO ' + table + ' VALUES (' + values +');';
+    console.log(queryString);
+    db.run(queryString, err => {
+      if (err) {
+        return console.error(err.message);
+      }
+      console.log("DB insertion.");
+    });
+  },
+
+  updateone: function(table, columns, values, condition) {
+    let queryString = 'UPDATE ' + table + ' SET ';
+    let i;
+    for (i=0; i < columns.length; i++) {
+      queryString = queryString + columns[i] + ' = "' + values[i] + '"';
+      if (i < columns.length-1) {
+        queryString = queryString + ', ';
+      }
+    }
+    queryString = queryString + ' WHERE ' + condition + ';'
+    console.log(queryString);
+    db.run(queryString, err => {
+      if (err) {
+        return console.error(err.message);
+      }
+      console.log("DB update.");
+    });
+  },
+
+  delete: function(table, condition) {
+    let queryString = 'DELETE FROM ' + table + ' WHERE ' + condition + ';';
+    console.log(queryString);
+    db.run(queryString, err => {
+      if (err) {
+        return console.error(err.message);
+      }
+      console.log("DB delete.");
+   });
+
   }
-  
-}
+};
 
 
 var orm = {
