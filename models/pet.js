@@ -1,6 +1,23 @@
 // This should be changed and adapted with database implementation 
-var orm = require('../config/orm.js');
+var connection = require('../config/connection.js');
 
+const db = connection.db;
+
+const pet = {
+  selectone: function(param, callback) {
+    let queryString = 'SELECT * FROM pet WHERE ID = ' + param +';';
+    console.log(queryString);
+    db.all(queryString, [], (err, rows) => {
+      if(err) {
+        throw err;
+      }
+      console.log(queryString);
+      console.log("DB select one query.");
+      callback(rows);
+    });
+  }
+}
+/*
 var table = 'pets';
 var pets = {
   selectAll: function(cb) {
@@ -24,6 +41,6 @@ var pets = {
       cb(res);
     });
   }
-};
+};*/
 
 module.exports = pet;

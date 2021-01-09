@@ -1,10 +1,10 @@
  // This should be changed and adapted with database implementation  
-var orm = require('../config/orm.js');
+var sqlitebasics = require('../config/sqlitebasics.js');
 
 var table = 'articles';
 var pets = {
   selectAll: function(cb) {
-    orm.selectAll(table, function(res) {
+    sqlitebasics.selectAll(table, function(res) {
       cb(res);
     });
   },

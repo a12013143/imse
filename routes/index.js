@@ -3,8 +3,6 @@ var express = require('express');
 var router = express.Router();
 //var pets = require('../models/pet.js');
 
-// js objects, to be replaced with dynamic content
-
 
 // hardcoded user data
 var user = {
