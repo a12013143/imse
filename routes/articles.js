@@ -1,6 +1,14 @@
 var express = require('express');
+const connection = require('../config/connection');
+const sqlitebasics = require('../config/sqlitebasics');
 var router = express.Router();
 //var article = require('../models/article.js');
+
+function processData(data) {
+  console.log('this is ze data:', data);
+}
+
+sqlitebasics.selectall("user", processData);
 
 
 // hardcoded user data
@@ -80,11 +88,11 @@ router.get('/', function(req, res) {
 
   // Get pets by query data
 
-  // article.selectAll(function(data) {
-  //   var hbsObj = { articles: data };
-  //   console.log('Articles page');
-  //   res.render('articles', { title: 'Articles' ,hbsObj});
-  // });
+   article.selectAll(function(data) {
+     articles = data;
+     console.log('Articles page');
+     res.render('articles', { title: 'Articles' ,articles,header_image,user});
+   });
   
   var header_image = "/images/repo/ronald.jpg";
   res.render('articles', { title: 'Articles' ,articles,header_image,user});
