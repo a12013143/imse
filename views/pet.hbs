@@ -1,5 +1,5 @@
     <!-- Modal Adoption -->
-    {{#if pet.id }}
+    {{#if pet.ID }}
     <div class="modal fade" id="adoptionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -15,8 +15,8 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <input type="hidden" name="user_id" id="input-user_id" class="form-control" value="{{user.id}}">
-                    <input type="hidden" name="pet_id" id="input-pet_id" class="form-control" value="{{pet.id}}">
+                    <input type="hidden" name="user_id" id="input-user_id" class="form-control" value="{{user.ID}}">
+                    <input type="hidden" name="pet_id" id="input-pet_id" class="form-control" value="{{pet.ID}}">
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label" for="input-name">Name</label>
@@ -66,7 +66,7 @@
       <div class="row col-12 mt--250">
           {{!-- <div class="col-12"> --}}
             <div class="pr-4">
-              <h1 class="display-2 text-white">{{pet.pet_name}}</h1>           
+              <h1 class="display-2 text-white">{{pet.name}}</h1>           
             </div>
             <div class="py-3">
               <button id="apply-for-adoption" class="btn btn-neutral" data-toggle="modal" data-target="#adoptionModal">Apply for adoption</button>          
@@ -84,7 +84,7 @@
                 <div class="col">
                   <div class="card-profile-stats d-flex justify-content-center">
                     <div>
-                      <p class="heading">{{pet.likes}}</p>
+                      <p class="heading">{{pet.favourites}}</p>
                       <p class="description">Likes</p>
                     </div>
                     <div>
@@ -96,16 +96,16 @@
               </div>
               <div class="text-center">
                 <h5 class="h3">
-                  {{pet.pet_name}}<span class="font-weight-light">,
-                    {{#eq pet.age_years 1 }}{{ pet.age_years }} year {{/eq}}
-                    {{#gt pet.age_years 1}}{{ pet.age_years }}  years {{/gt}} 
-                    {{#eq pet.age_months 1 }}{{ pet.age_months }} month {{/eq}}
-                    {{#gt pet.age_months 1}}{{ pet.age_months }} months {{/gt}}
+                  {{pet.name}}<span class="font-weight-light">,
+                    {{#eq pet.age_year 1 }}{{ pet.age_year }} year {{/eq}}
+                    {{#gt pet.age_year 1}}{{ pet.age_year }}  years {{/gt}} 
+                    {{#eq pet.age_month 1 }}{{ pet.age_month }} month {{/eq}}
+                    {{#gt pet.age_month 1}}{{ pet.age_month }} months {{/gt}}
                 </h5>
                 <p class="h5 font-weight-300">
                   <i class="ni location_pin mr-2"></i>{{pet.address}}
                 </p>
-                <p data-userid = "{{pet.owner_id}}" class="h5 mt-4">
+                <p data-userid = "{{pet.userID}}" class="h5 mt-4">
                   <i class="ni business_briefcase-24 mr-2"></i>{{pet.owner}}
                 </p>
               </div>
@@ -115,19 +115,19 @@
         <div class="col-xl-8 order-xl-1">
           <div class="card">
           <div class="tab-content">
-            <div id="edit" class="tab-pane tab-example-result fade {{#eq pet.id 0}}active show{{/eq}}" role="tabpanel" aria-labelledby="alerts-edit-tab">
+            <div id="edit" class="tab-pane tab-example-result fade {{#eq pet.ID 0}}active show{{/eq}}" role="tabpanel" aria-labelledby="alerts-edit-tab">
               <!-- Alerts -->
               <div class="alert alert-success m-4 d-none" role="alert">
               This is a success alert—check it out!
               </div>
-              <form id="{{#if pet.id }}edit{{else}}add{{/if}}-pet-form" role="form" method="{{#if pet.id }}put{{else}}post{{/if}}" action="/pets/{{#if pet.id }}{{pet.id}}{{/if}}">
+              <form id="{{#if pet.ID }}edit{{else}}add{{/if}}-pet-form" role="form" method="{{#if pet.ID }}put{{else}}post{{/if}}" action="/pets/{{#if pet.ID }}{{pet.ID}}{{/if}}">
                 <div class="card-header">
                   <div class="row align-items-center">
                     <div class="col-8">
-                      <h3 class="mb-0">{{#eq pet.id 0}}Fill profile info{{/eq}}{{#gt pet.id 0}}Edit profile{{/gt}} </h3>
+                      <h3 class="mb-0">{{#eq pet.ID 0}}Fill profile info{{/eq}}{{#gt pet.ID 0}}Edit profile{{/gt}} </h3>
                     </div>
                     <div class="col-4 text-right">
-                      {{#if pet.pet_name}}<input id="pet-id" name="id" type="hidden" value="{{pet.id}}">{{/if}}
+                      {{#if pet.name}}<input id="pet-id" name="id" type="hidden" value="{{pet.ID}}">{{/if}}
                       <input type="checkbox" class="form-control-input" id="input-publish"/>
                       <label class="form-control-label" for="input-publish">Publish</label>
                       <button type="submit" class="btn btn-primary">Save</button>
@@ -141,7 +141,7 @@
                         <div class="col-lg-6">
                           <div class="form-group">
                             <label class="form-control-label" for="input-name">Name</label>
-                            <input type="text" id="input-name" class="form-control" placeholder="Name" value="{{pet.pet_name}}">
+                            <input type="text" id="input-name" class="form-control" placeholder="Name" value="{{pet.name}}">
                           </div>
                         </div>
                         <div class="col-lg-6">
@@ -174,13 +174,13 @@
                         <div class="col-lg-6">
                           <div class="form-group">
                             <label class="form-control-label" for="input-age_years">Age years</label>
-                            <input type="number" id="input-age_years" class="form-control" placeholder="Years" value="{{pet.age_years}}">
+                            <input type="number" id="input-age_years" class="form-control" placeholder="Years" value="{{pet.age_year}}">
                           </div>
                         </div>
                         <div class="col-lg-6">
                           <div class="form-group">
                             <label class="form-control-label" for="input-age_months">Age months</label>
-                            <input type="number" id="input-age_months" class="form-control" placeholder="Months" value="{{pet.age_months}}">
+                            <input type="number" id="input-age_months" class="form-control" placeholder="Months" value="{{pet.age_month}}">
                           </div>
                         </div>
                       </div>
@@ -236,20 +236,20 @@
                 </div>
               </form>
             </div>
-            <div id="view" class="tab-pane fade {{#gt pet.id 0}}active show{{/gt}}" role="tabpanel" aria-labelledby="alerts-view-tab">
+            <div id="view" class="tab-pane fade {{#gt pet.ID 0}}active show{{/gt}}" role="tabpanel" aria-labelledby="alerts-view-tab">
               <div class="card-header">
                 <div class="row align-items-center">
-                  {{pet.short_content}}
+                  {{pet.short_desc}}
                 </div>
               </div>
               <div class="card-body">
                 <div class="row align-items-center">
-                  {{pet.content}}
+                  {{pet.description}}
                 </div>
               </div>
             </div>
           </div>
-          {{#if pet.id}}
+          {{#if pet.ID}}
           <ul class="nav nav-tabs-code py-3" id="alerts-tab" role="tablist">
             <li class="nav-item">
               <a class="nav-link" id="alerts-edit-tab" data-toggle="tab" href="#edit" role="tab" aria-controls="alerts-edit" aria-selected="false">Edit</a>
