@@ -142,23 +142,23 @@ router.get('/:petId', function(req, res) {
   console.log('req.session pets get by petid');
   console.log(req.session);
   
-  
-
   var petId = req.params.petId;
   let temp = petId;
   if(petId == "new"){
     pet = {id : 0,pet_name :"New pet",profile_img_url:"/images/pawprint-blue.png"};
+    var header_image = pet.profile_img_url;
+    res.render('pet', { title: 'Pets'+pet.name,pet,header_image,user});
   }else{
     //pet = pets[petId-1];
-    _pet.selectone(temp, function(data) {
-      pet = data;
-       console.log('Pet page');
+    _pet.selectone(petId, function(data) {
+      pet = data[0];
+       console.log('pet---');
+       console.log(pet);
        var header_image = pet.profile_img_url;
        res.render('pet', { title: 'Pets'+pet.name,pet,header_image,user});
      });
   }
  
-  //res.render('pet', { title: 'Pets - '+pet.pet_name ,pet,header_image,user});
 });
 
 /** POST */
