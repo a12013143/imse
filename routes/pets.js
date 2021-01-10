@@ -141,10 +141,11 @@ router.get('/:petId', function(req, res) {
 
   console.log('req.session pets get by petid');
   console.log(req.session);
-  let temp = petId;
+  
   
 
   var petId = req.params.petId;
+  let temp = petId;
   if(petId == "new"){
     pet = {id : 0,pet_name :"New pet",profile_img_url:"/images/pawprint-blue.png"};
   }else{
