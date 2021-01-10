@@ -2,7 +2,9 @@ var express = require('express');
 const connection = require('../config/connection');
 const sqlitebasics = require('../config/sqlitebasics');
 var router = express.Router();
-//var article = require('../models/article.js');
+var _article = require('../models/article.js')
+
+
 
 
 
@@ -96,11 +98,40 @@ router.get('/', function(req, res) {
 });
 
 router.get('/:articleId', function(req, res) {
-  // article.selectAll(function(data) {
-  //   var hbsObj = { articles: data };
-  //   console.log('Articles page');
-  //   res.render('articles', { title: 'Articles' ,hbsObj});
-  // });
+
+  console.log('req.session articles get by articleid');
+  console.log(req.session);
+  
+  var articleId = req.params.articleId;
+  let temp = articleId;
+  if(articleId == "new"){
+    article = {ID : 0,name :"New article",profile_img_url:"/images/pawprint-blue.png"};
+    var header_image = article.profile_img_url;
+    res.render('article', { title: article.name ,article, header_image,user});
+  }else{
+    _article.selectone(temp, function(data) {
+      article = data[0];
+       console.log('article---');
+       console.log(article);
+       var header_image = article.profile_img_url;
+       res.render('article', { title: article.name ,article, header_image,user});
+     });
+  }
+ 
+});
+
+
+
+
+
+
+/*
+router.get('/:articleId', function(req, res) {
+   article.selectAll(function(data) {
+     var hbsObj = { articles: data };
+     console.log('Articles page');
+     res.render('articles', { title: 'Articles' ,hbsObj});
+   });
 
   var articleId = req.params.articleId;
   if(articleId == "new"){
@@ -111,7 +142,7 @@ router.get('/:articleId', function(req, res) {
   }
   var header_image = article.profile_img_url;
   res.render('article', { title: article.title ,article, header_image,user});
-});
+});*/
 
 /** POST */
 router.post('/', function(req, res) {
