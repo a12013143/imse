@@ -14,7 +14,7 @@
               </div>
               <div class="form-group col-lg-5 col-11">
                 <select class="form-control" id="input-category" name="category">
-                  <option id="0">All</option>
+                  <option id="0"></option>
                   {{#each categories}}                
                   <option value="{{this.ID}}">{{this.name}}</option>
                   {{/each}}
@@ -29,6 +29,7 @@
       </div>
 
       <div class="row py-6 py-lg-6 pt-lg-6">
+        {{#if pets}}
         {{#each pets}}
             <div class="col-xl-4 col-md-6">
               <div class="card">
@@ -38,11 +39,18 @@
                 </div>
                 <div class="card-body">
                   <h5 class="card-title">{{this.name}}</h5>
-                  <p class="card-text">{{this.description}}</p>
+                  <p class="card-text">{{this.short_desc}}</p>
                   <a href="/pets/{{this.ID}}" class="btn btn-primary">Read more</a>
                 </div>
               </div>
             </div>
         {{/each}}
+        {{else}}
+         <div class="col-xl-4 col-md-6">
+              <div class="card">
+                No pets found!
+              </div>
+         </div>
+      {{/if}}
       </div>
     </div>

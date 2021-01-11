@@ -98,6 +98,41 @@ router.get('/', function(req, res) {
   //res.render('articles', { title: 'Articles' ,articles,header_image,user});
 });
 
+/*# GET */
+router.get('/', function(req, res) {
+
+  console.log('req.query pets get');
+  console.log(req.query);
+
+  var condition = {};
+  if(req.query.category){
+    condition.category = req.query.category;
+  }
+  if(req.query.keyword){
+    condition.keyword = req.query.keyword;
+  }
+
+  // Get pets by query data
+  var categories = [];
+  sqlitebasics.selectall("article_cat" , function(data) {
+    categories = data;
+    console.log('Article page categories');
+    console.log(data);
+    renderHtmlAfterCategoriesLoad();
+  }, condition);
+
+  // Get pets by query data
+  function renderHtmlAfterCategoriesLoad(){
+    _article.selectall("article" , function(data) {
+      articles = data;
+      console.log('Article page articles');
+      console.log(data);
+      var header_image = "/images/repo/ronald.jpg";
+      res.render('articles', { title: 'Articles' ,articles,categories,header_image,user});
+    }, condition);
+  }
+});
+
 router.get('/:articleId', function(req, res) {
 
   console.log('req.session articles get by articleid');

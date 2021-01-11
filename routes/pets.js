@@ -124,15 +124,33 @@ router.get('/', function(req, res) {
   console.log('req.query pets get');
   console.log(req.query);
 
-  // Get pets by query data
-  sqlitebasics.selectall("pet", function(data) {
-    pets = data;
-    console.log('Pets page');
-    console.log(data);
-    var header_image = "/images/repo/ronald.jpg";
-    res.render('pets', { title: 'Pets' ,pets,header_image,user});
-  });
+  var condition = {};
+  if(req.query.category){
+    condition.category = req.query.category;
+  }
+  if(req.query.keyword){
+    condition.keyword = req.query.keyword;
+  }
 
+  // Get pets by query data
+  var categories = [];
+  sqlitebasics.selectall("pet_category" , function(data) {
+    categories = data;
+    console.log('Pets page categories');
+    console.log(data);
+    renderHtmlAfterCategoriesLoad();
+  }, condition);
+
+  // Get pets by query data
+  function renderHtmlAfterCategoriesLoad(){
+    _pet.selectall("pet" , function(data) {
+      pets = data;
+      console.log('Pets page pets');
+      console.log(data);
+      var header_image = "/images/repo/ronald.jpg";
+      res.render('pets', { title: 'Pets' ,pets,categories,header_image,user});
+    }, condition);
+  }
 });
 
 router.get('/:petId', function(req, res) {
