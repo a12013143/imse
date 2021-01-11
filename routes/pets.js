@@ -125,22 +125,20 @@ router.get('/', function(req, res) {
   console.log(req.query);
 
   // Get pets by query data
-
   sqlitebasics.selectall("pet", function(data) {
     pets = data;
     console.log('Pets page');
+    console.log(data);
     var header_image = "/images/repo/ronald.jpg";
     res.render('pets', { title: 'Pets' ,pets,header_image,user});
   });
 
-  //var header_image = "/images/repo/ronald.jpg";
-  //res.render('pets', { title: 'Pets' ,pets, header_image,user});
 });
 
 router.get('/:petId', function(req, res) {
-
   console.log('req.session pets get by petid');
   console.log(req.session);
+
   var userId = req.query.userId;
   user = {ID:userId}
   var petId = req.params.petId;
@@ -173,14 +171,7 @@ let maxrowID = 0;
   });
 
   let querytemp = '(' + maxrowID + ', ' + /*req.body.user_id*/'1' +', "' + req.body.pet_name + '", ' + req.body.category + ', ' + req.body.neutered + ', ' + req.body.age_years + ', ' + req.body.age_months + ', "' + req.body.short_content + '", "' + req.body.content + '", ' + /*req.body.profile_img_url + '"'*/ '"/images/repo/ronald.jpg"';
-   sqlitebasics.insertone("pet", querytemp)
-
-  //    ['pet_name', 'category_id'],
-  //    [req.body.pet_name, false],
-  //    function() {
-  //      console.log('in callback');
-  //      res.redirect('/pets');
-  //    }
+  sqlitebasics.insertone("pet", querytemp)
     
   console.log('after insert');
   insertedPetId = maxrowID; //Change this by reading from database
@@ -195,6 +186,7 @@ let maxrowID = 0;
   } else {
     res.status(200).json(insertedPetId);
   }
+
 });
 
 /** PUT */
@@ -227,7 +219,6 @@ router.delete('/delete/:id', function(req, res) {
   sqlitebasics.delete("pet", condition)
   res.redirect('/pets'); // send a message for success/error
  
-
 });
 
 
