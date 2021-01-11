@@ -1,5 +1,6 @@
 var express = require('express');
 const sqlitebasics = require('../config/sqlitebasics');
+var _pet = require('../models/pet.js');
 var router = express.Router();
 //var pets = require('../models/pet.js');
 
@@ -58,16 +59,34 @@ router.get('/', function(req, res, next) {
   console.log('req.query pets get');
   console.log(req.query);
 
-  // Get pets by query data
+  //Get pet statistics
+  var stats = {};
+  var condition = {};
+  if(req.query.category){
+    condition.category = req.query.category;
+  }
+  if(req.query.keyword){
+    condition.keyword = req.query.keyword;
+  }
+  _pet.stats("pet", function(data) {
+    stats = data;
+    console.log('Home page stats');
+    console.log(data);
+    renderHtmlAfterStatsLoad(res,stats);
+  }, condition);
+});
+
+// Get pets by query data
+function renderHtmlAfterStatsLoad(res,stats){
   sqlitebasics.selectall("pet", function(data) {
     pets = data;
     pets.slice(0,3);
     console.log('Pets page');
     console.log(data);
     var header_image = "/images/repo/petcare-large.jpg";
-    res.render('index', { title: 'Pets' ,pets,header_image,user});
+    res.render('index', { title: 'FosterPet - Home ' ,pets,stats,header_image,user});
   });
-});
+}
 
 /* GET login page. */
 router.get('/login', function(req, res, next) {

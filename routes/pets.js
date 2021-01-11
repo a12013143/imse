@@ -188,6 +188,7 @@ let maxrowID = 0;
     maxrowID = (data[0].ID) + 1;
   });
 
+  // Move this to model
   let querytemp = '(' + maxrowID + ', ' + /*req.body.user_id*/'1' +', "' + req.body.pet_name + '", ' + req.body.category + ', ' + req.body.neutered + ', ' + req.body.age_years + ', ' + req.body.age_months + ', "' + req.body.short_content + '", "' + req.body.content + '", ' + /*req.body.profile_img_url + '"'*/ '"/images/repo/ronald.jpg"';
   sqlitebasics.insertone("pet", querytemp)
     
@@ -217,6 +218,8 @@ router.put('/:id', function(req, res) {
 
   var petId = req.params.id;
   var condition = 'id = ' + petId;
+
+  // QUERY
 
   err = false;
   if (err){

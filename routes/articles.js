@@ -241,7 +241,6 @@ router.delete('/delete/:id', function(req, res) {
   sqlitebasics.delete("pet", condition)
   res.redirect('/pets'); // send a message for success/error
  
-
 });
 
 

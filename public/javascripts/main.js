@@ -128,7 +128,6 @@
             var data = objectifyForm($(this));
             console.log(data);
 
-
             var d = new Date();
             var dateArray= d.toLocaleDateString("en-US").split("/");
             var date= ('0' + dateArray[0]).slice(-2) + '/' + ('0' + dateArray[1]).slice(-2) + '/' + dateArray[2];
