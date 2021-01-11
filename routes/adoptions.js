@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 //var adoption = require('../models/adoption.js');
 
+const connection = require('../config/connection');
+const sqlitebasics = require('../config/sqlitebasics');
+
 // hardcoded user data
 var user = {
   id: 1,
