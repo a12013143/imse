@@ -3,6 +3,11 @@ var connection = require('../config/connection.js');
 
 const db = connection.db;
 
+
+
+
+
+
 const pet = {
   selectjustone: function(param, callback) {
     let queryString = 'SELECT * FROM pet WHERE ID = ' + param +';';
@@ -13,6 +18,17 @@ const pet = {
       }
       console.log(queryString);
       console.log("DB select one query (pet).");
+      callback(rows);
+    });
+  },
+
+  getmaxid: function(callback) {
+    let queryforID = 'SELECT MAX(ID) AS ID FROM pet;';
+    console.log(queryforID);
+    db.all(queryforID, [], (err, rows) => {
+      if(err) {
+        throw err;
+      }
       callback(rows);
     });
   },

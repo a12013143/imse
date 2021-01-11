@@ -166,18 +166,24 @@ router.post('/', function(req, res) {
 
   console.log('req.body pets post');
   console.log(req.body);
+let maxrowID = 0;
+  _pet.getmaxid(function(data){
+    maxrowID = (data[0].ID) + 1;
+  });
 
-  /* pet.insertOne(
-     ['pet_name', 'category_id'],
-     [req.body.pet_name, false],
-     function() {
-       console.log('in callback');
-       res.redirect('/pets');
-     }
-   );*/
+  let querytemp = '(' + maxrowID + ', ' + /*req.body.user_id*/'1' +', "' + req.body.pet_name + '", ' + req.body.category + ', ' + req.body.neutered + ', ' + req.body.age_years + ', ' + req.body.age_months + ', "' + req.body.short_content + '", "' + req.body.content + '", ' + /*req.body.profile_img_url + '"'*/ '"/images/repo/ronald.jpg"';
+   sqlitebasics.insertone("pet", querytemp)
+
+  //    ['pet_name', 'category_id'],
+  //    [req.body.pet_name, false],
+  //    function() {
+  //      console.log('in callback');
+  //      res.redirect('/pets');
+  //    }
+    
   console.log('after insert');
-  insertedPetId = 100; //Change this by reading from database
-  // res.redirect('/pets/'+insertedPetId); // send a message for success/error
+  insertedPetId = maxrowID; //Change this by reading from database
+  res.redirect('/pets/'+insertedPetId); // send a message for success/error
 
   
   err = false;
@@ -214,12 +220,12 @@ router.put('/:id', function(req, res) {
 
 /** DELETE */
 router.delete('/delete/:id', function(req, res) {
-  var petId = req.params.id;
-  var condition = 'id = ' + petId;
-  
-  pet.delete(condition, function() {
-    res.redirect('/pets'); // send a message for success/error
-  });
+  let petId = req.params.petId;
+  let condition = 'ID = ' + petId;
+
+  sqlitebasics.delete("pet", condition)
+  res.redirect('/pets'); // send a message for success/error
+ 
 
 });
 

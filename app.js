@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index');
 var connection = require('./config/connection');
 var sqlitebasics = require('./config/sqlitebasics')
 var pet = require('./models/pet')
+var article = require('./models/article')
 var petsRouter = require('./routes/pets');
 var articlesRouter = require('./routes/articles');
 var adoptionsRouter = require('./routes/adoptions');
