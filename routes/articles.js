@@ -1,8 +1,11 @@
 var express = require('express');
 const connection = require('../config/connection');
 const sqlitebasics = require('../config/sqlitebasics');
+var article = require('../models/article.js');
 var router = express.Router();
-//var article = require('../models/article.js');
+var _article = require('../models/article.js')
+
+
 
 
 
@@ -96,11 +99,35 @@ router.get('/', function(req, res) {
 });
 
 router.get('/:articleId', function(req, res) {
-  // article.selectAll(function(data) {
-  //   var hbsObj = { articles: data };
-  //   console.log('Articles page');
-  //   res.render('articles', { title: 'Articles' ,hbsObj});
-  // });
+
+  console.log('req.session articles get by articleid');
+  console.log(req.session);
+  
+  var articleId = req.params.articleId;
+  let temp = articleId;
+  if(articleId == "new"){
+    article = {ID : 0,name :"New article",profile_img_url:"/images/pawprint-blue.png"};
+    var header_image = article.profile_img_url;
+    res.render('article', { title: article.name ,article, header_image,user});
+  }else{
+    _article.selectone(temp, function(data) {
+      article = data[0];
+       console.log('article---');
+       console.log(article);
+       var header_image = article.profile_img_url;
+       res.render('article', { title: article.name ,article, header_image,user});
+     });
+  }
+ 
+});
+
+/*
+router.get('/:articleId', function(req, res) {
+   article.selectAll(function(data) {
+     var hbsObj = { articles: data };
+     console.log('Articles page');
+     res.render('articles', { title: 'Articles' ,hbsObj});
+   });
 
   var articleId = req.params.articleId;
   if(articleId == "new"){
@@ -111,13 +138,37 @@ router.get('/:articleId', function(req, res) {
   }
   var header_image = article.profile_img_url;
   res.render('article', { title: article.title ,article, header_image,user});
-});
+});*/
 
 /** POST */
 router.post('/', function(req, res) {
 
   console.log('req.body articles post');
   console.log(req.body);
+
+  let maxrowID = 0;
+
+  let date = "0";
+  _article.getdate(function(data) {
+    date = data;
+  });
+
+  _article.getmaxid(function(data) {
+    console.log(data);
+    console.log(maxrowID);
+    maxrowID = data[0].ID + 1;
+    console.log(maxrowID);
+    let querytemp = '(' + maxrowID + ', "' + req.body.name +'", "' + req.body.author + '", "' + req.body.content + '", ' + /*req.body.user_id*/ '1' + ', "' + date + '", ' + 'null' + ', "' + req.body.category + '", "' + req.body.short_content + '"';
+    sqlitebasics.insertone("article", querytemp)
+
+    console.log('after insert');
+    insertedArticleId = maxrowID; //Change this by reading from database
+    res.redirect('/articles/'+insertedArticleId); // send a message for success/error
+  });
+
+
+
+
 
   // article.insertOne(
   //   ['article_name', 'category_id'],
@@ -127,9 +178,7 @@ router.post('/', function(req, res) {
   //     res.redirect('/articles');
   //   }
   // );
-  console.log('after insert');
-  insertedArticleId = 100; //Change this by reading from database
-  //res.redirect('/articles/'+insertedArticleId); // send a message for success/error
+
 
   err = false;
   if (err){
@@ -169,13 +218,15 @@ router.put('/:id', function(req, res) {
 
 /** DELETE */
 router.delete('/delete/:id', function(req, res) {
-  var articleId = req.params.id;
-  var condition = 'id = ' + articleId;
-  
-  article.delete(condition, function() {
-    res.redirect('/articles'); // send a message for success/error
-  });
+  let petId = req.params.petId;
+  let condition = 'ID = ' + petId;
+
+  sqlitebasics.delete("pet", condition)
+  res.redirect('/pets'); // send a message for success/error
+ 
 
 });
+
+
 
 module.exports = router;

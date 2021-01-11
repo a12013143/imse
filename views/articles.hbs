@@ -13,7 +13,7 @@
                 <select class="form-control" id="input-category" name="category">
                   <option id="0">All</option>
                   {{#each categories}}                
-                  <option value="{{this.id}}">{{this.name}}</option>
+                  <option value="{{this.ID}}">{{this.name}}</option>
                   {{/each}}
                 </select>
               </div>
@@ -37,7 +37,7 @@
                   <h5 class="card-title">{{this.name}}</h5>
                   <h5 class="card-author">{{this.author}}</h5>
                   <p class="card-text">{{this.description}}</p>
-                  <a href="/articles/{{this.id}}" class="btn btn-primary">Read more</a>
+                  <a href="/articles/{{this.ID}}" class="btn btn-primary">Read more</a>
                 </div>
               </div>
             </div>

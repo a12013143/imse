@@ -20,7 +20,7 @@ const sqlitebasics = {
   },
 
   insertone: function(table, values) {
-    let queryString = 'INSERT INTO ' + table + ' VALUES (' + values +');';
+    let queryString = 'INSERT INTO ' + table + ' VALUES ' + values +');';
     console.log(queryString);
     db.run(queryString, err => {
       if (err) {
