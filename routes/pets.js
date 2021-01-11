@@ -148,7 +148,7 @@ router.get('/', function(req, res) {
       console.log('Pets page pets');
       console.log(data);
       var header_image = "/images/repo/ronald.jpg";
-      res.render('pets', { title: 'Pets' ,pets,categories,header_image,user});
+      res.render('pets', { title: 'Pets' ,pets,categories,condition,header_image,user});
     }, condition);
   }
 });

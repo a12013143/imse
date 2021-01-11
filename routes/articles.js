@@ -82,25 +82,6 @@ user.adoptions =[{
 /*# GET */
 router.get('/', function(req, res) {
 
-  console.log('req.query articles get');
-  console.log(req.query);
-
-  // Get pets by query data
-
-   sqlitebasics.selectall("article", function(data) {
-     articles = data;
-     console.log('Articles page');
-     var header_image = "/images/repo/ronald.jpg";
-     res.render('articles', { title: 'Articles' ,articles,header_image,user});
-   });
-  
-
-  //res.render('articles', { title: 'Articles' ,articles,header_image,user});
-});
-
-/*# GET */
-router.get('/', function(req, res) {
-
   console.log('req.query pets get');
   console.log(req.query);
 
@@ -123,12 +104,13 @@ router.get('/', function(req, res) {
 
   // Get pets by query data
   function renderHtmlAfterCategoriesLoad(){
+    console.log('renderHtmlAfterCategoriesLoad');
     _article.selectall("article" , function(data) {
       articles = data;
       console.log('Article page articles');
       console.log(data);
       var header_image = "/images/repo/ronald.jpg";
-      res.render('articles', { title: 'Articles' ,articles,categories,header_image,user});
+      res.render('articles', { title: 'Articles' ,articles,categories,condition,header_image,user});
     }, condition);
   }
 });

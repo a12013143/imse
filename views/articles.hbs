@@ -7,13 +7,13 @@
           <form id="select-articles" method="get" action="/articles/"> 
             <div class="row">
               <div class="form-group col-lg-5 col-11">
-                <input type="text" class="form-control" name="keyword" id="input-keyword" placeholder="Keyword">
+                <input type="text" class="form-control" name="keyword" id="input-keyword" placeholder="Keyword" value="{{condition.keyword}}">
               </div>
               <div class="form-group col-lg-5 col-11">
                 <select class="form-control" id="input-category" name="category">
-                  <option id="0">All</option>
-                  {{#each categories}}                
-                  <option value="{{this.ID}}">{{this.name}}</option>
+                  <option id="0">{{this.ID}}</option>
+                  {{#each categories}}                     
+                     <option  {{#eq this.ID ../condition.category}} selected {{/eq}}  value="{{this.ID}}">{{this.name}}</option>
                   {{/each}}
                 </select>
               </div>

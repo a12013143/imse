@@ -10,13 +10,13 @@
           <form id="select-pets" method="get" action="/pets/"> 
             <div class="row">
               <div class="form-group col-lg-5 col-11">
-                <input type="text" class="form-control" name="keyword" id="input-keyword" placeholder="Keyword">
+                <input type="text" class="form-control" name="keyword" id="input-keyword" placeholder="Keyword" value="{{condition.keyword}}">
               </div>
               <div class="form-group col-lg-5 col-11">
                 <select class="form-control" id="input-category" name="category">
-                  <option id="0"></option>
-                  {{#each categories}}                
-                  <option value="{{this.ID}}">{{this.name}}</option>
+                  <option id="0">{{this.ID}}</option>
+                  {{#each categories}}                     
+                     <option  {{#eq this.ID ../condition.category}} selected {{/eq}}  value="{{this.ID}}">{{this.name}}</option>
                   {{/each}}
                 </select>
               </div>
@@ -34,9 +34,9 @@
             <div class="col-xl-4 col-md-6">
               <div class="card">
                 <!-- Card body -->
-                <div class="card-img-250" style="background-image:url('{{this.profile_img_url}}')">
+                {{!-- <div class="card-img-250" style="background-image:url('{{this.profile_img_url}}')"> --}}
                   {{!-- <img class="card-img-top" src="{{this.profile_img_url}}" alt="{{this.pet_name}}"> --}}
-                </div>
+                {{!-- </div> --}}
                 <div class="card-body">
                   <h5 class="card-title">{{this.name}}</h5>
                   <p class="card-text">{{this.short_desc}}</p>
