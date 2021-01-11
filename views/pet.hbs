@@ -127,6 +127,7 @@
                       <h3 class="mb-0">{{#eq pet.ID 0}}Fill profile info{{/eq}}{{#gt pet.ID 0}}Edit profile{{/gt}} </h3>
                     </div>
                     <div class="col-4 text-right">
+                      {{#if user.ID}}<input id="owner-id" name="id" type="hidden" value="{{user.ID}}">{{/if}}
                       {{#if pet.name}}<input id="pet-id" name="id" type="hidden" value="{{pet.ID}}">{{/if}}
                       <input type="checkbox" class="form-control-input" id="input-publish"/>
                       <label class="form-control-label" for="input-publish">Publish</label>
