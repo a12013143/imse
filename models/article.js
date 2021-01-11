@@ -29,6 +29,37 @@ const article = {
 
   },
 
+  
+  selectall: function(table, callback, condition) {
+    // console.log('condition');
+    // console.log(condition);
+
+    let queryString = 'SELECT * FROM ' + table + ' WHERE 0=0';    
+    var whereClause = '';
+    
+    if(condition){
+      if(condition.keyword){
+        console.log('keyword')
+        var keyword = '%'+condition.keyword+'%';
+        whereClause+= ' AND (name LIKE "'+keyword+'" OR short_desc LIKE "' + keyword +'" OR description LIKE "' + keyword+'")';
+      }
+      if(condition.category){
+        whereClause+= ' AND categoryID = '+condition.category;
+      }
+    }
+
+    queryString+=whereClause+';'
+    console.log(queryString);
+    db.all(queryString, [], (err, rows) => {
+      if(err) {
+        console.log(err);
+        return err;
+      }
+      console.log("DB select all query.");
+      callback(rows);
+    });
+  },
+
 
   selectone: function(param, callback){
     let queryString = 'SELECT * FROM(SELECT * FROM article WHERE ID = ' + param + ')INNER JOIN(SELECT profile_img_url FROM user WHERE ID = (SELECT userID from article WHERE ID = '+ param +'));';

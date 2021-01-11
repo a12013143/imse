@@ -81,7 +81,7 @@ user.adoptions =[{
 /*# GET */
 router.get('/', function(req, res) {
 
-  console.log('req.query articles get');
+  console.log('req.query pets get');
   console.log(req.query);
 
   var condition = {};

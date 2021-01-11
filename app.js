@@ -25,7 +25,7 @@ var hbs = require('hbs');
 //equal
 hbs.registerHelper('eq', function( a, b ){
 	var next =  arguments[arguments.length-1];
-	return (a === b) ? next.fn(this) : next.inverse(this);
+	return (a == b) ? next.fn(this) : next.inverse(this);
 });
 
 // greater than

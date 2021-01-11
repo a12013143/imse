@@ -7,13 +7,13 @@
           <form id="select-articles" method="get" action="/articles/"> 
             <div class="row">
               <div class="form-group col-lg-5 col-11">
-                <input type="text" class="form-control" name="keyword" id="input-keyword" placeholder="Keyword">
+                <input type="text" class="form-control" name="keyword" id="input-keyword" placeholder="Keyword" value="{{condition.keyword}}">
               </div>
               <div class="form-group col-lg-5 col-11">
                 <select class="form-control" id="input-category" name="category">
-                  <option id="0">All</option>
-                  {{#each categories}}                
-                  <option value="{{this.ID}}">{{this.name}}</option>
+                  <option id="0">{{this.ID}}</option>
+                  {{#each categories}}                     
+                     <option  {{#eq this.ID ../condition.category}} selected {{/eq}}  value="{{this.ID}}">{{this.name}}</option>
                   {{/each}}
                 </select>
               </div>
@@ -26,21 +26,29 @@
         </div>
       </div>
       <div class="row py-6 py-lg-6 pt-lg-6">
+        {{#if articles}}
         {{#each articles}}
             <div class="col-xl-4 col-md-6">
               <div class="card">
                 <!-- Card body -->
-                <div class="card-img-250" style="background-image:url('{{this.profile_img_url}}')">
+                {{!-- <div class="card-img-250" style="background-image:url('{{this.profile_img_url}}')"> --}}
                   {{!-- <img class="card-img-top" src="{{this.profile_img_url}}" alt="{{this.article_name}}"> --}}
-                </div>
+                {{!-- </div> --}}
                 <div class="card-body">
                   <h5 class="card-title">{{this.name}}</h5>
                   <h5 class="card-author">{{this.author}}</h5>
-                  <p class="card-text">{{this.description}}</p>
+                  <p class="card-text">{{this.short_desc}}</p>
                   <a href="/articles/{{this.ID}}" class="btn btn-primary">Read more</a>
                 </div>
               </div>
             </div>
         {{/each}}
+        {{else}}
+         <div class="col-xl-4 col-md-6">
+              <div class="card">
+                No articles found!
+              </div>
+         </div>
+         {{/if}}
       </div>
     </div>

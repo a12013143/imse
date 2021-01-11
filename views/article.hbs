@@ -10,7 +10,7 @@
         {{#if article.ID }}
         <div class="col-xl-12 order-xl-1">
           <div class="card card-profile shadow-none mb- d-block">
-            <img src="{{article.profile_img_url}}" alt="Image placeholder" class="card-img-top" >
+            {{!-- <img src="{{article.profile_img_url}}" alt="Image placeholder" class="card-img-top" > --}}
    
             <div class="card-body pb-0">
               <div class="row">
@@ -113,7 +113,7 @@
             <div id="view" class="tab-pane fade {{#gt article.ID 0}}active show{{/gt}}" role="tabpanel" aria-labelledby="alerts-view-tab">
               <div class="card-header">
                  <div class="row align-items-center">
-                   <p>{{article.short_content}}</p>
+                   <p>{{article.short_desc}}</p>
                  </div>                
               </div>
               <div class="card-body">

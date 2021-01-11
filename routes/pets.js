@@ -154,10 +154,11 @@ router.get('/', function(req, res) {
 });
 
 router.get('/:petId', function(req, res) {
-
   console.log('req.session pets get by petid');
   console.log(req.session);
-  
+
+  var userId = req.query.userId;
+  user = {ID:userId}
   var petId = req.params.petId;
   let temp = petId;
   if(petId == "new"){
@@ -214,6 +215,7 @@ let maxrowID = 0;
   } else {
     res.status(200).json(insertedPetId);
   }
+
 });
 
 /** PUT */
@@ -248,7 +250,6 @@ router.delete('/delete/:id', function(req, res) {
   });
   res.redirect('/pets'); // send a message for success/error
  
-
 });
 
 

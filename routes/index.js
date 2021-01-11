@@ -1,5 +1,5 @@
 var express = require('express');
-
+const sqlitebasics = require('../config/sqlitebasics');
 var router = express.Router();
 //var pets = require('../models/pet.js');
 
@@ -54,8 +54,19 @@ user.adoptions =[{
 /* GET home page. */
 router.get('/', function(req, res, next) {
   var pets3 = pets.slice(0,3);
-  var header_image = "/images/repo/petcare-large.jpg";
-  res.render('index', { title: 'FosterPet' , pets3, header_image,user});
+
+  console.log('req.query pets get');
+  console.log(req.query);
+
+  // Get pets by query data
+  sqlitebasics.selectall("pet", function(data) {
+    pets = data;
+    pets.slice(0,3);
+    console.log('Pets page');
+    console.log(data);
+    var header_image = "/images/repo/petcare-large.jpg";
+    res.render('index', { title: 'Pets' ,pets,header_image,user});
+  });
 });
 
 /* GET login page. */
