@@ -47,8 +47,7 @@ user.adoptions =[{
 }];
 
 
-
-/*# GET */
+/** GET */
 router.get('/', function(req, res) {
 
   console.log('req.query pets get');
@@ -83,6 +82,7 @@ router.get('/', function(req, res) {
   }
 });
 
+/** GET by petID */
 router.get('/:petId', function(req, res) {
   console.log('Get pets get by petid');
   console.log(req.session);
@@ -103,9 +103,9 @@ router.get('/:petId', function(req, res) {
     var petId = req.params.petId;
     let temp = petId;
     if(petId == "new"){
-      pet = {ID : 0,pet_name :"New pet",profile_img_url:"/images/pawprint-blue.png"};
+      pet = {ID : 0, profile_img_url:"/images/pawprint-blue.png"};
       var header_image = pet.profile_img_url;
-      res.render('pet', { title: 'Pets'+pet.name,categories,pet,header_image,user});
+      res.render('pet', { title: 'Pets - New',categories,pet,header_image,user});
     }else{
       //pet = pets[petId-1];
       _pet.selectone(temp, function(data) {
@@ -165,26 +165,30 @@ router.post('/', function(req, res) {
 });
 
 /** PUT */
-router.put('/:id', function(req, res) {
+router.put('/:petId', function(req, res) {
 
   console.log('req.body pets put');
   console.log(req.body);
-  console.log('req.params.id');
-  console.log(req.params.id)
 
-  var petId = req.params.id;
-  var condition = 'id = ' + petId;
+  var petId = req.body.ID;
+  var condition = 'ID = ' + petId;
 
-  // QUERY
+  var columns = Object.keys(req.body);
+  var values = Object.values(req.body);
 
-  err = false;
-  if (err){
-    res.status(500).json({
-      'message': 'Internal Error.'
-    });
-  } else {
-    res.status(200).json(petId);
-  }
+  sqlitebasics.updateone("pet" , columns, values, condition, function(data) {
+    categories = data;
+    console.log('sqlitebasics.updateone');
+    console.log(data);
+
+    if (data){
+      res.status(200).json(data);
+    } else {      
+      res.status(500).json({
+        'message': 'Internal Error.'
+      });
+    }
+  });
 
 });
 

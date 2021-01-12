@@ -34,6 +34,7 @@ const sqlitebasics = {
   },
 
   updateone: function(table, columns, values, condition, callback) {
+   
     let queryString = 'UPDATE ' + table + ' SET ';
     let i;
     for (i=0; i < columns.length; i++) {
@@ -43,14 +44,15 @@ const sqlitebasics = {
       }
     }
     queryString = queryString + ' WHERE ' + condition + ';'
+
     console.log(queryString);
     db.run(queryString, err => {
       if (err) {
         console.log(err);
         return err;
       }
-      console.log("DB update.");
     });
+    
   },
 
   delete: function(table, condition, callback) {

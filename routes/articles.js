@@ -53,7 +53,7 @@ user.adoptions =[{
 }];
 
 
-/*# GET */
+/** GET */
 router.get('/', function(req, res) {
 
   console.log('req.query pets get');
@@ -90,7 +90,7 @@ router.get('/', function(req, res) {
    }
  });
 
- /* GET by articleId*/
+ /** GET by articleId*/
 router.get('/:articleId', function(req, res) {
 
   console.log('req.session articles get by articleid');
@@ -111,9 +111,9 @@ router.get('/:articleId', function(req, res) {
     var articleId = req.params.articleId;
     let temp = articleId;
     if(articleId == "new"){
-      article = {ID:0, name :"New article",profile_img_url:"/images/pawprint-blue.png"};
+      article = {ID:0, profile_img_url:"/images/pawprint-blue.png"};
       var header_image = article.profile_img_url;
-      res.render('article', { title: article.name ,categories, article, header_image,user});
+      res.render('article', { title: 'Articles - New' ,categories, article, header_image,user});
     }else{
       _article.selectone(temp, function(data) {
         article = data[0];
@@ -126,7 +126,7 @@ router.get('/:articleId', function(req, res) {
           });
         } else {
           var header_image = '/images/petcare-large.jpg';
-          var title = 'Pet not found';
+          var title = 'Article not found';
           if(article){
             header_image = article.profile_img_url;
             title = article.name;
@@ -144,7 +144,7 @@ router.get('/:articleId', function(req, res) {
 /** POST */
 router.post('/', function(req, res) {
 
-  console.log('req.body articles post');
+  console.log('req.body articles posttttt');
   console.log(req.body);
 
   let maxrowID = 0;
@@ -178,28 +178,31 @@ router.post('/', function(req, res) {
 });
 
 /** PUT */
-router.put('/:id', function(req, res) {
+/** PUT */
+router.put('/:articleId', function(req, res) {
 
   console.log('req.body articles put');
   console.log(req.body);
-  console.log('req.params.id');
-  console.log(req.params.id);
 
-  var articleId = req.params.id;
-  var condition = 'id = ' + articleId;
+  var articleId = req.body.ID;
+  var condition = 'ID = ' + articleId;
 
-  // article.updateOne(req.body, condition, function() {
-  //   res.redirect('/articles/'+articleId); // send a message for success/error
-  // });
+  var columns = Object.keys(req.body);
+  var values = Object.values(req.body);
 
-  err = false;
-  if (err){
-    res.status(500).json({
-      'message': 'Internal Error.'
-    });
-  } else {
-    res.status(200).json(articleId);
-  }
+  sqlitebasics.updateone("article" , columns, values, condition, function(data) {
+    categories = data;
+    console.log('sqlitebasics.updateone');
+    console.log(data);
+
+    if (data){
+      res.status(200).json(data);
+    } else {      
+      res.status(500).json({
+        'message': 'Internal Error.'
+      });
+    }
+  });
 
 });
 

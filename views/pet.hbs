@@ -120,14 +120,14 @@
               <div class="alert alert-success m-4 d-none" role="alert">
               This is a success alert—check it out!
               </div>
-              <form id="{{#if pet.ID }}edit{{else}}add{{/if}}-pet-form" role="form" method="{{#if pet.ID }}put{{else}}post{{/if}}" action="/pets/{{#if pet.ID }}{{pet.ID}}{{/if}}">
+              <form id="{{#if pet.name }}edit{{else}}add{{/if}}-pet-form" role="form" method="{{#if pet.name }}put{{else}}post{{/if}}" action="/pets/{{#if pet.name }}{{pet.ID}}{{/if}}" enctype="multipart/form-data">
                 <div class="card-header">
                   <div class="row align-items-center">
                     <div class="col-8">
                       <h3 class="mb-0">{{#eq pet.ID 0}}Fill profile info{{/eq}}{{#gt pet.ID 0}}Edit profile{{/gt}} </h3>
                     </div>
                     <div class="col-4 text-right">
-                       {{#gt pet.ID 0}}<input id="pet-id" name="id" type="hidden" value="{{pet.ID}}">{{/gt}}
+                       {{#gt pet.ID 0}}<input id="pet-id" name="ID" type="hidden" value="{{pet.ID}}">{{/gt}}
                       {{!-- <input type="checkbox" class="form-control-input" id="input-publish"/> --}}
                       {{!-- <label class="form-control-label" for="input-publish">Publish</label> --}}
                       <button type="submit" class="btn btn-primary">Save</button>
@@ -154,7 +154,7 @@
                         <div class="col-lg-6">
                           <div class="form-group">
                             <label class="form-control-label" for="input-category">Category</label>
-                            <select name="category" type="text" id="input-category" class="form-control">
+                            <select name="categoryID" type="text" id="input-category" class="form-control">
                               {{#each categories}}
                               <option {{#eq ../pet.categoryID this.ID}} selected {{/eq}} value="{{this.ID}}">{{this.name}}</option>
                               {{/each}}
@@ -204,13 +204,13 @@
                     <div class="pl-lg-4">
                       <div class="form-group">
                         <label class="form-control-label">Summary</label>
-                        <textarea name="short-content" rows="4" class="form-control" placeholder="Short summary">A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</textarea>
+                        <textarea name="short_desc" rows="4" class="form-control" placeholder="Short summary">{{pet.short_desc}}</textarea>
                       </div>
                     </div>
                     <div class="pl-lg-4">
                       <div class="form-group">
                         <label class="form-control-label">Description</label>
-                        <textarea name="content" rows="4" class="form-control" placeholder="A few words about the pet ...">A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</textarea>
+                        <textarea name="description" rows="4" class="form-control" placeholder="A few words about the pet ...">{{pet.description}}</textarea>
                       </div>
                     </div>
                 </div>

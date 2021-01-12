@@ -30,8 +30,8 @@
             var d = new Date();
             var dateArray= d.toLocaleDateString("en-US").split("/");
             var date= ('0' + dateArray[0]).slice(-2) + '/' + ('0' + dateArray[1]).slice(-2) + '/' + dateArray[2];
-            data.createdAt = date;
-            data.updatedAt = date;
+            data.created_at = date;
+            data.updated_at = date;
             
             $.ajax({
             url: "/pets/",
@@ -66,7 +66,7 @@
             var d = new Date();
             var dateArray= d.toLocaleDateString("en-US").split("/");
             var date= ('0' + dateArray[0]).slice(-2) + '/' + ('0' + dateArray[1]).slice(-2) + '/' + dateArray[2];
-            data.updatedAt = date;
+            data.updated_at = date;
             
             $.ajax({
             url: '/pets/'+petId,
@@ -132,8 +132,8 @@
             var d = new Date();
             var dateArray= d.toLocaleDateString("en-US").split("/");
             var date= ('0' + dateArray[0]).slice(-2) + '/' + ('0' + dateArray[1]).slice(-2) + '/' + dateArray[2];
-            data.createdAt = date;
-            data.updatedAt = date;
+            data.created_at = date;
+            data.updated_at = date;
             
             $.ajax({
             url: "/adoptions/",
@@ -170,7 +170,7 @@
             var d = new Date();
             var dateArray= d.toLocaleDateString("en-US").split("/");
             var date= ('0' + dateArray[0]).slice(-2) + '/' + ('0' + dateArray[1]).slice(-2) + '/' + dateArray[2];
-            data.updatedAt = date;
+            data.updated_at = date;
             
             $.ajax({
             url: "/adoptions/"+adoptionId,
@@ -212,8 +212,8 @@
             var d = new Date();
             var dateArray= d.toLocaleDateString("en-US").split("/");
             var date= ('0' + dateArray[0]).slice(-2) + '/' + ('0' + dateArray[1]).slice(-2) + '/' + dateArray[2];
-            data.createdAt = date;
-            data.updatedAt = date;
+            data.created_at = date;
+            data.updated_at = date;
             
             $.ajax({
             url: "/articles/",
@@ -248,14 +248,15 @@
             var d = new Date();
             var dateArray= d.toLocaleDateString("en-US").split("/");
             var date= ('0' + dateArray[0]).slice(-2) + '/' + ('0' + dateArray[1]).slice(-2) + '/' + dateArray[2];
-            data.updatedAt = date;
+            data.updated_at = date;
             
             $.ajax({
             url: "/articles/"+articleId,
             type: "PUT",
             data: JSON.stringify(data),
             contentType: "application/json",
-            success: function(data, status) {
+            complete: function(data, status) {
+                console.log("------------------------------------");
                 console.log(data);
                 $('.alert').removeClass('d-none').addClass('alert-success').text("Article was succesfully edited").show();
                 window.setTimeout(function(){
@@ -316,7 +317,7 @@
 
             var d = new Date();
             var dateArray= d.toLocaleDateString("en-US").split("/");
-            data.createdAt = ('0' + dateArray[0]).slice(-2) + '/' + ('0' + dateArray[1]).slice(-2) + '/' + dateArray[2];
+            data.created_at = ('0' + dateArray[0]).slice(-2) + '/' + ('0' + dateArray[1]).slice(-2) + '/' + dateArray[2];
            
 
             console.log(data);

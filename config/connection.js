@@ -24,7 +24,7 @@ db.get("PRAGMA foreign_keys = ON");
 
 /**  Table creation */
 //queries to create the tables if they do not exist yet: PET, ARTICLE, PET_CATEGORY, USER, FAVOURITE, ARTICLE_CATEGORY, ADOPTION, PET_GALERY, ANALYTICS
-sql_create1 = 'CREATE TABLE IF NOT EXISTS pet ( ID INT UNIQUE PRIMARY KEY, ownerID INT, name TEXT, address TEXT, categoryID INT, neutered INT, age_year INT, age_month INT, short_desc TEXT, description TEXT, profile_img_url TEXT, FOREIGN KEY(ownerID) REFERENCES user(ID), FOREIGN KEY(categoryID) REFERENCES pet_category(ID));';
+sql_create1 = 'CREATE TABLE IF NOT EXISTS pet ( ID INT UNIQUE PRIMARY KEY, ownerID INT, name TEXT, address TEXT, categoryID INT, neutered INT, age_year INT, age_month INT, short_desc TEXT, description TEXT,created_at TEXT, updated_at TEXT, profile_img_url TEXT, FOREIGN KEY(ownerID) REFERENCES user(ID), FOREIGN KEY(categoryID) REFERENCES pet_category(ID));';
 sql_create2 = 'CREATE TABLE IF NOT EXISTS article (ID INT UNIQUE PRIMARY KEY, name TEXT, author TEXT, short_desc TEXT, description TEXT, userID INT, created_at TEXT, updated_at TEXT, categoryID INT,profile_img_url TEXT, FOREIGN KEY(userID) REFERENCES user(ID), FOREIGN KEY(categoryID) REFERENCES article_cat(ID));';
 sql_create3 = 'CREATE TABLE IF NOT EXISTS pet_category ( ID INT UNIQUE PRIMARY KEY, name TEXT, description TEXT );';
 sql_create4 = 'CREATE TABLE IF NOT EXISTS user ( ID INT UNIQUE PRIMARY KEY, name TEXT, email TEXT UNIQUE, phone TEXT, address TEXT, role TEXT, profile_img_url TEXT);';
@@ -163,13 +163,13 @@ const connection = {
         // Pets
         //ID , ownerID INT, name TEXT, address TEXT, categoryID INT, neutered INT, age_year INT, age_month INT, short_desc TEXT, description TEXT, profile_img_url 
         var desc = " is an adorable black and white kitten. In addition to his beautiful coat, he sports a small black mark right under his nose that almost looks like a mustache. Milkshake is very playful and loves to purr. He likes to climb just about anything, from chairs to the family Christmas tree. You will find Milkshake spending plenty of time with his brother Stampy. Milkshake is also great around adult cats. Milkshake seems to be okay around younger children, but can be a bit shy at first as well as around new people. He likes to be held and is more than happy finding a cozy spot on your lap before bedtime. He is also very independent and loves to be active and curiously explore on his own."
-        sql_inserts.push('INSERT INTO pet VALUES (1, 1, "Dobby", "Vienna", 1, 1, 0,5, "Meet Dobby! ", "Dobby '+ desc+'","/images/repo/dobby2.jpg")  ; ');
-        sql_inserts.push('INSERT INTO pet VALUES (2, 2, "Mia and Maya", "Vienna", 1, 1, 0,5, "Meet Mia and Mia! They are unseparable!", "Mia and Mia '+ desc+'","/images/repo/mia_maya.jpg")  ; ');
-        sql_inserts.push('INSERT INTO pet VALUES (3, 1, "Roko", "Vienna", 1, 1, 0,5, "Meet Roko!", "Roko '+ desc+'","/images/repo/roko.jpg")  ; ');
-        sql_inserts.push('INSERT INTO pet VALUES (4, 2, "Ron", "Vienna", 2, 1, 0,5, "Meet Ron!", "Ron '+ desc+'","/images/repo/ronald2.jpg")  ; ');
-        sql_inserts.push('INSERT INTO pet VALUES (5, 3, "Harry", "Vienna", 2, 1, 0,5, "Meet Harry!", "Harry '+ desc+'","/images/repo/harry2.jpg")  ; ');
-        sql_inserts.push('INSERT INTO pet VALUES (6, 3, "Hermione", "Vienna", 2, 1, 0,5, "Meet Hermione!", "Hermione '+ desc+'","/images/repo/hermione2.jpg")  ; ');
-        sql_inserts.push('INSERT INTO pet VALUES (7, 3, "Luna", "Vienna", 3, 1, 0,5, "Meet Luna!", "Luna '+ desc+'","/images/repo/pawprint-blue.png")  ; ');
+        sql_inserts.push('INSERT INTO pet VALUES (1, 1, "Dobby", "Vienna", 1, 1, 0,5, "Meet Dobby! ", "Dobby '+ desc+'", "01/11/2021", "01/11/2021","/images/repo/dobby2.jpg")  ; ');
+        sql_inserts.push('INSERT INTO pet VALUES (2, 2, "Mia and Maya", "Vienna", 1, 1, 0,5, "Meet Mia and Mia! They are unseparable!", "Mia and Mia '+ desc+'", "01/11/2021", "01/11/2021", "01/11/2021", "01/11/2021","/images/repo/mia_maya.jpg")  ; ');
+        sql_inserts.push('INSERT INTO pet VALUES (3, 1, "Roko", "Vienna", 1, 1, 0,5, "Meet Roko!", "Roko '+ desc+'", "01/11/2021", "01/11/2021","/images/repo/roko.jpg")  ; ');
+        sql_inserts.push('INSERT INTO pet VALUES (4, 2, "Ron", "Vienna", 2, 1, 0,5, "Meet Ron!", "Ron '+ desc+'", "01/11/2021", "01/11/2021","/images/repo/ronald2.jpg")  ; ');
+        sql_inserts.push('INSERT INTO pet VALUES (5, 3, "Harry", "Vienna", 2, 1, 0,5, "Meet Harry!", "Harry '+ desc+'", "01/11/2021", "01/11/2021","/images/repo/harry2.jpg")  ; ');
+        sql_inserts.push('INSERT INTO pet VALUES (6, 3, "Hermione", "Vienna", 2, 1, 0,5, "Meet Hermione!", "Hermione '+ desc+'", "01/11/2021", "01/11/2021","/images/repo/hermione2.jpg")  ; ');
+        sql_inserts.push('INSERT INTO pet VALUES (7, 3, "Luna", "Vienna", 3, 1, 0,5, "Meet Luna!", "Luna '+ desc+'", "01/11/2021", "01/11/2021","/images/repo/pawprint-blue.png")  ; ');
 
 
         // Adoption
