@@ -25,10 +25,12 @@ router.get('/', function(req, res) {
     console.log(user);
     condition={userID};    
     _adoption.selectall("adoption",condition, function(data) {
-      user.adoptions = data;
-      user.show_adoptions = user.adoptions.slice(0,3);
-      console.log('show_adoptions');
-      console.log(user.show_adoptions);      
+      if(user && data){
+        user.adoptions = data;
+        user.show_adoptions = user.adoptions.slice(0,3);
+        console.log('show_adoptions');
+        console.log(user.show_adoptions);
+      }      
       
       var condition = {};
       if(req.query.category){
@@ -80,10 +82,12 @@ router.get('/:articleId', function(req, res) {
     console.log(user);
     condition={userID};    
     _adoption.selectall("adoption",condition, function(data) {
-      user.adoptions = data;
-      user.show_adoptions = user.adoptions.slice(0,3);
-      console.log('show_adoptions');
-      console.log(user.show_adoptions);      
+      if(user && data){
+        user.adoptions = data;
+        user.show_adoptions = user.adoptions.slice(0,3);
+        console.log('show_adoptions');
+        console.log(user.show_adoptions);
+      }     
       
       // Get categories;
       sqlitebasics.selectall("article_cat" , function(data) {

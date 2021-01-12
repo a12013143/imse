@@ -190,8 +190,8 @@
         <span class="mask bg-gradient-default opacity-8"></span>
         <form id="page-data">
           <input type="hidden" name="userID" value="{{user.ID}}"/>
-          {{!-- <input type="hidden" name="pet_id" value="{{pet.ID}}"/> --}}
-          {{!-- <input type="hidden" name="article_id" value="{{article.ID}}"/> --}}
+          <input type="hidden" name="pageID" value="{{#if pet.ID}}{{pet.ID}}{{else}}{{article.ID}}{{/if}}"/>
+          <input type="hidden" name="article_id" value="{{article.ID}}"/>
         </form>        
         <!-- Header container -->
         <div class="separator separator-bottom separator-skew zindex-100">

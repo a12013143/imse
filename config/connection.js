@@ -30,7 +30,7 @@ sql_create5 = 'CREATE TABLE IF NOT EXISTS favourite ( ID INT UNIQUE PRIMARY KEY,
 sql_create6 = 'CREATE TABLE IF NOT EXISTS article_cat ( ID INT UNIQUE PRIMARY KEY, name TEXT, description TEXT );';
 sql_create7 = 'CREATE TABLE IF NOT EXISTS adoption ( ID INT UNIQUE PRIMARY KEY, userID INT, petID INT, description TEXT, status TEXT, created_at TEXT, updated_at TEXT, FOREIGN KEY(userID) REFERENCES user(ID), FOREIGN KEY(petID) REFERENCES pet(ID) );';
 //const sql_create8 = 'CREATE TABLE IF NOT EXISTS pet_galery ( ID INT, title TEXT, url TEXT );';
-sql_create9 = 'CREATE TABLE IF NOT EXISTS analytics ( ID INT UNIQUE PRIMARY KEY, url TEXT, userID INT, time INT, created_on TEXT );';
+sql_create9 = 'CREATE TABLE IF NOT EXISTS analytics ( ID INT UNIQUE PRIMARY KEY, url TEXT, userID INT, pageID INT, time INT, created_on TEXT );';
 
 //run them to create the tables on first use.
 db.serialize(function() {
