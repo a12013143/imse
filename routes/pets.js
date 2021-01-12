@@ -124,7 +124,7 @@ router.get('/:petId', function(req, res) {
           var title = 'Pet not found';
           if(pet){
             header_image = pet.profile_img_url;
-            title = 'Pets - '+pet.name;
+            title = pet.name;
           }
           res.render('pet', { title: title,pet,categories,header_image,user});
         }
@@ -213,15 +213,16 @@ router.delete('/:id', function(req, res) {
   let condition = 'ID = ' + petId;
 
   console.log('Delete pet');
-  sqlitebasics.delete("pet", condition, function(data){
-    
+  sqlitebasics.delete("pet", condition, function(data){  
+    console.log('sqlitebasics.delete');  
     console.log(data);
-    if (data.err){
+
+    if (data){
+      res.status(200).json(data);
+    } else {      
       res.status(500).json({
         'message': 'Internal Error.'
       });
-    } else {
-      res.status(200).json(data);
     }
   })
  

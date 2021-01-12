@@ -215,19 +215,20 @@ router.put('/:articleId', function(req, res) {
 
 /** DELETE */
 router.delete('/:id', function(req, res) {
-  let petId = req.params.id;
+  let articleId = req.params.id;
   let condition = 'ID = ' + articleId;
 
   console.log('Delete article');
-  sqlitebasics.delete("article", condition, function(data){
-    
+  sqlitebasics.delete("article", condition, function(data){  
+    console.log('sqlitebasics.delete');  
     console.log(data);
-    if (data.err){
+
+    if (data){
+      res.status(200).json(data);
+    } else {      
       res.status(500).json({
         'message': 'Internal Error.'
       });
-    } else {
-      res.status(200).json(data);
     }
   })
  

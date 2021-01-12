@@ -67,7 +67,6 @@ const sqlitebasics = {
         return err;
       }
       console.log("DB delete.");
-      //callback(err);
    });
 
   },
