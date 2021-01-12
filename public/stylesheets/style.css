@@ -7,6 +7,12 @@
   min-width: 260px!important;
 }
 
+/* Tables  override CSS*/
+div .card .table td, .card .table th {
+  padding-right: 0;
+  padding-left: 0;
+}
+
 /* Header  cards*/
 
 .mt--10percent{

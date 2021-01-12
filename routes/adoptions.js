@@ -104,43 +104,55 @@ router.post('/', function(req, res) {
 
 
 /** PUT */
-router.put('/:id', function(req, res) {
+
+/** PUT */
+router.put('/:ID', function(req, res) {
 
   console.log('req.body adoptions put');
   console.log(req.body);
-  console.log('req.params.id');
-  console.log(req.params.id)
 
+  var adoptionId = req.body.ID;
+  var condition = 'ID = ' + adoptionId;
 
-  var adoptionId = req.params.id;
-  var condition = 'id = ' + adoptionId;
+  var columns = Object.keys(req.body);
+  var values = Object.values(req.body);
 
-  // adoption.updateOne(req.body, condition, function() {
-  //   res.redirect('/adoptions/'+adoptionId); // send a message for success/error
-  // });
+  sqlitebasics.updateone("adoption" , columns, values, condition, function(data) {
+    categories = data;
+    console.log('sqlitebasics.updateone');
+    console.log(data);
 
-  err = false;
-  if (err){
-    res.status(500).json({
-      'message': 'Internal Error.'
-    });
-  } else {
-    res.status(200).json(adoptionId);
-  }
-
-});
-
-/** DELETE */
-router.delete('/delete/:id', function(req, res) {
-  var adoptionId = req.params.id;
-  var condition = 'id = ' + adoptionId;
-  
-  adoption.delete(condition, function() {
-    res.redirect('/adoptions'); // send a message for success/error
+    if (data){
+      res.status(200).json(data);
+    } else {      
+      res.status(500).json({
+        'message': 'Internal Error.'
+      });
+    }
   });
 
 });
 
+/** DELETE */
+router.delete('/:id', function(req, res) {
+  let adoptionId = req.params.id;
+  let condition = 'ID = ' + adoptionId;
+
+  console.log('Delete adoption');
+  sqlitebasics.delete("adoption", condition, function(data){  
+    console.log('sqlitebasics.delete');  
+    console.log(data);
+
+    if (data){
+      res.status(200).json(data);
+    } else {      
+      res.status(500).json({
+        'message': 'Internal Error.'
+      });
+    }
+  })
+ 
+});
 
 
 module.exports = router;

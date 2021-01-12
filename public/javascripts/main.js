@@ -164,28 +164,26 @@
         });
 
         //update-adoption-status
-        $('#update-adoption-status').on('click',function(e){
+        $('#update-adoption').on('submit',function(e){
             
-            e.preventDefault()
-            var status = $(this).data('#status');
-            var adoptionId = $(this).closest('tr').data('adoption_id');
-            console.log('adoptionid');
-            console.log(adoptionId);
-            var data = {id:adoptionId,status:status};
+            e.preventDefault();
+            
+            var data = objectifyForm($(this));
+            console.log(data);
 
             var d = new Date();
             var dateArray= d.toLocaleDateString("en-US").split("/");
             var date= ('0' + dateArray[0]).slice(-2) + '/' + ('0' + dateArray[1]).slice(-2) + '/' + dateArray[2];
             data.updated_at = date;
-            
+
             $.ajax({
-            url: "/adoptions/"+adoptionId,
+            url: "/adoptions/"+ data.ID,
             type: "PUT",
             data: JSON.stringify(data),
             contentType: "application/json",
             success: function(data, status) {
                 console.log(data);
-                $('.alert').removeClass('d-none').addClass('alert-success').text("Article was succesfully edited").show();
+                $('.alert').removeClass('d-none').addClass('alert-success').text("Adoption status updated").show();
                 window.setTimeout(function(){
                    $('.alert').addClass('d-none').removeClass('alert-success');
                 },1500);
@@ -193,7 +191,7 @@
             },
             error: function(error) {
                 console.log(error);
-                $('.alert').removeClass('d-none').addClass('alert-danger').text("An error ocurred during editing. Try again.").show();
+                $('.alert').removeClass('d-none').addClass('alert-danger').text("An error ocurred.").show();
                 window.setTimeout(function(){
                    $('.alert').addClass('d-none').removeClass('alert-danger');
                 },1500);

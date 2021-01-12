@@ -172,7 +172,7 @@ router.post('/', function(req, res) {
 
 
 /** PUT */
-router.put('/:articleId', function(req, res) {
+router.put('/:ID', function(req, res) {
 
   console.log('req.body articles put');
   console.log(req.body);

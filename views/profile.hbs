@@ -7,7 +7,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-xl-3 order-xl-2">
+        <div class="col-xl-3 col-4 order-xl-2">
           <div class="card card-profile">
             <img src="{{user.profile_img_url}}" alt="Image placeholder" class="card-img-top">
    
@@ -106,6 +106,9 @@
               </div>
               <div class="card-body">
                   <div class="table-responsive">
+                    <div class="alert alert-success m-4 d-none" role="alert">
+                              This is a success alert—check it out!
+                     </div>
                     <table class="table align-items-center table-flush">
                       <thead class="thead-light">
                         <tr>
@@ -118,7 +121,7 @@
                       </thead>
                       <tbody class="list">
                         {{#each user.adoptions}}
-                        <tr id="{{this.id}}" data-adoption_id="{{this.id}}">
+                        <tr id="{{this.ID}}" data-adoption_id="{{this.ID}}">
                           <th scope="row">
                             <div class="media align-items-center">
                               <a href="#" class="avatar rounded-circle mr-3">
@@ -156,8 +159,19 @@
                                 <i class="fas fa-ellipsis-v"></i>
                               </a>
                               <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                <a id="update-adoption-status" data-status="Approved" class="dropdown-item" href="#">Approve</a>
-                                <a id="update-adoption-status" data-status="Declined" class="dropdown-item" href="#">Decline</a>
+                                <form id="update-adoption" method="put" action="/adoptions/{{this.ID}}"> 
+                                    <input type="hidden" readonly class="form-control" name="ID" value="{{this.ID}}">
+                                    <div class="form-group p-3 m-0">
+                                    <select class="form-control" name="status">
+                                      <option value = "Initiated">Initiated</option>
+                                      <option value = "In progress">In progress</option>
+                                      <option value = "Approved">Approve</option>
+                                      <option value = "Declined">Decline</option>
+                                    </select>     
+                                    </div>                           
+                                  <button type="submit" class="dropdown-item" href="#">Update status</button>
+                                  {{!-- <a type="submit" id="approve-adoption-status" data-status="Declined" class="dropdown-item" href="#">Decline</a> --}}
+                                </form>
                                 <a class="dropdown-item" href="mailto:{{this.email}}">Contact by email</a>
                               </div>
                             </div>
