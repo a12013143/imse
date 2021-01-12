@@ -188,10 +188,9 @@
         <!-- Mask -->
         <span class="mask bg-gradient-default opacity-8"></span>
         <form id="page-data">
-          <input type="hidden" name="type" value="{{#if article}}article{{else}}{{#if pet}}pet{{else}}other{{/if}}{{/if}}"/>
-          <input type="hidden" name="user_id" value="{{user.id}}"/>
-          <input type="hidden" name="pet_id" value="{{pet.id}}"/>
-          <input type="hidden" name="article_id" value="{{article.id}}"/>
+          <input type="hidden" name="userID" value="{{user.ID}}"/>
+          {{!-- <input type="hidden" name="pet_id" value="{{pet.ID}}"/> --}}
+          {{!-- <input type="hidden" name="article_id" value="{{article.ID}}"/> --}}
         </form>        
         <!-- Header container -->
         <div class="separator separator-bottom separator-skew zindex-100">

@@ -97,7 +97,19 @@ const sqlitebasics = {
       }
       callback(result);
     });
-  }
+  },
+
+  getmaxid: function(table,callback) {
+    let queryforID = 'SELECT MAX(ID) AS ID FROM '+table+';';
+    console.log(queryforID);
+    db.all(queryforID, [], (err, rows) => {
+      if(err) {
+        console.log(err);
+        return err;
+      }
+      callback(rows);
+    });
+  },
 };
 
 

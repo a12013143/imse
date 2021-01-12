@@ -6,7 +6,7 @@ var _adoption = require('../models/adoption.js');
 // //hardcoded data
 // analytics =[{
 //   id: 1,
-//   url:'/articles/1',
+//   url:'/analytics/1',
 //   user_id:2,
 //   time:30,
 //   created_on: "5 Jan 2021"
@@ -21,20 +21,20 @@ var _adoption = require('../models/adoption.js');
 // //hardcoded data
 // analyticsAggregated =[{
 //   id: 1,
-//   url:'/articles/1',// groupby page
+//   url:'/analytics/1',// groupby page
 //   page_id:1, // this is extracted from url
-//   article:{title:"Article Title"},
-//   type: 'article', // this is extracted from url
+//   analytic:{title:"Analytic Title"},
+//   type: 'analytic', // this is extracted from url
 //   visits:3 ,  // count ids 
 //   visitors:2, // count user_ids for page
 //   time:30, //sum for page
 //   created_on: "5 Jan 2021"
 // },{
 //   id: 1,
-//   url:'/articles/1',
+//   url:'/analytics/1',
 //   page_id:1, // this is extracted from url
-//   article:{title:"Article Title"},
-//   type: 'article', // this is extracted from url
+//   analytic:{title:"Analytic Title"},
+//   type: 'analytic', // this is extracted from url
 //   visits:3 ,  // count ids 
 //   visitors:2, // count user_ids for page
 //   time:30,
@@ -74,7 +74,7 @@ router.get('/', function(req, res) {
     console.log('renderHtmlAfterLoad');
     sqlitebasics.selectall("analytics" , function(data) {
       analytics = data;
-      console.log('Analytics page articles');
+      console.log('Analytics page analytics');
       console.log(data);
       var header_image = "/images/repo/petcare-large.jpg";
       res.render('analytics', { title: 'Analytics' ,analytics,header_image,user});
@@ -84,7 +84,7 @@ router.get('/', function(req, res) {
   
 });
 
-/*# GET One*/
+/** GET One*/
 // Redirect to all
 router.get('/:analyticId', function(req, res) {
   res.redirect('/analytics');
@@ -96,26 +96,38 @@ router.post('/', function(req, res) {
   console.log('req.body analytics post');
   console.log(req.body);
 
-  // analytic.insertOne(
-  //   ['analytic_name', 'category_id'],
-  //   [req.body.analytic_name, false],
-  //   function() {
-  //     console.log('in callback');
-  //     res.redirect('/analytics');
-  //   }
-  // );
-  console.log('after insert');
-  insertedAnalyticId = 100; //Change this by reading from database
-  //res.redirect('/analytics/'+insertedAnalyticId); // send a message for success/error
+  let maxrowID = 0;
+  sqlitebasics.getmaxid('analytics',function(data) {
+    maxrowID = data[0].ID + 1;
 
-  err = false;
-  if (err){
-    res.status(500).json({
-      'message': 'Internal Error.'
+    var vals = req.body;
+    var keys = Object.keys(req.body);
+    var i =0;
+    keys.forEach(function(key){;
+      var str = ['url'];
+        if(!vals[key] && !str.includes(key) ){
+          vals[key] = 'null';
+        }
+    }) 
+
+    //ID, url TEXT, userID INT, time INT, created_on 
+    let querytemp = '(' + maxrowID + ', "' + vals.url +'", ' + vals.userID + ', ' + vals.time +  ', "' + vals.created_at + '"';
+    console.log('querytemp')
+    console.log(querytemp)
+    sqlitebasics.insertone("analytics" , querytemp, function(data) {
+      categories = data;
+      console.log('sqlitebasics.insertone');
+      console.log(data);
+  
+      if (data){
+        res.status(200).json(data);
+      } else {      
+        res.status(500).json({
+          'message': 'Internal Error.'
+        });
+      }
     });
-  } else {
-    res.status(200).json(insertedAnalyticId);
-  }
+  });
 });
 
 /** PUT */ 

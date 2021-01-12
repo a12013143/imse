@@ -309,23 +309,26 @@
         //Add analytics
         var analyticsStartTime = new Date();
         
-         function addAnalytics () {
+        function addAnalytics () {
             
             var analyticsEndTime = new Date();
             console.log("TEST");
-
             
             var data = objectifyForm($('#page-data'));
-            data.time = analyticsEndTime.getSeconds() - analyticsStartTime.getSeconds();
+            var start =analyticsStartTime.getSeconds();
+            var end =analyticsEndTime.getSeconds();
+            
+            data.time = 0;
+            if(end>start){
+                data.time = analyticsEndTime.getSeconds() - analyticsStartTime.getSeconds();
+            }
             data.url = window.location.pathname; 
 
             var d = new Date();
             var dateArray= d.toLocaleDateString("en-US").split("/");
             data.created_at = ('0' + dateArray[0]).slice(-2) + '/' + ('0' + dateArray[1]).slice(-2) + '/' + dateArray[2];
            
-
             console.log(data);
-
             
             $.ajax({
             url: "/analytics/",
@@ -346,7 +349,7 @@
 
         $(window).bind('beforeunload', function(){
             addAnalytics();
-            //return 'Are you sure you want to leave?'
+            // return 'Are you sure you want to leave?'
         });
         
 
