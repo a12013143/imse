@@ -20,31 +20,6 @@ var user = {
   profile_img_url: "/images/repo/user.png"
 };
 
-//hardcoded data
-articles =[{
-  id: 1,
-  title: "Tips on how to take care of your pet",
-  category_id: 2,
-  author:"Author Name",
-  short_content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-  content: "Some quick example text to build on the card title and make up the bulk of the card's content. \n Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content." ,
-  profile_img_url: "/images/repo/petcare-large.jpg",
-  likes:22,
-  created_on: "5 Jan 2021",
-  updated_on: "5 Jan 2021"
-},{
-  id: 1,
-  title: "Tips on how to take care of your pet",
-  category_id: 2,
-  author:"Author Name",
-  short_content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-  content: "Some quick example text to build on the card title and make up the bulk of the card's content. \n Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content." ,
-  profile_img_url: "/images/repo/petcare.jpg",
-  likes:22,
-  created_on: "5 Jan 2021",
-  updated_on: "5 Jan 2021"
-}];
-
 //hardcoded adoption data
 //hardcoded data
 user.adoptions =[{
@@ -106,7 +81,7 @@ router.get('/', function(req, res) {
    // Get pets by query data
    function renderHtmlAfterCategoriesLoad(){
      console.log('renderHtmlAfterCategoriesLoad');
-     sqlitebasics.selectall("article" , function(data) {
+     _article.selectall("article" , function(data) {
        articles = data;
        console.log('Article page articles');
        console.log(data);

@@ -60,13 +60,13 @@ router.get('/', function(req, res, next) {
 
   //Get pet statistics
   var stats = {};
-  var condition = {};
-  if(req.query.category){
-    condition.category = req.query.category;
-  }
-  if(req.query.keyword){
-    condition.keyword = req.query.keyword;
-  }
+  var condition = req.query;
+  // if(req.query.category){
+  //   condition.category = req.query.category;
+  // }
+  // if(req.query.keyword){
+  //   condition.keyword = req.query.keyword;
+  // }
   _pet.stats("pet", function(data) {
     stats = data;
     console.log('Home page stats');
@@ -79,9 +79,9 @@ router.get('/', function(req, res, next) {
 function renderHtmlAfterStatsLoad(res,stats){
   sqlitebasics.selectall("pet", function(data) {
     pets = data;
-    pets.slice(0,3);
+    pets=pets.slice(0,3);
     console.log('Pets page');
-    console.log(data);
+    //console.log(pets);
     var header_image = "/images/repo/petcare-large.jpg";
     res.render('index', { title: 'FosterPet - Home ' ,pets,stats,header_image,user});
   });

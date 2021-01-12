@@ -66,34 +66,33 @@ const pet = {
     });
   },
 
-
   // Stats
   stats: function(param, callback, condition) {
 
     let queryString = 
     'WITH counts as ( SELECT p.ID petID,' +
     '      CASE' +
-    '           WHEN pc.name="cat" and a.status="Approved"' +
+    '           WHEN pc.name="Cats" and a.status="Approved"' +
     '               THEN 1' +
     '      END adoptedCats,' +
     '      CASE' +
-    '           WHEN pc.name="dog" and a.status="Approved"' +
+    '           WHEN pc.name="Dogs" and a.status="Approved"' +
     '               THEN 1' +
     '      END adoptedDogs,' +
     '      CASE' +
-    '           WHEN pc.name <> "dog" and pc.name <> "cat" and a.status="Approved"' +
+    '           WHEN pc.name <> "Dogs" and pc.name <> "Cats" and a.status="Approved"' +
     '               THEN 1' +
     '      END adoptedOther,' +
     '      CASE' +
-    '           WHEN pc.name="cat" and a.status<>"Approved"' +
+    '           WHEN pc.name="Cats" and a.status<>"Approved"' +
     '               THEN 1' +
     '      END availableCats,' +
     '      CASE' +
-    '           WHEN pc.name="dog" and a.status<>"Approved"' +
+    '           WHEN pc.name="Dogs" and a.status<>"Approved"' +
     '               THEN 1' +
     '      END availableDogs,' +
     '      CASE' +
-    '      WHEN pc.name <> "dog" and pc.name <> "cat" and a.status="Approved"' +
+    '      WHEN pc.name <> "Dogs" and pc.name <> "Cats" and a.status="Approved"' +
     '          THEN 1' +
     ' END availableOther' +
     ' FROM pet p'+
@@ -101,27 +100,27 @@ const pet = {
     ' LEFT JOIN adoption a on p.ID = a.petID' +
     ' GROUP BY' +
     '  CASE' +
-    '      WHEN pc.name="cat" and a.status="Approved"' +
+    '      WHEN pc.name="Cats" and a.status="Approved"' +
     '          THEN 1' +
     '      END , ' +
     '      CASE' +
-    '           WHEN pc.name="dog" and a.status="Approved"' +
+    '           WHEN pc.name="Dogs" and a.status="Approved"' +
     '               THEN 1' +
     '      END ,' +
     '      CASE' +
-    '           WHEN pc.name <> "dog" and pc.name <> "cat" and a.status="Approved"' +
+    '           WHEN pc.name <> "Dogs" and pc.name <> "cat" and a.status="Approved"' +
     '               THEN 1' +
     '      END ,' +
     '      CASE' +
-    '           WHEN pc.name="cat" and a.status<>"Approved"' +
+    '           WHEN pc.name="Cats" and a.status<>"Approved"' +
     '               THEN 1' +
     '      END ,' +
     '      CASE' +
-    '           WHEN pc.name="dog" and a.status<>"Approved"' +
+    '           WHEN pc.name="Dogs" and a.status<>"Approved"' +
     '               THEN 1' +
     '      END ,' +
     '      CASE' +
-    '           WHEN pc.name <> "dog" and pc.name <> "cat" and a.status="Approved"' +
+    '           WHEN pc.name <> "Dogs" and pc.name <> "Cats" and a.status="Approved"' +
     '               THEN 1' +
     '      END )' +
     ' SELECT sum(counts.adoptedCats) adoptedCats, sum(counts.adoptedDogs) adoptedDogs, sum(counts.adoptedOther) adoptedOther, '+
@@ -161,7 +160,6 @@ const pet = {
       callback(rows);
     });
   },
-
 
   // Pet Analytics
   analytics: function(param, callback, condition) {

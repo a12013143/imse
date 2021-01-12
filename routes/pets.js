@@ -16,76 +16,6 @@ var user = {
 };
 
 //hardcoded data
-pets =[{
-  id: 1,
-  user_id :1, pet_name: "Harry",
-  category_id: 2,
-  age_years:1,
-  age_months:0,
-  neutered:true,
-  address:"Vienna, Austria",
-  short_content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-  content: "Some quick example text to build on the card title and make up the bulk of the card's content. \n Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content." ,
-  profile_img_url: "/images/repo/harry.jpg",
-  favourites:22,  // This is extraacted joined with favourites table!!
-  applications:1
-},{
-  id: 2,
-  user_id :1, pet_name: "Ron",
-  category_id: 2,
-  age_years:1,
-  age_months:0,
-  neutered:true,
-  address:"Vienna, Austria",
-  owner:"Grese Hyseni",
-  owner_id:2,
-  short_content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-  content: "Some quick example text to build on the card title and make up the bulk of the card's content. \n Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content." ,
-  profile_img_url: "/images/repo/ronald.jpg",
-  likes:22,
-  applications:1
-},{
-  id: 3,
-  user_id :1, pet_name: "Hermione",
-  category_id: 2,
-  age_years:1,
-  age_months:0,
-  neutered:true,
-  address:"Vienna, Austria",
-  short_content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-  content: "Some quick example text to build on the card title and make up the bulk of the card's content. \n Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content." ,
-  profile_img_url: "/images/repo/hermione.jpg",
-  likes:22,
-  applications:1
-},{
-  id: 4,
-  user_id :1, pet_name: "Dobby",
-  category_id: 2,
-  age_years:1,
-  age_months:0,
-  neutered:true,
-  address:"Vienna, Austria",
-  short_content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-  content: "Some quick example text to build on the card title and make up the bulk of the card's content. \n Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content." ,
-  profile_img_url: "/images/repo/dobby2.jpg",
-  likes:22,
-  applications:1
-},{
-  id: 5,
-  user_id :1, pet_name: "Roko",
-  category_id: 2,
-  age_years:1,
-  age_months:0,
-  neutered:true,
-  address:"Vienna, Austria",
-  short_content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-  content: "Some quick example text to build on the card title and make up the bulk of the card's content. \n Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content." ,
-  profile_img_url: "/images/repo/roko.jpg",
-  likes:22,
-  applications:1
-}];
-
-//hardcoded data
 user.adoptions =[{
   id: 1,
   pet_id: 3,
@@ -143,7 +73,7 @@ router.get('/', function(req, res) {
 
   // Get pets by query data
   function renderHtmlAfterCategoriesLoad(){
-    sqlitebasics.selectall("pet" , function(data) {
+    _pet.selectall("pet" , function(data) {
       pets = data;
       console.log('Pets page pets');
       console.log(data);

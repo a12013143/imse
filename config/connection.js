@@ -25,7 +25,7 @@ db.get("PRAGMA foreign_keys = ON");
 /**  Table creation */
 //queries to create the tables if they do not exist yet: PET, ARTICLE, PET_CATEGORY, USER, FAVOURITE, ARTICLE_CATEGORY, ADOPTION, PET_GALERY, ANALYTICS
 sql_create1 = 'CREATE TABLE IF NOT EXISTS pet ( ID INT UNIQUE PRIMARY KEY, ownerID INT, name TEXT, address TEXT, categoryID INT, neutered INT, age_year INT, age_month INT, short_desc TEXT, description TEXT, profile_img_url TEXT, FOREIGN KEY(ownerID) REFERENCES user(ID), FOREIGN KEY(categoryID) REFERENCES pet_category(ID));';
-sql_create2 = 'CREATE TABLE IF NOT EXISTS article (ID INT UNIQUE PRIMARY KEY, name TEXT, author TEXT, short_desc TEXT, description TEXT, userID INT, created_at TEXT, updated_at TEXT, article_catID INT, FOREIGN KEY(userID) REFERENCES user(ID), FOREIGN KEY(article_catID) REFERENCES article_cat(ID));';
+sql_create2 = 'CREATE TABLE IF NOT EXISTS article (ID INT UNIQUE PRIMARY KEY, name TEXT, author TEXT, short_desc TEXT, description TEXT, userID INT, created_at TEXT, updated_at TEXT, categoryID INT,profile_img_url TEXT, FOREIGN KEY(userID) REFERENCES user(ID), FOREIGN KEY(categoryID) REFERENCES article_cat(ID));';
 sql_create3 = 'CREATE TABLE IF NOT EXISTS pet_category ( ID INT UNIQUE PRIMARY KEY, name TEXT, description TEXT );';
 sql_create4 = 'CREATE TABLE IF NOT EXISTS user ( ID INT UNIQUE PRIMARY KEY, name TEXT, email TEXT UNIQUE, phone TEXT, address TEXT, role TEXT, profile_img_url TEXT);';
 sql_create5 = 'CREATE TABLE IF NOT EXISTS favourite ( ID INT UNIQUE PRIMARY KEY, userID INT, petID INT, FOREIGN KEY(userID) REFERENCES user(ID), FOREIGN KEY(petID) REFERENCES pet(ID));';
@@ -140,15 +140,17 @@ const connection = {
                   "- Keep them away from dust and allergies\n"+           
                   "- Love them unconditionally, treat them like your family, talk to them";
 
+        var imgurl = '/images/repo/petcare-large.jpg';
+        var imgurl1 = '/images/repo/mia_maya.jpg';
         var short_desc2 = "Two of the most popular pets are dogs and cats; the technical term for a cat lover is an ailurophile and a dog lover a cynophile.";
         var desc2 = "Other animals commonly kept include: rabbits; ferrets; pigs; rodents, such as gerbils, hamsters, chinchillas, rats, mice, and guinea pigs; avian pets, such as parrots, passerines and fowls; reptile pets, such as turtles, alligators, crocodiles, lizards, and snakes; aquatic pets, such as fish, freshwater and saltwater snails, amphibians like frogs and salamanders; and arthropod pets, such as tarantulas and hermit crabs. Small pets may be grouped together as pocket pets, while the equine and bovine group include the largest companion animals.";
-        sql_inserts.push('INSERT INTO article VALUES (1, "How to take care of your pet?", "Grese Hyseni", "'+desc1+'","'+short_desc1+'", 1, "01/11/2021", "01/11/2021", 1); ');
-        sql_inserts.push('INSERT INTO article VALUES (2, "Know more about pets", "Grese Hyseni", "'+desc2+'","'+short_desc1+'", 1, "01/11/2021", "01/11/2021", 1); ');
-        sql_inserts.push('INSERT INTO article VALUES (3, "How to take care of your cat?", "Hannah Poor", "'+desc1+'","'+short_desc1+'", 1, "01/11/2021", "01/11/2021", 2); ');
-        sql_inserts.push('INSERT INTO article VALUES (4, "Know more about pets", "Hannah Poor", "'+desc2+'","'+short_desc1+'", 2, "01/11/2021", "01/11/2021", 3); ');
-        sql_inserts.push('INSERT INTO article VALUES (5, "Article Title", "Author Name", "'+desc1+'","'+short_desc1+'", 2, "01/11/2021", "01/11/2021", 1); ');
-        sql_inserts.push('INSERT INTO article VALUES (6, "Article Title", "Author Name", "'+desc2+'","'+short_desc1+'", 2, "01/11/2021", "01/11/2021", 2); ');
-        sql_inserts.push('INSERT INTO article VALUES (7, "Article Title", "Author Name", "'+desc1+'","'+short_desc1+'", 1, "01/11/2021", "01/11/2021", 1); ');
+        sql_inserts.push('INSERT INTO article VALUES (1, "How to take care of your pet?", "Grese Hyseni", "'+desc1+'","'+short_desc1+'", 1, "01/11/2021", "01/11/2021", 1, "'+imgurl+'"); ');
+        sql_inserts.push('INSERT INTO article VALUES (2, "Know more about pets", "Grese Hyseni", "'+desc2+'","'+short_desc2+'", 1, "01/11/2021", "01/11/2021", 1, "'+imgurl1+'"); ');
+        sql_inserts.push('INSERT INTO article VALUES (3, "How to take care of your cat?", "Hannah Poor", "'+desc1+'","'+short_desc1+'", 1, "01/11/2021", "01/11/2021", 2, "'+imgurl+'"); ');
+        sql_inserts.push('INSERT INTO article VALUES (4, "Know more about pets", "Hannah Poor", "'+desc2+'","'+short_desc2+'", 2, "01/11/2021", "01/11/2021", 3, "'+imgurl1+'"); ');
+        sql_inserts.push('INSERT INTO article VALUES (5, "Article Title", "Author Name", "'+desc1+'","'+short_desc1+'", 2, "01/11/2021", "01/11/2021", 1, "'+imgurl+'"); ');
+        sql_inserts.push('INSERT INTO article VALUES (6, "Article Title", "Author Name", "'+desc2+'","'+short_desc2+'", 2, "01/11/2021", "01/11/2021", 2, "'+imgurl1+'"); ');
+        sql_inserts.push('INSERT INTO article VALUES (7, "Article Title", "Author Name", "'+desc1+'","'+short_desc1+'", 1, "01/11/2021", "01/11/2021", 1, "'+imgurl+'"); ');
 
 
         // Pet Categories
@@ -178,6 +180,13 @@ const connection = {
         sql_inserts.push('INSERT INTO adoption VALUES (4, 3, 4, "Description", "") ; ');
         sql_inserts.push('INSERT INTO adoption VALUES (5, 3, 5, "Description", "Declined") ; ');
         sql_inserts.push('INSERT INTO adoption VALUES (7, 3, 5, "Description", "") ; ');
+        
+        sql_inserts.push('INSERT INTO adoption VALUES (8, 4, 1, "Description", "Approved") ; ');
+        sql_inserts.push('INSERT INTO adoption VALUES (9, 4, 2, "Description", "In Progress") ; ');
+        sql_inserts.push('INSERT INTO adoption VALUES (10, 4, 3, "Description", "Approved") ; ');
+        sql_inserts.push('INSERT INTO adoption VALUES (11, 5, 4, "Description", "") ; ');
+        sql_inserts.push('INSERT INTO adoption VALUES (12, 5, 5, "Description", "Declined") ; ');
+        sql_inserts.push('INSERT INTO adoption VALUES (13, 6, 5, "Description", "Approved") ; ');
 
         // Favourite
         //ID,userID INT, petID INT,
