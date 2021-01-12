@@ -14,6 +14,7 @@ router.get('/', function(req, res) {
   console.log(req.query);
 
   var categories = [];
+  
   var userID = req.query.userId;
   if(!userID){
     userID=1;
@@ -30,24 +31,13 @@ router.get('/', function(req, res) {
         user.show_adoptions = user.adoptions.slice(0,3);
         console.log('show_adoptions');
         console.log(user.show_adoptions);
-      }      
-      
-      var condition = {};
-      if(req.query.category){
-        condition.category = req.query.category;
-      }
-      if(req.query.keyword){
-        condition.keyword = req.query.keyword;
-      }
-    
-       // Get categories
-       var categories = [];
+      }          
        sqlitebasics.selectall("article_cat" , function(data) {
          categories = data;
          console.log('Article page categories');
          console.log(data);
          renderHtmlAfterCategoriesLoad();
-       }, condition);
+       }, {});
           
     });
   });
@@ -55,6 +45,13 @@ router.get('/', function(req, res) {
    // Get pets by query data
    function renderHtmlAfterCategoriesLoad(){
      console.log('renderHtmlAfterCategoriesLoad');
+     var condition = {};
+     if(req.query.category){
+       condition.category = req.query.category;
+     }
+     if(req.query.keyword){
+       condition.keyword = req.query.keyword;
+     }
      _article.selectall("article" , function(data) {
        articles = data;
        console.log('Article page articles');
