@@ -5,13 +5,12 @@ services:
     volumes:
       - db_data:/data/
       - nodes:/node_modules/
-    build:
-      context: ./
-      dockerfile: dockerfile
+    build: .
     ports:
-      - '9000:3000' 
+      - '8000:3000' 
     
 volumes:
     db_data: {}
+    nodes: {}
    
 
