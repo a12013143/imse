@@ -13,7 +13,7 @@
                               <div class="input-group-prepend">
                                   <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                               </div>
-                              <input class="form-control" name="start_date" placeholder="Start date" type="text" value="">
+                              <input class="form-control" name="start_date" placeholder="Start date" type="text" value="{{condition.start_date}}">
                           </div>
                       </div>
                   </div>
@@ -23,17 +23,10 @@
                               <div class="input-group-prepend">
                                   <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                               </div>
-                              <input class="form-control" name="end_date" placeholder="End date" type="text" value="">
+                              <input class="form-control" name="end_date" placeholder="End date" type="text" value="{{condition.end_date}}">
                           </div>
                       </div>
                   </div>
-              </div>
-              <div class="form-group col-lg-4 col-11">
-                <select class="form-control" id="input-type" name="type">
-                  {{#each types}}                
-                  <option value="{{this.id}}">{{this.name}}</option>
-                  {{/each}}
-                </select>
               </div>
               <div class="form-group col-lg-1 col-1">
                 <button type="submit" class="btn btn-primary">Filter</button>
@@ -61,9 +54,10 @@
                 <thead class="thead-light">
                   <tr>
                     <th scope="col" class="sort" data-sort="url">Page url</th>
-                    <th scope="col" class="sort" data-sort="url">Visits</th>
-                    <th scope="col" class="sort" data-sort="url">Time</th>
-                    <th scope="col" class="sort" data-sort="url">Unique users</th>
+                    <th scope="col" class="sort" data-sort="visits">Visits</th>
+                    <th scope="col" class="sort" data-sort="time">Time</th>
+                    <th scope="col" class="sort" data-sort="visitors">Unique users</th>
+                     <th scope="col" class="sort" data-sort="created_at">Recent visit date</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -80,6 +74,9 @@
                     </td>
                     <td>
                       {{this.visitors}}
+                    </td>
+                    <td>
+                      {{this.created_at}}
                     </td>
                   </tr>
                   {{/each}}

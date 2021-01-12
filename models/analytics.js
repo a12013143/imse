@@ -18,7 +18,7 @@ const analytics = {
   selectGrouped: function(table, condition, callback) {
     console.log('_analytics.selectall')
 
-    let queryString = 'SELECT url, count( DISTINCT userID) visitors, count(*) visits, sum(time) time, '+
+    let queryString = 'SELECT url, count( DISTINCT userID) visitors, count(*) visits, sum(time) time, max(created_at) created_at, '+
     ' CASE WHEN url like "%article%" and pageID is not NULL THEN "Article"  '+
     '      WHEN url like "%pet%" and pageID is not NULL THEN "Pet"  '+
     '      WHEN url = "/"  THEN "Home page"  '+
@@ -30,8 +30,8 @@ const analytics = {
       if(condition.start_date){
         queryString += ' AND created_at >= "'+condition.start_date+'"' ;
       }
-      if(condition.start_date){
-        queryString += ' AND created_at <= "'+condition.start_date+'"' ;
+      if(condition.end_date){
+        queryString += ' AND created_at <= "'+condition.end_date+'"' ;
       }
     }
     queryString +=' GROUP BY url, '+

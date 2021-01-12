@@ -35,20 +35,23 @@ router.get('/', function(req, res) {
 
   function renderHtmlAfterLoad(){
     console.log('renderHtmlAfterLoad');
-    // sqlitebasics.selectall("analytics" , function(data) {
-    //   analytics = data;
-    //   console.log('Analytics page analytics');
-    //   console.log(data);
-    //   var header_image = "/images/repo/petcare-large.jpg";
-    //   res.render('analytics', { title: 'Analytics' ,analytics,header_image,user});
-    // }, condition);
+
+    var condition = {};
+    if(req.query.start_date){
+      condition.start_date = req.query.start_date;
+    }
+    if(req.query.end_date){
+      condition.end_date = req.query.end_date;
+    }
+
+    console.log(condition)
 
     _analytics.selectGrouped("analytics" ,condition, function(data) {
       analytics = data;
       console.log('Analytics page analytics');
       console.log(data);
       var header_image = "/images/repo/petcare-large.jpg";
-      res.render('analytics', { title: 'Analytics' ,analytics,header_image,user});
+      res.render('analytics', { title: 'Analytics' ,analytics,condition,header_image,user});
     });
 
   }
