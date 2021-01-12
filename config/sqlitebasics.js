@@ -19,7 +19,7 @@ const sqlitebasics = {
     });
   },
 
-  insertone: function(table, values) {
+  insertone: function(table, values, callback) {
     let queryString = 'INSERT INTO ' + table + ' VALUES ' + values +');';
     console.log(queryString);
     db.run(queryString, err => {
@@ -27,10 +27,11 @@ const sqlitebasics = {
         return console.error(err.message);
       }
       console.log("DB insertion.");
+      callback(err);
     });
   },
 
-  updateone: function(table, columns, values, condition) {
+  updateone: function(table, columns, values, condition, callback) {
     let queryString = 'UPDATE ' + table + ' SET ';
     let i;
     for (i=0; i < columns.length; i++) {
@@ -49,7 +50,7 @@ const sqlitebasics = {
     });
   },
 
-  delete: function(table, condition) {
+  delete: function(table, condition, callback) {
     let queryString = 'DELETE FROM ' + table + ' WHERE ' + condition + ';';
     console.log(queryString);
     db.run(queryString, err => {
@@ -57,6 +58,7 @@ const sqlitebasics = {
         return console.error(err.message);
       }
       console.log("DB delete.");
+      //callback(err);
    });
 
   },

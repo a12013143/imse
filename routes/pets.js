@@ -143,7 +143,7 @@ router.get('/', function(req, res) {
 
   // Get pets by query data
   function renderHtmlAfterCategoriesLoad(){
-    _pet.selectall("pet" , function(data) {
+    sqlitebasics.selectall("pet" , function(data) {
       pets = data;
       console.log('Pets page pets');
       console.log(data);
@@ -198,17 +198,20 @@ router.post('/', function(req, res) {
 let maxrowID = 0;
   _pet.getmaxid(function(data){
     maxrowID = (data[0].ID) + 1;
+    let querytemp = '(' + maxrowID + ', ' + /*req.body.user_id*/'1' +', "' + req.body.pet_name + '", ' + req.body.category + ', ' + req.body.neutered + ', ' + req.body.age_years + ', ' + req.body.age_months + ', "' + req.body.short_content + '", "' + req.body.content + '", ' + /*req.body.profile_img_url + '"'*/ '"/images/repo/ronald.jpg"';
+    sqlitebasics.insertone("pet", querytemp, function(data) {
+      console.log(data);
+    }) 
+    console.log('after insert');
+    insertedPetId = maxrowID; //Change this by reading from database
+    res.redirect('/pets/'+insertedPetId); // send a message for success/error
   });
 
   // Move this to model
   let querytemp = '(' + maxrowID + ', ' + /*req.body.user_id*/'1' +', "' + req.body.pet_name + '", ' + req.body.category + ', ' + req.body.neutered + ', ' + req.body.age_years + ', ' + req.body.age_months + ', "' + req.body.short_content + '", "' + req.body.content + '", ' + /*req.body.profile_img_url + '"'*/ '"/images/repo/ronald.jpg"';
   sqlitebasics.insertone("pet", querytemp)
     
-  console.log('after insert');
-  insertedPetId = maxrowID; //Change this by reading from database
-  res.redirect('/pets/'+insertedPetId); // send a message for success/error
 
-  
   err = false;
   if (err){
     res.status(500).json({

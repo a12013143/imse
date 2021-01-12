@@ -1,7 +1,6 @@
 var express = require('express');
 const connection = require('../config/connection');
 const sqlitebasics = require('../config/sqlitebasics');
-var article = require('../models/article.js');
 var router = express.Router();
 var _article = require('../models/article.js')
 
@@ -93,27 +92,29 @@ router.get('/', function(req, res) {
     condition.keyword = req.query.keyword;
   }
 
-  // Get pets by query data
-  var categories = [];
-  sqlitebasics.selectall("article_cat" , function(data) {
-    categories = data;
-    console.log('Article page categories');
-    console.log(data);
-    renderHtmlAfterCategoriesLoad();
-  }, condition);
 
-  // Get pets by query data
-  function renderHtmlAfterCategoriesLoad(){
-    console.log('renderHtmlAfterCategoriesLoad');
-    _article.selectall("article" , function(data) {
-      articles = data;
-      console.log('Article page articles');
-      console.log(data);
-      var header_image = "/images/repo/ronald.jpg";
-      res.render('articles', { title: 'Articles' ,articles,categories,condition,header_image,user});
-    }, condition);
-  }
-});
+   // Get pets by query data
+   var categories = [];
+   sqlitebasics.selectall("article_cat" , function(data) {
+     categories = data;
+     console.log('Article page categories');
+     console.log(data);
+     renderHtmlAfterCategoriesLoad();
+   }, condition);
+   
+ 
+   // Get pets by query data
+   function renderHtmlAfterCategoriesLoad(){
+     console.log('renderHtmlAfterCategoriesLoad');
+     sqlitebasics.selectall("article" , function(data) {
+       articles = data;
+       console.log('Article page articles');
+       console.log(data);
+       var header_image = "/images/repo/ronald.jpg";
+       res.render('articles', { title: 'Articles' ,articles,categories,condition,header_image,user});
+     }, condition);
+   }
+ });
 
 router.get('/:articleId', function(req, res) {
 
