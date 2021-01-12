@@ -3,54 +3,8 @@ const connection = require('../config/connection');
 const sqlitebasics = require('../config/sqlitebasics');
 var router = express.Router();
 var _article = require('../models/article.js')
+var _adoption = require('../models/adoption.js')
 
-
-
-
-
-
-// hardcoded user data
-var user = {
-  id: 1,
-  name: "Grese Hyseni",
-  email:"hysenigrese@gmail.com",
-  password: "hashvalue",
-  phone:"06763949302",
-  address:"Vienna, Austria",
-  profile_img_url: "/images/repo/user.png"
-};
-
-//hardcoded adoption data
-//hardcoded data
-user.adoptions =[{
-  id: 1,
-  pet_id: 3,
-  pet: {
-    id: 3,
-    pet_name: "Roko",
-    profile_img_url: "/images/repo/roko.png"},
-  user_id: 2,
-  user : {
-    id: 2,
-    name: "Hannah Poor",
-    profile_img_url:"/images/repo/user.png"},
-  status: "Initiated",
-  message: "I would like to adopt this lovely pet."
-},{
-  id: 2,
-  pet_id: 2,
-  pet: {
-    id: 3,
-    pet_name: "Ron",  
-    profile_img_url: "/images/repo/ronald.jpg"},
-  user_id: 3,
-  user : {
-    id: 3,
-    name: "User User",
-    profile_img_url:"/images/repo/user.jpg"},
-  status: "In progress",
-  message: "Hi, I am interested to adopt this pet."
-}];
 
 
 /** GET */
@@ -59,23 +13,42 @@ router.get('/', function(req, res) {
   console.log('req.query pets get');
   console.log(req.query);
 
-  var condition = {};
-  if(req.query.category){
-    condition.category = req.query.category;
+  var categories = [];
+  var userID = req.query.userId;
+  if(!userID){
+    userID=1;
   }
-  if(req.query.keyword){
-    condition.keyword = req.query.keyword;
-  }
-
-   // Get pets by query data
-   var categories = [];
-   sqlitebasics.selectall("article_cat" , function(data) {
-     categories = data;
-     console.log('Article page categories');
-     console.log(data);
-     renderHtmlAfterCategoriesLoad();
-   }, condition);
-   
+  var user = {ID:userID}
+  sqlitebasics.selectone("user",userID, function(data) {
+    user = data[0];
+    console.log('user');
+    console.log(user);
+    condition={userID};    
+    _adoption.selectall("adoption",condition, function(data) {
+      user.adoptions = data;
+      user.show_adoptions = user.adoptions.slice(0,3);
+      console.log('show_adoptions');
+      console.log(user.show_adoptions);      
+      
+      var condition = {};
+      if(req.query.category){
+        condition.category = req.query.category;
+      }
+      if(req.query.keyword){
+        condition.keyword = req.query.keyword;
+      }
+    
+       // Get categories
+       var categories = [];
+       sqlitebasics.selectall("article_cat" , function(data) {
+         categories = data;
+         console.log('Article page categories');
+         console.log(data);
+         renderHtmlAfterCategoriesLoad();
+       }, condition);
+          
+    });
+  });
  
    // Get pets by query data
    function renderHtmlAfterCategoriesLoad(){
@@ -95,20 +68,33 @@ router.get('/:articleId', function(req, res) {
 
   console.log('req.session articles get by articleid');
   console.log(req.session);
+  var categories = [];
   var userID = req.query.userId;
   if(!userID){
     userID=1;
   }
-  user = {ID:userID}
-
-     // Get pets by query data
-  var categories = [];
-  sqlitebasics.selectall("article_cat" , function(data) {
-    categories = data;
-    console.log('Article page categories');
-    console.log(data);
-    renderHtmlAfterCategoriesLoad();
-  }, {});
+  var user = {ID:userID}
+  sqlitebasics.selectone("user",userID, function(data) {
+    user = data[0];
+    console.log('user');
+    console.log(user);
+    condition={userID};    
+    _adoption.selectall("adoption",condition, function(data) {
+      user.adoptions = data;
+      user.show_adoptions = user.adoptions.slice(0,3);
+      console.log('show_adoptions');
+      console.log(user.show_adoptions);      
+      
+      // Get categories;
+      sqlitebasics.selectall("article_cat" , function(data) {
+        categories = data;
+        console.log('Articles page categories');
+        console.log(data);
+        renderHtmlAfterCategoriesLoad();
+      }, {});
+          
+    });
+  });
   
   function renderHtmlAfterCategoriesLoad(){
     var articleId = req.params.articleId;

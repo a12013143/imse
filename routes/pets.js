@@ -2,6 +2,7 @@ var express = require('express');
 const sqlitebasics = require('../config/sqlitebasics');
 var router = express.Router();
 var _pet = require('../models/pet.js');
+var _adoption = require('../models/adoption.js');
 
 
 // hardcoded user data
@@ -53,22 +54,39 @@ router.get('/', function(req, res) {
   console.log('req.query pets get');
   console.log(req.query);
 
-  var condition = {};
-  if(req.query.category){
-    condition.category = req.query.category;
+  var categories = [];  
+  var userID = req.query.userId;
+  if(!userID){
+    userID=1;
   }
-  if(req.query.keyword){
-    condition.keyword = req.query.keyword;
-  }
-
-  // Get pets by query data
-  var categories = [];
-  sqlitebasics.selectall("pet_category" , function(data) {
-    categories = data;
-    console.log('Pets page categories');
-    console.log(data);
-    renderHtmlAfterCategoriesLoad();
-  }, condition);
+  var user = {ID:userID}
+  sqlitebasics.selectone("user",userID, function(data) {
+    user = data[0];
+    console.log('user');
+    console.log(user);
+    condition={userID};    
+    _adoption.selectall("adoption",condition, function(data) {
+      user.adoptions = data;
+      user.show_adoptions = user.adoptions.slice(0,3);
+      console.log('show_adoptions');
+      console.log(user.show_adoptions);      
+      
+      // Get categories
+      var condition = {};
+      if(req.query.category){
+        condition.category = req.query.category;
+      }
+      if(req.query.keyword){
+        condition.keyword = req.query.keyword;
+      }
+      sqlitebasics.selectall("pet_category" , function(data) {
+        categories = data;
+        console.log('Pets page categories');
+        console.log(data);
+        renderHtmlAfterCategoriesLoad();
+      }, condition);          
+    });
+  });
 
   // Get pets by query data
   function renderHtmlAfterCategoriesLoad(){
@@ -86,21 +104,33 @@ router.get('/', function(req, res) {
 router.get('/:petId', function(req, res) {
   console.log('Get pets get by petid');
   console.log(req.session);
+  var categories = [];
   var userID = req.query.userId;
   if(!userID){
     userID=1;
   }
-  user = {ID:userID}
-
-  // Get pets by query data
-  var categories = [];
-  sqlitebasics.selectall("pet_category" , function(data) {
-    categories = data;
-    console.log('Pets page categories');
-    console.log(data);
-    renderHtmlAfterCategoriesLoad();
-  }, {});
-
+  var user = {ID:userID}
+  sqlitebasics.selectone("user",userID, function(data) {
+    user = data[0];
+    console.log('user');
+    console.log(user);
+    condition={userID};    
+    _adoption.selectall("adoption",condition, function(data) {
+      user.adoptions = data;
+      user.show_adoptions = user.adoptions.slice(0,3);
+      console.log('show_adoptions');
+      console.log(user.show_adoptions);      
+      
+      // Get categories;
+      sqlitebasics.selectall("pet_category" , function(data) {
+        categories = data;
+        console.log('Pets page categories');
+        console.log(data);
+        renderHtmlAfterCategoriesLoad();
+      }, {});
+          
+    });
+  });
 
   function renderHtmlAfterCategoriesLoad(){
     var petId = req.params.petId;

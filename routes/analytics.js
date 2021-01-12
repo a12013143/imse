@@ -1,91 +1,46 @@
 var express = require('express');
 var router = express.Router();
-//var analytic = require('../models/analytic.js');
+var sqlitebasics = require('../config/sqlitebasics.js');
+var _adoption = require('../models/adoption.js');
 
+// //hardcoded data
+// analytics =[{
+//   id: 1,
+//   url:'/articles/1',
+//   user_id:2,
+//   time:30,
+//   created_on: "5 Jan 2021"
+// },{
+//     id: 1,
+//     url:'/analytics/1',
+//     time:60,
+//     user_id:2,
+//     created_on: "5 Jan 2021"
+// }];
 
-// hardcoded user data
-var user = {
-  id: 1,
-  name: "Grese Hyseni",
-  email:"hysenigrese@gmail.com",
-  password: "hashvalue",
-  phone:"06763949302",
-  address:"Vienna, Austria",
-  profile_img_url: "/images/repo/user.png"
-};
+// //hardcoded data
+// analyticsAggregated =[{
+//   id: 1,
+//   url:'/articles/1',// groupby page
+//   page_id:1, // this is extracted from url
+//   article:{title:"Article Title"},
+//   type: 'article', // this is extracted from url
+//   visits:3 ,  // count ids 
+//   visitors:2, // count user_ids for page
+//   time:30, //sum for page
+//   created_on: "5 Jan 2021"
+// },{
+//   id: 1,
+//   url:'/articles/1',
+//   page_id:1, // this is extracted from url
+//   article:{title:"Article Title"},
+//   type: 'article', // this is extracted from url
+//   visits:3 ,  // count ids 
+//   visitors:2, // count user_ids for page
+//   time:30,
+//   created_on: "5 Jan 2021"
+// }];
 
-//hardcoded data
-analytics =[{
-  id: 1,
-  url:'/articles/1',
-  user_id:2,
-  time:30,
-  created_on: "5 Jan 2021"
-},{
-    id: 1,
-    url:'/pets/1',
-    time:60,
-    user_id:2,
-    created_on: "5 Jan 2021"
-}];
-
-//hardcoded data
-analyticsAggregated =[{
-  id: 1,
-  url:'/articles/1',// groupby page
-  page_id:1, // this is extracted from url
-  article:{title:"Article Title"},
-  type: 'article', // this is extracted from url
-  visits:3 ,  // count ids 
-  visitors:2, // count user_ids for page
-  time:30, //sum for page
-  created_on: "5 Jan 2021"
-},{
-  id: 1,
-  url:'/articles/1',
-  page_id:1, // this is extracted from url
-  article:{title:"Article Title"},
-  type: 'article', // this is extracted from url
-  visits:3 ,  // count ids 
-  visitors:2, // count user_ids for page
-  time:30,
-  created_on: "5 Jan 2021"
-}];
-
-
-
-
-//hardcoded adoption data
-//hardcoded data
-user.adoptions =[{
-  id: 1,
-  pet_id: 3,
-  pet: {
-    id: 3,
-    pet_name: "Roko",
-    profile_img_url: "/images/repo/roko.png"},
-  user_id: 2,
-  user : {
-    id: 2,
-    name: "Hannah Poor",
-    profile_img_url:"/images/repo/user.png"},
-  status: "Initiated",
-  message: "I would like to adopt this lovely pet."
-},{
-  id: 2,
-  pet_id: 2,
-  pet: {
-    id: 3,
-    pet_name: "Ron",  
-    profile_img_url: "/images/repo/ronald.jpg"},
-  user_id: 3,
-  user : {
-    id: 3,
-    name: "User User",
-    profile_img_url:"/images/repo/user.jpg"},
-  status: "In progress",
-  message: "Hi, I am interested to adopt this pet."
-}];
 
 
 /*# GET */
@@ -94,37 +49,45 @@ router.get('/', function(req, res) {
   console.log('req.query analytics get');
   console.log(req.query);
 
-  // Get pets by query data
+  // Get analytics by query data
+  var userID = req.query.userId;
+  if(!userID){
+    userID=1;
+  }
+  var user = {ID:userID}
+  sqlitebasics.selectone("user",userID, function(data) {
+    user = data[0];
+    console.log('user');
+    console.log(user);
+    condition={userID};    
+    _adoption.selectall("adoption",condition, function(data) {
+      user.adoptions = data;
+      user.show_adoptions = user.adoptions.slice(0,3);
+      console.log('show_adoptions');
+      console.log(user.show_adoptions);      
+      
+      renderHtmlAfterLoad();
+    });
+  });
 
-  // analytic.selectAll(function(data) {
-  //   var hbsObj = { analytics: data };
-  //   console.log('Analytics page');
-  //   res.render('analytics', { title: 'Analytics' ,hbsObj});
-  // });
+  function renderHtmlAfterLoad(){
+    console.log('renderHtmlAfterLoad');
+    sqlitebasics.selectall("analytics" , function(data) {
+      analytics = data;
+      console.log('Analytics page articles');
+      console.log(data);
+      var header_image = "/images/repo/petcare-large.jpg";
+      res.render('analytics', { title: 'Analytics' ,analytics,header_image,user});
+    }, condition);
+  }
   
-  var header_image = "/images/repo/petcare-large.jpg";
-  var analytics = analyticsAggregated;
-  res.render('analytics', { title: 'Analytics' ,analytics,header_image,user});
+  
 });
 
 /*# GET One*/
-//Not used
+// Redirect to all
 router.get('/:analyticId', function(req, res) {
-  // analytic.selectAll(function(data) {
-  //   var hbsObj = { analytics: data };
-  //   console.log('Analytics page');
-  //   res.render('analytics', { title: 'Analytics' ,hbsObj});
-  // });
-
-  var analyticId = req.params.analyticId;
-  err = false;
-  if (err){
-    res.status(500).json({
-      'message': 'Internal Error.'
-    });
-  } else {
-    res.status(200).json(analyticId);
-  }
+  res.redirect('/analytics');
 });
 
 /** POST */
