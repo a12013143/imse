@@ -1,5 +1,5 @@
     <!-- Modal Adoption -->
-    {{#if pet.ID }}
+    {{#gt pet.ID 0 }}
     <div class="modal fade" id="adoptionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -58,7 +58,7 @@
         </div>
       </div>
     </div>
-    {{/if}}
+    {{/gt}}
     
     <!-- Page content -->
     <div class="container mt--6">
@@ -72,7 +72,6 @@
             </div>
           {{!-- </div> --}}
       </div>
-
       <div class="row">
         {{#gt pet.ID 0}}
         <div class="col-xl-4 order-xl-2">
@@ -83,10 +82,10 @@
               <div class="row">
                 <div class="col">
                   <div class="card-profile-stats d-flex justify-content-center">
-                    <div>
+                    {{!-- <div>
                       <p class="heading">{{pet.favourites}}</p>
                       <p class="description">Likes</p>
-                    </div>
+                    </div> --}}
                     <div>
                       <p class="heading">{{pet.applications}}</p>
                       <p class="description">Current applications</p>
@@ -112,8 +111,7 @@
             </div>
           </div>
         </div>
-        {{/gt}}
-        
+        {{/gt}}        
         <div class="col-xl-8 order-xl-1">
           <div class="card">
           <div class="tab-content">
@@ -129,11 +127,11 @@
                       <h3 class="mb-0">{{#eq pet.ID 0}}Fill profile info{{/eq}}{{#gt pet.ID 0}}Edit profile{{/gt}} </h3>
                     </div>
                     <div class="col-4 text-right">
-                      {{#if pet.name}}<input id="pet-id" name="id" type="hidden" value="{{pet.ID}}">{{/if}}
+                       {{#gt pet.ID 0}}<input id="pet-id" name="id" type="hidden" value="{{pet.ID}}">{{/gt}}
                       {{!-- <input type="checkbox" class="form-control-input" id="input-publish"/> --}}
                       {{!-- <label class="form-control-label" for="input-publish">Publish</label> --}}
                       <button type="submit" class="btn btn-primary">Save</button>
-                      <button id="delete" class="btn">Delete Pet</button>
+                      {{#gt pet.ID 0}} <button id="delete" class="btn">Delete Pet</button>{{/gt}}
                     </div>
                   </div>
                 </div>
@@ -231,7 +229,7 @@
               </div>
             </div>
           </div>
-          {{#if pet.ID}}
+          {{#gt pet.ID 0}}
           <ul class="nav nav-tabs-code py-3" id="alerts-tab" role="tablist">
             <li class="nav-item">
               <a class="nav-link" id="alerts-edit-tab" data-toggle="tab" href="#edit" role="tab" aria-controls="alerts-edit" aria-selected="false">Edit</a>
@@ -240,7 +238,7 @@
               <a class="nav-link active" id="alerts-view-tab" data-toggle="tab" href="#view" role="tab" aria-controls="alerts-view" aria-selected="true">View</a>
             </li>
           </ul>
-          {{/if}}
+          {{/gt}}
           </div>
         </div>
       </div>

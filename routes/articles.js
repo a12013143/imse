@@ -90,38 +90,52 @@ router.get('/', function(req, res) {
    }
  });
 
+ /* GET by articleId*/
 router.get('/:articleId', function(req, res) {
 
   console.log('req.session articles get by articleid');
   console.log(req.session);
-  
-  var articleId = req.params.articleId;
-  let temp = articleId;
-  if(articleId == "new"){
-    article = {ID:0, name :"New article",profile_img_url:"/images/pawprint-blue.png"};
-    var header_image = article.profile_img_url;
-    res.render('article', { title: article.name ,article, header_image,user});
-  }else{
-    _article.selectone(temp, function(data) {
-      article = data[0];
-       console.log('article---');
-       console.log(article);
+  var userId = req.query.userId;
+  user = {ID:userId}
 
-       if (data.err){
-        res.status(500).json({
-          'message': 'Internal Error.'
-        });
-      } else {
-        var header_image = '/images/petcare-large.jpg';
-        var title = 'Pet not found';
-         if(article){
-           header_image = pet.profile_img_url;
-           title = article.name;
-         }
-        res.render('pet', { title: title,article,header_image,user});
-       
-      }
-     });
+     // Get pets by query data
+  var categories = [];
+  sqlitebasics.selectall("article_cat" , function(data) {
+    categories = data;
+    console.log('Article page categories');
+    console.log(data);
+    renderHtmlAfterCategoriesLoad();
+  }, {});
+  
+  function renderHtmlAfterCategoriesLoad(){
+    var articleId = req.params.articleId;
+    let temp = articleId;
+    if(articleId == "new"){
+      article = {ID:0, name :"New article",profile_img_url:"/images/pawprint-blue.png"};
+      var header_image = article.profile_img_url;
+      res.render('article', { title: article.name ,categories, article, header_image,user});
+    }else{
+      _article.selectone(temp, function(data) {
+        article = data[0];
+        console.log('article---');
+        console.log(article);
+
+        if (data.err){
+          res.status(500).json({
+            'message': 'Internal Error.'
+          });
+        } else {
+          var header_image = '/images/petcare-large.jpg';
+          var title = 'Pet not found';
+          if(article){
+            header_image = article.profile_img_url;
+            title = article.name;
+          }
+          res.render('article', { title: title, categories, article,header_image,user});
+        
+        }
+      });
+    }
   }
  
 });

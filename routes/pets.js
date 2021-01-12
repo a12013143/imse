@@ -85,7 +85,7 @@ router.get('/', function(req, res) {
 
 router.get('/:petId', function(req, res) {
   console.log('Get pets get by petid');
-  console.log(req.query);
+  console.log(req.session);
   var userId = req.query.userId;
   user = {ID:userId}
 
