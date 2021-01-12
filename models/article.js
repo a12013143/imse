@@ -27,7 +27,6 @@ const article = {
 
   today = mm + '/' + dd + '/' + yyyy;
   callback(today);
-
   },
 
   

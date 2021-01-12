@@ -5,6 +5,19 @@ const db = connection.db;
 
 const pet = {
 
+  getmaxid: function(callback) {
+    let queryforID = 'SELECT MAX(ID) AS ID FROM pet;';
+    console.log(queryforID);
+    db.all(queryforID, [], (err, rows) => {
+      if(err) {
+        console.log(err);
+        return err;
+      }
+      callback(rows);
+    });
+  },
+
+
   selectall: function(table, callback, condition) {
     let queryString = 'SELECT * FROM ' + table + ' WHERE 0=0';    
     var whereClause = ''; 

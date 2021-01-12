@@ -29,7 +29,7 @@ const sqlitebasics = {
         return err;
       }
       console.log("DB insertion.");
-      callback(err);
+      callback("DB insertion.");
     });
   },
 

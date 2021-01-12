@@ -95,8 +95,11 @@ router.get('/:articleId', function(req, res) {
 
   console.log('req.session articles get by articleid');
   console.log(req.session);
-  var userId = req.query.userId;
-  user = {ID:userId}
+  var userID = req.query.userId;
+  if(!userID){
+    userID=1;
+  }
+  user = {ID:userID}
 
      // Get pets by query data
   var categories = [];
@@ -144,40 +147,44 @@ router.get('/:articleId', function(req, res) {
 /** POST */
 router.post('/', function(req, res) {
 
-  console.log('req.body articles posttttt');
+  console.log('req.body articles post');
   console.log(req.body);
 
   let maxrowID = 0;
-
-  let date = "0";
-  _article.getdate(function(data) {
-    date = data;
-  });
-
   _article.getmaxid(function(data) {
-    console.log(data);
-    console.log(maxrowID);
     maxrowID = data[0].ID + 1;
-    console.log(maxrowID);
-    let querytemp = '(' + maxrowID + ', "' + req.body.name +'", "' + req.body.author + '", "' + req.body.content + '", ' + /*req.body.user_id*/ '1' + ', "' + date + '", ' + 'null' + ', "' + req.body.category + '", "' + req.body.short_content + '"';
-    sqlitebasics.insertone("article", querytemp)
 
-    console.log('after insert');
-    insertedArticleId = maxrowID; //Change this by reading from database
-    res.redirect('/articles/'+insertedArticleId); // send a message for success/error
-  });
+    var vals = req.body;
+    var keys = Object.keys(req.body);
+    var i =0;
+    keys.forEach(function(key){;
+      var str = ['name','author','short_desc','description','profile_img_url'];
+        if(!vals[key] && !str.includes(key) ){
+          vals[key] = 'null';
+        }
+    }) 
 
-  err = false;
-  if (err){
-    res.status(500).json({
-      'message': 'Internal Error.'
+    //7, "Article Title", "Author Name", "'+desc1+'","'+short_desc1+'", 1, "01/11/2021", "01/11/2021", 1, "'+imgurl+'"
+    let querytemp = '(' + maxrowID + ', "' + vals.name +'", "' + vals.author + '", "' + vals.description + '", "' + vals.short_desc + '", ' + vals.userID + ', "' + vals.created_at + '", "' + vals.updated_at+ '", '  + vals.categoryID + ', ' + /*req.body.profile_img_url + '"'*/ '"/images/repo/petcare-large.jpg"';
+    console.log('querytemp')
+    console.log(querytemp)
+    sqlitebasics.insertone("article" , querytemp, function(data) {
+      categories = data;
+      console.log('sqlitebasics.insertone');
+      console.log(data);
+  
+      if (data){
+        res.status(200).json(data);
+      } else {      
+        res.status(500).json({
+          'message': 'Internal Error.'
+        });
+      }
     });
-  } else {
-    res.status(200).json(insertedArticleId);
-  }
+  });
 });
 
-/** PUT */
+
 /** PUT */
 router.put('/:articleId', function(req, res) {
 

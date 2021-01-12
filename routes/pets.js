@@ -86,8 +86,11 @@ router.get('/', function(req, res) {
 router.get('/:petId', function(req, res) {
   console.log('Get pets get by petid');
   console.log(req.session);
-  var userId = req.query.userId;
-  user = {ID:userId}
+  var userID = req.query.userId;
+  if(!userID){
+    userID=1;
+  }
+  user = {ID:userID}
 
   // Get pets by query data
   var categories = [];
@@ -136,32 +139,44 @@ router.get('/:petId', function(req, res) {
 router.post('/', function(req, res) {
   console.log('req.body pets post');
   console.log(req.body);
+  
   let maxrowID = 0;
   _pet.getmaxid(function(data){
     maxrowID = (data[0].ID) + 1;
-    let querytemp = '(' + maxrowID + ', ' + /*req.body.user_id*/'1' +', "' + req.body.pet_name + '", ' + req.body.category + ', ' + req.body.neutered + ', ' + req.body.age_years + ', ' + req.body.age_months + ', "' + req.body.short_content + '", "' + req.body.content + '", ' + /*req.body.profile_img_url + '"'*/ '"/images/repo/ronald.jpg"';
-    sqlitebasics.insertone("pet", querytemp, function(data) {
-      console.log(data);
+    
+    var vals = req.body;
+    var keys = Object.keys(req.body);
+    var i =0;
+    keys.forEach(function(key){
+      var str = ['name','address','short_desc','description','profile_img_url'];
+        if(!vals[key] && !str.includes(key) ){
+          vals[key] = 'null';
+        }
     }) 
-    console.log('after insert');
-    insertedPetId = maxrowID; //Change this by reading from database
-    res.redirect('/pets/'+insertedPetId); // send a message for success/error
+
+    let querytemp = '(' + maxrowID + ', ' + vals.userID +', "' + vals.name + '","' + vals.address + '", ' + vals.categoryID + ', ' + vals.neutered + ', ' + vals.age_year + ', ' + vals.age_month + ', "' + vals.short_desc + '", "' + vals.description + '","' + vals.created_at + '","' + vals.updated_at + '", ' + /*req.body.profile_img_url + '"'*/ '"/images/repo/ronald.jpg"';
+    console.log('querytemp')
+    console.log(querytemp)
+    sqlitebasics.insertone("pet" , querytemp, function(data) {
+      categories = data;
+      console.log('sqlitebasics.insertone');
+      console.log(data);
+  
+      if (data){
+        res.status(200).json(data);
+      } else {      
+        res.status(500).json({
+          'message': 'Internal Error.'
+        });
+      }
+    });
+
   });
 
   // Move this to model
-  let querytemp = '(' + maxrowID + ', ' + /*req.body.user_id*/'1' +', "' + req.body.pet_name + '", ' + req.body.category + ', ' + req.body.neutered + ', ' + req.body.age_years + ', ' + req.body.age_months + ', "' + req.body.short_content + '", "' + req.body.content + '", ' + /*req.body.profile_img_url + '"'*/ '"/images/repo/ronald.jpg"';
-  sqlitebasics.insertone("pet", querytemp)
-    
-
-  err = false;
-  if (err){
-    res.status(500).json({
-      'message': 'Internal Error.'
-    });
-  } else {
-    res.status(200).json(insertedPetId);
-  }
-
+  // let querytemp = '(' + maxrowID + ', ' + /*req.body.user_id*/'1' +', "' + req.body.pet_name + '", ' + req.body.category + ', ' + req.body.neutered + ', ' + req.body.age_years + ', ' + req.body.age_months + ', "' + req.body.short_content + '", "' + req.body.content + '", ' + /*req.body.profile_img_url + '"'*/ '"/images/repo/ronald.jpg"';
+  // sqlitebasics.insertone("pet", querytemp)
+  
 });
 
 /** PUT */

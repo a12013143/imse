@@ -128,6 +128,7 @@
                     </div>
                     <div class="col-4 text-right">
                        {{#gt pet.ID 0}}<input id="pet-id" name="ID" type="hidden" value="{{pet.ID}}">{{/gt}}
+                        {{#if user.ID}}<input id="user-id" name="userID" type="hidden" value="{{user.ID}}">{{/if}}
                       {{!-- <input type="checkbox" class="form-control-input" id="input-publish"/> --}}
                       {{!-- <label class="form-control-label" for="input-publish">Publish</label> --}}
                       <button type="submit" class="btn btn-primary">Save</button>
@@ -142,7 +143,7 @@
                         <div class="col-lg-6">
                           <div class="form-group">
                             <label class="form-control-label" for="input-name">Name</label>
-                            <input type="text" id="input-name" name="name" class="form-control" placeholder="Name" value="{{pet.name}}">
+                            <input required type="text" id="input-name" name="name" class="form-control" placeholder="Name" value="{{pet.name}}">
                           </div>
                         </div>
                         <div class="col-lg-6">
