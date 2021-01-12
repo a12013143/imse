@@ -47,7 +47,7 @@
                     </div>
                     <div class="col-4 text-right">
                       {{#gt article.ID 0}}<input id="article-id" name="ID" type="hidden" value="{{article.ID}}">{{/gt}}
-                      {{#if user.ID}}<input id="user-id" name="userID" type="hidden" value="{{user.ID}}">{{/if}}
+                     <input id="user-id" name="userID" type="hidden" value="{{#gt article.ID 0}}{{article.userID}}{{/gt}}{{#eq article.ID 0}}{{user.ID}}{{/eq}}">
                       {{!-- <input type="checkbox" class="form-control-input" name="publish" id="input-publish"/> --}}
                       {{!-- <label class="form-control-label" for="input-publish">Publish</label> --}}
                       <button type="submit" class="btn btn-primary">Save</button>

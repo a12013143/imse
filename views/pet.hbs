@@ -68,11 +68,13 @@
               <h1 class="font-weight-bold text-white">{{title}}</h1>         
             </div>
             </div>
+            {{#gt pet.ID 0}}
              <div class="col">
             <div class="py-3">
               <button id="apply-for-adoption" class="btn btn-neutral" data-toggle="modal" data-target="#adoptionModal">Apply for adoption</button>          
             </div>
           </div>
+          {{/gt}}
       </div>
       <div class="row">
         {{#gt pet.ID 0}}
@@ -106,7 +108,7 @@
                 <p class="h5 font-weight-300">
                   <i class="ni location_pin mr-2"></i>{{pet.address}}
                 </p>
-                <p data-userid = "{{pet.userID}}" class="h5 mt-4">
+                <p data-userid = "{{pet.ownerID}}" class="h5 mt-4">
                   <i class="ni business_briefcase-24 mr-2"></i>{{pet.owner}}
                 </p>
               </div>
@@ -130,7 +132,7 @@
                     </div>
                     <div class="col-4 text-right">
                        {{#gt pet.ID 0}}<input id="pet-id" name="ID" type="hidden" value="{{pet.ID}}">{{/gt}}
-                        {{#if user.ID}}<input id="user-id" name="userID" type="hidden" value="{{user.ID}}">{{/if}}
+                        <input id="user-id" name="ownerID" type="hidden" value="{{#gt pet.ID 0}}{{pet.ownerID}}{{/gt}}{{#eq pet.ID 0}}{{user.ID}}{{/eq}}">
                       {{!-- <input type="checkbox" class="form-control-input" id="input-publish"/> --}}
                       {{!-- <label class="form-control-label" for="input-publish">Publish</label> --}}
                       <button type="submit" class="btn btn-primary">Save</button>
