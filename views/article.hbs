@@ -7,29 +7,29 @@
         </div>
       </div>
       <div class="row">
-        {{#if article.ID }}
+        {{#gt article.ID 0}}
         <div class="col-xl-12 order-xl-1">
-          <div class="card card-profile shadow-none mb- d-block">
-            {{!-- <img src="{{article.profile_img_url}}" alt="Image placeholder" class="card-img-top" > --}}
+          <div class="card card-profile shadow-none mb- d-block text-center pt-4">
+            <img src="{{article.profile_img_url}}" alt="Image placeholder" class="card-img-top" style="max-width:100%; width:auto; max-height:550px;" >
    
             <div class="card-body pb-0">
               <div class="row">
-                <div class="col-6">
+                <div class="col-6 text-left">
                     <p class="">
                         <span class="description"><i class="ni calendar mr-2"></i>{{article.author}} ,</span> 
-                        <span class="description"><i class="ni calendar mr-2"></i>{{article.edit_date}}</span>
+                        <span class="description"><i class="ni calendar mr-2"></i>{{article.updated_at}}</span>
                    </p>
                 </div>
-                <div class="col-6 pb-0 text-right">
+                {{!-- <div class="col-6 pb-0 text-right">
                     <p class=""> 
                       <span class="heading d-inline">{{article.likes}}</span>  <span class="description">Likes</span>
                     </p>
-                </div>
+                </div> --}}
               </div>
             </div>
           </div>
         </div>
-        {{/if}}
+        {{/gt}}
         <div class="col-xl-12 order-xl-1">
           <div class="card shadow-none mt-0">
           <div class="tab-content">
@@ -39,22 +39,22 @@
               <div class="alert alert-success m-4 d-none" role="alert">
               This is a success alert—check it out!
               </div>
-              <form id="{{#if pet.ID }}edit{{else}}add{{/if}}-article-form" role="form" method="{{#if pet.ID }}put{{else}}post{{/if}}" action="/articles/{{#if pet.ID }}{{pet.ID}}{{/if}}">
+              <form id="{{#if article.name }}edit{{else}}add{{/if}}-article-form" role="form" method="{{#if article.name }}put{{else}}post{{/if}}" action="/articles/{{#if article.name }}{{article.ID}}{{/if}}" enctype="multipart/form-data">
                 <div class="card-header">
                   <div class="row align-items-center">
                     <div class="col-8">
                        <h3 class="mb-0">{{#eq article.ID 0}}Fill article info{{/eq}}{{#gt article.ID 0}}Edit article{{/gt}} </h3>
                     </div>
                     <div class="col-4 text-right">
-                      {{#if article.name}}<input id="article-id" name="id" type="hidden" value="{{article.ID}}">{{/if}}
-                      <input type="checkbox" class="form-control-input" name="publish" id="input-publish"/>
-                      <label class="form-control-label" for="input-publish">Publish</label>
+                      {{#gt article.ID 0}}<input id="article-id" name="ID" type="hidden" value="{{article.ID}}">{{/gt}}
+                      {{!-- <input type="checkbox" class="form-control-input" name="publish" id="input-publish"/> --}}
+                      {{!-- <label class="form-control-label" for="input-publish">Publish</label> --}}
                       <button type="submit" class="btn btn-primary">Save</button>
+                       {{#gt article.ID 0}}<button id="delete" class="btn trash-article">Delete Article</button>{{/gt}}
                     </div>
                   </div>
                 </div>
                 <div class="card-body">
-                  <form>
                     <h6 class="heading-small text-muted mb-4">article information</h6>
                     <div class="pl-lg-4">
                       <div class="row">
@@ -73,12 +73,10 @@
                         <div class="col-lg-6">
                           <div class="form-group">
                             <label class="form-control-label" for="input-category">Category</label>
-                            <select name="category" type="text" name="category" id="input-category" class="form-control">
-                              <option value="1">General</option>
-                              <option selected value="2">Cats</option>
-                              <option selected value="2">Dogs</option>
-                              <option selected value="2">Petcare</option>
-                              <option selected value="2">Petfood</option>
+                            <select name="categoryID" type="text" id="input-category" class="form-control">
+                              {{#each categories}}
+                              <option {{#eq ../article.categoryID this.ID}} selected {{/eq}} value="{{this.ID}}">{{this.name}}</option>
+                              {{/each}}
                             </select>
                           </div>
                         </div>
@@ -96,16 +94,15 @@
                     <div class="pl-lg-4">
                       <div class="form-group">
                         <label class="form-control-label">Summary</label>
-                        <textarea name="short_content" rows="4" class="form-control" placeholder="Short summary">A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</textarea>
+                        <textarea name="short_desc" rows="4" class="form-control" placeholder="Short summary">{{article.short_desc}}</textarea>
                       </div>
                     </div>
                     <div class="pl-lg-4">
                       <div class="form-group">
                         <label class="form-control-label">Description</label>
-                        <textarea name="content" rows="4" class="form-control" placeholder="A few words about the article ...">A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</textarea>
+                        <textarea name="description" rows="4" class="form-control" placeholder="A few words about the article ...">{{article.description}}</textarea>
                       </div>
                     </div>
-                  </form>
                 </div>
               </form>
 
@@ -123,7 +120,7 @@
               </div>
             </div>
           </div>
-          {{#if article.ID}}
+          {{#gt article.ID 0}}
           <ul class="nav nav-tabs-code py-3" id="alerts-tab" role="tablist">
             <li class="nav-item">
               <a class="nav-link" id="alerts-edit-tab" data-toggle="tab" href="#edit" role="tab" aria-controls="alerts-edit" aria-selected="false">Edit</a>
@@ -132,7 +129,7 @@
               <a class="nav-link active" id="alerts-view-tab" data-toggle="tab" href="#view" role="tab" aria-controls="alerts-view" aria-selected="true">View</a>
             </li>
           </ul>
-          {{/if}}
+          {{/gt}}
           </div>
         </div>
       </div>

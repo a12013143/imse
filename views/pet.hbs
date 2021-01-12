@@ -1,5 +1,5 @@
     <!-- Modal Adoption -->
-    {{#if pet.ID }}
+    {{#gt pet.ID 0 }}
     <div class="modal fade" id="adoptionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -32,7 +32,7 @@
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label" for="input-phone">Phone</label>
-                        <input readonly type="phone" name="phone" id="input-phone" class="form-control" placeholder="Email" value="{{user.phone}}"/>
+                        <input readonly type="phone" name="phone" id="input-phone" class="form-control" placeholder="Phone" value="{{user.phone}}"/>
                       </div>
                     </div>
                     <div class="col-lg-6">
@@ -58,11 +58,10 @@
         </div>
       </div>
     </div>
-    {{/if}}
+    {{/gt}}
     
     <!-- Page content -->
     <div class="container mt--6">
-
       <div class="row col-12 mt--250">
           {{!-- <div class="col-12"> --}}
             <div class="pr-4">
@@ -73,20 +72,20 @@
             </div>
           {{!-- </div> --}}
       </div>
-
       <div class="row">
+        {{#gt pet.ID 0}}
         <div class="col-xl-4 order-xl-2">
           <div class="card card-profile">
-            {{!-- <img src="{{pet.profile_img_url}}" alt="Image placeholder" class="card-img-top"> --}}
+            <img src="{{pet.profile_img_url}}" alt="Image placeholder" class="card-img-top">
    
             <div class="card-body pt-0">
               <div class="row">
                 <div class="col">
                   <div class="card-profile-stats d-flex justify-content-center">
-                    <div>
+                    {{!-- <div>
                       <p class="heading">{{pet.favourites}}</p>
                       <p class="description">Likes</p>
-                    </div>
+                    </div> --}}
                     <div>
                       <p class="heading">{{pet.applications}}</p>
                       <p class="description">Current applications</p>
@@ -105,13 +104,14 @@
                 <p class="h5 font-weight-300">
                   <i class="ni location_pin mr-2"></i>{{pet.address}}
                 </p>
-                <p data-userid = "{{pet.ownerID}}" class="h5 mt-4">
+                <p data-userid = "{{pet.userID}}" class="h5 mt-4">
                   <i class="ni business_briefcase-24 mr-2"></i>{{pet.owner}}
                 </p>
               </div>
             </div>
           </div>
         </div>
+        {{/gt}}        
         <div class="col-xl-8 order-xl-1">
           <div class="card">
           <div class="tab-content">
@@ -120,18 +120,18 @@
               <div class="alert alert-success m-4 d-none" role="alert">
               This is a success alert—check it out!
               </div>
-              <form id="{{#if pet.ID }}edit{{else}}add{{/if}}-pet-form" role="form" method="{{#if pet.ID }}put{{else}}post{{/if}}" action="/pets/{{#if pet.ID }}{{pet.ID}}{{/if}}">
+              <form id="{{#if pet.name }}edit{{else}}add{{/if}}-pet-form" role="form" method="{{#if pet.name }}put{{else}}post{{/if}}" action="/pets/{{#if pet.name }}{{pet.ID}}{{/if}}" enctype="multipart/form-data">
                 <div class="card-header">
                   <div class="row align-items-center">
                     <div class="col-8">
                       <h3 class="mb-0">{{#eq pet.ID 0}}Fill profile info{{/eq}}{{#gt pet.ID 0}}Edit profile{{/gt}} </h3>
                     </div>
                     <div class="col-4 text-right">
-                      {{#if user.ID}}<input id="owner-id" name="id" type="hidden" value="{{user.ID}}">{{/if}}
-                      {{#if pet.name}}<input id="pet-id" name="id" type="hidden" value="{{pet.ID}}">{{/if}}
-                      <input type="checkbox" class="form-control-input" id="input-publish"/>
-                      <label class="form-control-label" for="input-publish">Publish</label>
+                       {{#gt pet.ID 0}}<input id="pet-id" name="ID" type="hidden" value="{{pet.ID}}">{{/gt}}
+                      {{!-- <input type="checkbox" class="form-control-input" id="input-publish"/> --}}
+                      {{!-- <label class="form-control-label" for="input-publish">Publish</label> --}}
                       <button type="submit" class="btn btn-primary">Save</button>
+                      {{#gt pet.ID 0}} <button id="delete" class="btn">Delete Pet</button>{{/gt}}
                     </div>
                   </div>
                 </div>
@@ -142,7 +142,7 @@
                         <div class="col-lg-6">
                           <div class="form-group">
                             <label class="form-control-label" for="input-name">Name</label>
-                            <input type="text" name="pet_name" id="input-name" class="form-control" placeholder="Name" value="{{pet.name}}">
+                            <input type="text" id="input-name" name="name" class="form-control" placeholder="Name" value="{{pet.name}}">
                           </div>
                         </div>
                         <div class="col-lg-6">
@@ -154,10 +154,10 @@
                         <div class="col-lg-6">
                           <div class="form-group">
                             <label class="form-control-label" for="input-category">Category</label>
-                            <select name="category" type="text" id="input-category" class="form-control">
-                              <option>Select category</option>
-                              <option value="1">Dog</option>
-                              <option selected value="2">Cat</option>
+                            <select name="categoryID" type="text" id="input-category" class="form-control">
+                              {{#each categories}}
+                              <option {{#eq ../pet.categoryID this.ID}} selected {{/eq}} value="{{this.ID}}">{{this.name}}</option>
+                              {{/each}}
                             </select>
                           </div>
                         </div>
@@ -165,23 +165,22 @@
                           <div class="form-group">
                             <label class="form-control-label" for="input-neutered">Neutered</label>
                             <select name="neutered" type="text" id="input-neutered" class="form-control">
-                              <option>Select category</option>
-                              <option selected value="1">Yes</option>
-                              <option value="2">No</option>
-                              <option value="3">Unknown</option>
+                              <option {{#eq pet.neutered 1}} selected {{/eq}} value="1">Yes</option>
+                              <option {{#eq pet.neutered 2}} selected {{/eq}} value="2">No</option>
+                              <option {{#eq pet.neutered 3}} selected {{/eq}} value="3">Unknown</option>
                             </select>
                           </div>
                         </div>
                         <div class="col-lg-6">
                           <div class="form-group">
                             <label class="form-control-label" for="input-age_years">Age years</label>
-                            <input type="number" name="age_years" id="input-age_years" class="form-control" placeholder="Years" value="{{pet.age_year}}">
+                            <input type="number" name="age_year" id="input-age_years" class="form-control" placeholder="Years" value="{{pet.age_year}}">
                           </div>
                         </div>
                         <div class="col-lg-6">
                           <div class="form-group">
                             <label class="form-control-label" for="input-age_months">Age months</label>
-                            <input type="number" name="age_months"id="input-age_months" class="form-control" placeholder="Months" value="{{pet.age_month}}">
+                            <input type="number" name="age_month" id="input-age_months" class="form-control" placeholder="Months" value="{{pet.age_month}}">
                           </div>
                         </div>
                       </div>
@@ -194,27 +193,7 @@
                         <div class="col-md-12">
                           <div class="form-group">
                             <label class="form-control-label" for="input-address">Address</label>
-                            <input id="input-address" class="form-control" placeholder="Home Address" value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09" type="text">
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-lg-4">
-                          <div class="form-group">
-                            <label class="form-control-label" for="input-city">City</label>
-                            <input type="text" id="input-city" class="form-control" placeholder="City" value="New York">
-                          </div>
-                        </div>
-                        <div class="col-lg-4">
-                          <div class="form-group">
-                            <label class="form-control-label" for="input-country">Country</label>
-                            <input type="text" id="input-country" class="form-control" placeholder="Country" value="United States">
-                          </div>
-                        </div>
-                        <div class="col-lg-4">
-                          <div class="form-group">
-                            <label class="form-control-label" for="input-country">Postal code</label>
-                            <input type="number" id="input-postal-code" class="form-control" placeholder="Postal code">
+                            <input id="input-address" name="address" class="form-control" placeholder="Home Address" value="{{pet.address}}" type="text">
                           </div>
                         </div>
                       </div>
@@ -225,13 +204,13 @@
                     <div class="pl-lg-4">
                       <div class="form-group">
                         <label class="form-control-label">Summary</label>
-                        <textarea name="short_content" rows="4" class="form-control" placeholder="Short summary">A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</textarea>
+                        <textarea name="short_desc" rows="4" class="form-control" placeholder="Short summary">{{pet.short_desc}}</textarea>
                       </div>
                     </div>
                     <div class="pl-lg-4">
                       <div class="form-group">
                         <label class="form-control-label">Description</label>
-                        <textarea name="content" rows="4" class="form-control" placeholder="A few words about the pet ...">A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</textarea>
+                        <textarea name="description" rows="4" class="form-control" placeholder="A few words about the pet ...">{{pet.description}}</textarea>
                       </div>
                     </div>
                 </div>
@@ -250,7 +229,7 @@
               </div>
             </div>
           </div>
-          {{#if pet.ID}}
+          {{#gt pet.ID 0}}
           <ul class="nav nav-tabs-code py-3" id="alerts-tab" role="tablist">
             <li class="nav-item">
               <a class="nav-link" id="alerts-edit-tab" data-toggle="tab" href="#edit" role="tab" aria-controls="alerts-edit" aria-selected="false">Edit</a>
@@ -259,7 +238,7 @@
               <a class="nav-link active" id="alerts-view-tab" data-toggle="tab" href="#view" role="tab" aria-controls="alerts-view" aria-selected="true">View</a>
             </li>
           </ul>
-          {{/if}}
+          {{/gt}}
           </div>
         </div>
       </div>

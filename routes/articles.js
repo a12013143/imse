@@ -20,31 +20,6 @@ var user = {
   profile_img_url: "/images/repo/user.png"
 };
 
-//hardcoded data
-articles =[{
-  id: 1,
-  title: "Tips on how to take care of your pet",
-  category_id: 2,
-  author:"Author Name",
-  short_content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-  content: "Some quick example text to build on the card title and make up the bulk of the card's content. \n Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content." ,
-  profile_img_url: "/images/repo/petcare-large.jpg",
-  likes:22,
-  created_on: "5 Jan 2021",
-  updated_on: "5 Jan 2021"
-},{
-  id: 1,
-  title: "Tips on how to take care of your pet",
-  category_id: 2,
-  author:"Author Name",
-  short_content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-  content: "Some quick example text to build on the card title and make up the bulk of the card's content. \n Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content." ,
-  profile_img_url: "/images/repo/petcare.jpg",
-  likes:22,
-  created_on: "5 Jan 2021",
-  updated_on: "5 Jan 2021"
-}];
-
 //hardcoded adoption data
 //hardcoded data
 user.adoptions =[{
@@ -78,7 +53,7 @@ user.adoptions =[{
 }];
 
 
-/*# GET */
+/** GET */
 router.get('/', function(req, res) {
 
   console.log('req.query pets get');
@@ -91,7 +66,6 @@ router.get('/', function(req, res) {
   if(req.query.keyword){
     condition.keyword = req.query.keyword;
   }
-
 
    // Get pets by query data
    var categories = [];
@@ -106,7 +80,7 @@ router.get('/', function(req, res) {
    // Get pets by query data
    function renderHtmlAfterCategoriesLoad(){
      console.log('renderHtmlAfterCategoriesLoad');
-     sqlitebasics.selectall("article" , function(data) {
+     _article.selectall("article" , function(data) {
        articles = data;
        console.log('Article page articles');
        console.log(data);
@@ -116,52 +90,61 @@ router.get('/', function(req, res) {
    }
  });
 
+ /** GET by articleId*/
 router.get('/:articleId', function(req, res) {
 
   console.log('req.session articles get by articleid');
   console.log(req.session);
+  var userId = req.query.userId;
+  user = {ID:userId}
+
+     // Get pets by query data
+  var categories = [];
+  sqlitebasics.selectall("article_cat" , function(data) {
+    categories = data;
+    console.log('Article page categories');
+    console.log(data);
+    renderHtmlAfterCategoriesLoad();
+  }, {});
   
-  var articleId = req.params.articleId;
-  let temp = articleId;
-  if(articleId == "new"){
-    article = {ID : 0,name :"New article",profile_img_url:"/images/pawprint-blue.png"};
-    var header_image = article.profile_img_url;
-    res.render('article', { title: article.name ,article, header_image,user});
-  }else{
-    _article.selectone(temp, function(data) {
-      article = data[0];
-       console.log('article---');
-       console.log(article);
-       var header_image = article.profile_img_url;
-       res.render('article', { title: article.name ,article, header_image,user});
-     });
+  function renderHtmlAfterCategoriesLoad(){
+    var articleId = req.params.articleId;
+    let temp = articleId;
+    if(articleId == "new"){
+      article = {ID:0, profile_img_url:"/images/pawprint-blue.png"};
+      var header_image = article.profile_img_url;
+      res.render('article', { title: 'Articles - New' ,categories, article, header_image,user});
+    }else{
+      _article.selectone(temp, function(data) {
+        article = data[0];
+        console.log('article---');
+        console.log(article);
+
+        if (data.err){
+          res.status(500).json({
+            'message': 'Internal Error.'
+          });
+        } else {
+          var header_image = '/images/petcare-large.jpg';
+          var title = 'Article not found';
+          if(article){
+            header_image = article.profile_img_url;
+            title = article.name;
+          }
+          res.render('article', { title: title, categories, article,header_image,user});
+        
+        }
+      });
+    }
   }
  
 });
 
-/*
-router.get('/:articleId', function(req, res) {
-   article.selectAll(function(data) {
-     var hbsObj = { articles: data };
-     console.log('Articles page');
-     res.render('articles', { title: 'Articles' ,hbsObj});
-   });
-
-  var articleId = req.params.articleId;
-  if(articleId == "new"){
-    article = {id : 0,article_name :"New article",profile_img_url:"/images/pawprint-blue.png"};
-  }else{
-    article = articles[articleId-1];
-    console.log(article);
-  }
-  var header_image = article.profile_img_url;
-  res.render('article', { title: article.title ,article, header_image,user});
-});*/
 
 /** POST */
 router.post('/', function(req, res) {
 
-  console.log('req.body articles post');
+  console.log('req.body articles posttttt');
   console.log(req.body);
 
   let maxrowID = 0;
@@ -184,20 +167,6 @@ router.post('/', function(req, res) {
     res.redirect('/articles/'+insertedArticleId); // send a message for success/error
   });
 
-
-
-
-
-  // article.insertOne(
-  //   ['article_name', 'category_id'],
-  //   [req.body.article_name, false],
-  //   function() {
-  //     console.log('in callback');
-  //     res.redirect('/articles');
-  //   }
-  // );
-
-
   err = false;
   if (err){
     res.status(500).json({
@@ -209,42 +178,52 @@ router.post('/', function(req, res) {
 });
 
 /** PUT */
-router.put('/:id', function(req, res) {
+/** PUT */
+router.put('/:articleId', function(req, res) {
 
   console.log('req.body articles put');
   console.log(req.body);
-  console.log('req.params.id');
-  console.log(req.params.id);
 
-  var articleId = req.params.id;
-  var condition = 'id = ' + articleId;
+  var articleId = req.body.ID;
+  var condition = 'ID = ' + articleId;
 
-  // article.updateOne(req.body, condition, function() {
-  //   res.redirect('/articles/'+articleId); // send a message for success/error
-  // });
+  var columns = Object.keys(req.body);
+  var values = Object.values(req.body);
 
-  err = false;
-  if (err){
-    res.status(500).json({
-      'message': 'Internal Error.'
-    });
-  } else {
-    res.status(200).json(articleId);
-  }
+  sqlitebasics.updateone("article" , columns, values, condition, function(data) {
+    categories = data;
+    console.log('sqlitebasics.updateone');
+    console.log(data);
+
+    if (data){
+      res.status(200).json(data);
+    } else {      
+      res.status(500).json({
+        'message': 'Internal Error.'
+      });
+    }
+  });
 
 });
 
 /** DELETE */
-router.delete('/delete/:id', function(req, res) {
-  let petId = req.params.petId;
-  let condition = 'ID = ' + petId;
+router.delete('/:id', function(req, res) {
+  let petId = req.params.id;
+  let condition = 'ID = ' + articleId;
 
-  sqlitebasics.delete("pet", condition, function(data) {
+  console.log('Delete article');
+  sqlitebasics.delete("article", condition, function(data){
+    
     console.log(data);
-  });
-  res.redirect('/pets'); // send a message for success/error
+    if (data.err){
+      res.status(500).json({
+        'message': 'Internal Error.'
+      });
+    } else {
+      res.status(200).json(data);
+    }
+  })
  
-
 });
 
 

@@ -16,76 +16,6 @@ var user = {
 };
 
 //hardcoded data
-pets =[{
-  id: 1,
-  user_id :1, pet_name: "Harry",
-  category_id: 2,
-  age_years:1,
-  age_months:0,
-  neutered:true,
-  address:"Vienna, Austria",
-  short_content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-  content: "Some quick example text to build on the card title and make up the bulk of the card's content. \n Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content." ,
-  profile_img_url: "/images/repo/harry.jpg",
-  favourites:22,  // This is extraacted joined with favourites table!!
-  applications:1
-},{
-  id: 2,
-  user_id :1, pet_name: "Ron",
-  category_id: 2,
-  age_years:1,
-  age_months:0,
-  neutered:true,
-  address:"Vienna, Austria",
-  owner:"Grese Hyseni",
-  owner_id:2,
-  short_content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-  content: "Some quick example text to build on the card title and make up the bulk of the card's content. \n Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content." ,
-  profile_img_url: "/images/repo/ronald.jpg",
-  likes:22,
-  applications:1
-},{
-  id: 3,
-  user_id :1, pet_name: "Hermione",
-  category_id: 2,
-  age_years:1,
-  age_months:0,
-  neutered:true,
-  address:"Vienna, Austria",
-  short_content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-  content: "Some quick example text to build on the card title and make up the bulk of the card's content. \n Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content." ,
-  profile_img_url: "/images/repo/hermione.jpg",
-  likes:22,
-  applications:1
-},{
-  id: 4,
-  user_id :1, pet_name: "Dobby",
-  category_id: 2,
-  age_years:1,
-  age_months:0,
-  neutered:true,
-  address:"Vienna, Austria",
-  short_content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-  content: "Some quick example text to build on the card title and make up the bulk of the card's content. \n Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content." ,
-  profile_img_url: "/images/repo/dobby2.jpg",
-  likes:22,
-  applications:1
-},{
-  id: 5,
-  user_id :1, pet_name: "Roko",
-  category_id: 2,
-  age_years:1,
-  age_months:0,
-  neutered:true,
-  address:"Vienna, Austria",
-  short_content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
-  content: "Some quick example text to build on the card title and make up the bulk of the card's content. \n Some quick example text to build on the card title and make up the bulk of the card's content. Some quick example text to build on the card title and make up the bulk of the card's content." ,
-  profile_img_url: "/images/repo/roko.jpg",
-  likes:22,
-  applications:1
-}];
-
-//hardcoded data
 user.adoptions =[{
   id: 1,
   pet_id: 3,
@@ -117,8 +47,7 @@ user.adoptions =[{
 }];
 
 
-
-/*# GET */
+/** GET */
 router.get('/', function(req, res) {
 
   console.log('req.query pets get');
@@ -143,7 +72,7 @@ router.get('/', function(req, res) {
 
   // Get pets by query data
   function renderHtmlAfterCategoriesLoad(){
-    sqlitebasics.selectall("pet" , function(data) {
+    _pet.selectall("pet" , function(data) {
       pets = data;
       console.log('Pets page pets');
       console.log(data);
@@ -153,37 +82,61 @@ router.get('/', function(req, res) {
   }
 });
 
+/** GET by petID */
 router.get('/:petId', function(req, res) {
-  console.log('req.session pets get by petid');
+  console.log('Get pets get by petid');
   console.log(req.session);
-
   var userId = req.query.userId;
   user = {ID:userId}
-  var petId = req.params.petId;
-  let temp = petId;
-  if(petId == "new"){
-    pet = {ID : 0,pet_name :"New pet",profile_img_url:"/images/pawprint-blue.png"};
-    var header_image = pet.profile_img_url;
-    res.render('pet', { title: 'Pets'+pet.name,pet,header_image,user});
-  }else{
-    //pet = pets[petId-1];
-    _pet.selectone(temp, function(data) {
-      pet = data[0];
-       console.log('pet---');
-       console.log(pet);
-       var header_image = pet.profile_img_url;
-       res.render('pet', { title: 'Pets'+pet.name,pet,header_image,user});
-     });
+
+  // Get pets by query data
+  var categories = [];
+  sqlitebasics.selectall("pet_category" , function(data) {
+    categories = data;
+    console.log('Pets page categories');
+    console.log(data);
+    renderHtmlAfterCategoriesLoad();
+  }, {});
+
+
+  function renderHtmlAfterCategoriesLoad(){
+    var petId = req.params.petId;
+    let temp = petId;
+    if(petId == "new"){
+      pet = {ID : 0, profile_img_url:"/images/pawprint-blue.png"};
+      var header_image = pet.profile_img_url;
+      res.render('pet', { title: 'Pets - New',categories,pet,header_image,user});
+    }else{
+      //pet = pets[petId-1];
+      _pet.selectone(temp, function(data) {
+        pet = data[0];
+        console.log('pet---');
+        console.log(pet);
+        if (data.err){
+          res.status(500).json({
+            'message': 'Internal Error.'
+          });
+        } else {
+          var header_image = '/images/petcare-large.jpg';
+          var title = 'Pet not found';
+          if(pet){
+            header_image = pet.profile_img_url;
+            title = 'Pets - '+pet.name;
+          }
+          res.render('pet', { title: title,pet,categories,header_image,user});
+        }
+        
+      });
+    }
   }
  
 });
 
 /** POST */
 router.post('/', function(req, res) {
-
   console.log('req.body pets post');
   console.log(req.body);
-let maxrowID = 0;
+  let maxrowID = 0;
   _pet.getmaxid(function(data){
     maxrowID = (data[0].ID) + 1;
     let querytemp = '(' + maxrowID + ', ' + /*req.body.user_id*/'1' +', "' + req.body.pet_name + '", ' + req.body.category + ', ' + req.body.neutered + ', ' + req.body.age_years + ', ' + req.body.age_months + ', "' + req.body.short_content + '", "' + req.body.content + '", ' + /*req.body.profile_img_url + '"'*/ '"/images/repo/ronald.jpg"';
@@ -195,18 +148,11 @@ let maxrowID = 0;
     res.redirect('/pets/'+insertedPetId); // send a message for success/error
   });
 
-
-
-  //    ['pet_name', 'category_id'],
-  //    [req.body.pet_name, false],
-  //    function() {
-  //      console.log('in callback');
-  //      res.redirect('/pets');
-  //    }
+  // Move this to model
+  let querytemp = '(' + maxrowID + ', ' + /*req.body.user_id*/'1' +', "' + req.body.pet_name + '", ' + req.body.category + ', ' + req.body.neutered + ', ' + req.body.age_years + ', ' + req.body.age_months + ', "' + req.body.short_content + '", "' + req.body.content + '", ' + /*req.body.profile_img_url + '"'*/ '"/images/repo/ronald.jpg"';
+  sqlitebasics.insertone("pet", querytemp)
     
- 
 
-  
   err = false;
   if (err){
     res.status(500).json({
@@ -219,36 +165,50 @@ let maxrowID = 0;
 });
 
 /** PUT */
-router.put('/:id', function(req, res) {
+router.put('/:petId', function(req, res) {
 
   console.log('req.body pets put');
   console.log(req.body);
-  console.log('req.params.id');
-  console.log(req.params.id)
 
-  var petId = req.params.id;
-  var condition = 'id = ' + petId;
+  var petId = req.body.ID;
+  var condition = 'ID = ' + petId;
 
-  err = false;
-  if (err){
-    res.status(500).json({
-      'message': 'Internal Error.'
-    });
-  } else {
-    res.status(200).json(petId);
-  }
+  var columns = Object.keys(req.body);
+  var values = Object.values(req.body);
+
+  sqlitebasics.updateone("pet" , columns, values, condition, function(data) {
+    categories = data;
+    console.log('sqlitebasics.updateone');
+    console.log(data);
+
+    if (data){
+      res.status(200).json(data);
+    } else {      
+      res.status(500).json({
+        'message': 'Internal Error.'
+      });
+    }
+  });
 
 });
 
 /** DELETE */
-router.delete('/delete/:id', function(req, res) {
-  let petId = req.params.petId;
+router.delete('/:id', function(req, res) {
+  let petId = req.params.id;
   let condition = 'ID = ' + petId;
 
+  console.log('Delete pet');
   sqlitebasics.delete("pet", condition, function(data){
+    
     console.log(data);
-  });
-  res.redirect('/pets'); // send a message for success/error
+    if (data.err){
+      res.status(500).json({
+        'message': 'Internal Error.'
+      });
+    } else {
+      res.status(200).json(data);
+    }
+  })
  
 });
 
