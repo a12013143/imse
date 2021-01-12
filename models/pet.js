@@ -76,67 +76,15 @@ const pet = {
     });
   },
 
-  // Stats
-  stats: function(param, callback, condition) {
+  // Analytics
+  analytics: function(param, callback, condition) {
 
     let queryString = 
-    'WITH counts as ( SELECT p.ID petID,' +
-    '      CASE' +
-    '           WHEN pc.name="Cats" and a.status="Approved"' +
-    '               THEN 1' +
-    '      END adoptedCats,' +
-    '      CASE' +
-    '           WHEN pc.name="Dogs" and a.status="Approved"' +
-    '               THEN 1' +
-    '      END adoptedDogs,' +
-    '      CASE' +
-    '           WHEN pc.name <> "Dogs" and pc.name <> "Cats" and a.status="Approved"' +
-    '               THEN 1' +
-    '      END adoptedOther,' +
-    '      CASE' +
-    '           WHEN pc.name="Cats" and a.status<>"Approved"' +
-    '               THEN 1' +
-    '      END availableCats,' +
-    '      CASE' +
-    '           WHEN pc.name="Dogs" and a.status<>"Approved"' +
-    '               THEN 1' +
-    '      END availableDogs,' +
-    '      CASE' +
-    '      WHEN pc.name <> "Dogs" and pc.name <> "Cats" and a.status="Approved"' +
-    '          THEN 1' +
-    ' END availableOther' +
-    ' FROM pet p'+
-    ' LEFT JOIN pet_category pc on p.categoryID=pc.ID'+
-    ' LEFT JOIN adoption a on p.ID = a.petID' +
-    ' GROUP BY' +
-    '  CASE' +
-    '      WHEN pc.name="Cats" and a.status="Approved"' +
-    '          THEN 1' +
-    '      END , ' +
-    '      CASE' +
-    '           WHEN pc.name="Dogs" and a.status="Approved"' +
-    '               THEN 1' +
-    '      END ,' +
-    '      CASE' +
-    '           WHEN pc.name <> "Dogs" and pc.name <> "cat" and a.status="Approved"' +
-    '               THEN 1' +
-    '      END ,' +
-    '      CASE' +
-    '           WHEN pc.name="Cats" and a.status<>"Approved"' +
-    '               THEN 1' +
-    '      END ,' +
-    '      CASE' +
-    '           WHEN pc.name="Dogs" and a.status<>"Approved"' +
-    '               THEN 1' +
-    '      END ,' +
-    '      CASE' +
-    '           WHEN pc.name <> "Dogs" and pc.name <> "Cats" and a.status="Approved"' +
-    '               THEN 1' +
-    '      END )' +
-    ' SELECT sum(counts.adoptedCats) adoptedCats, sum(counts.adoptedDogs) adoptedDogs, sum(counts.adoptedOther) adoptedOther, '+
-    ' sum(counts.availableCats) availableCats, sum(counts.availableDogs) availableDogs, sum(counts.availableOther) availableOther '+
-    ' FROM pet p left join counts on counts.petID = p.id ' +
-    ' WHERE 0 = 0';
+    'SELECT count(a.id) adoptions, count(DISTINCT ua.ID) adopters, count(f.id) favourite, count(DISTINCT uf.ID) fans, a.status, = from pet p '+
+    ' LEFT JOIN adoption adopted on a.petID = p.ID" '+
+    ' LEFT JOIN favourite f on f.petID = p.ID '+
+    ' LEFT JOIN user ua on ua.ID = a.userID'+
+    ' LEFT JOIN user uf on uf.ID = f.userID WHERE 0=0 ';
 
     var whereClause = '';
     
@@ -170,6 +118,101 @@ const pet = {
       callback(rows);
     });
   },
+
+    // Stats
+    stats: function(param, callback, condition) {
+
+      let queryString = 
+      'WITH counts as ( SELECT p.ID petID,' +
+      '      CASE' +
+      '           WHEN pc.name="Cats" and a.status="Approved"' +
+      '               THEN 1' +
+      '      END adoptedCats,' +
+      '      CASE' +
+      '           WHEN pc.name="Dogs" and a.status="Approved"' +
+      '               THEN 1' +
+      '      END adoptedDogs,' +
+      '      CASE' +
+      '           WHEN pc.name <> "Dogs" and pc.name <> "Cats" and a.status="Approved"' +
+      '               THEN 1' +
+      '      END adoptedOther,' +
+      '      CASE' +
+      '           WHEN pc.name="Cats" and a.status<>"Approved"' +
+      '               THEN 1' +
+      '      END availableCats,' +
+      '      CASE' +
+      '           WHEN pc.name="Dogs" and a.status<>"Approved"' +
+      '               THEN 1' +
+      '      END availableDogs,' +
+      '      CASE' +
+      '      WHEN pc.name <> "Dogs" and pc.name <> "Cats" and a.status="Approved"' +
+      '          THEN 1' +
+      ' END availableOther' +
+      ' FROM pet p'+
+      ' LEFT JOIN pet_category pc on p.categoryID=pc.ID'+
+      ' LEFT JOIN adoption a on p.ID = a.petID' +
+      ' GROUP BY' +
+      '  CASE' +
+      '      WHEN pc.name="Cats" and a.status="Approved"' +
+      '          THEN 1' +
+      '      END , ' +
+      '      CASE' +
+      '           WHEN pc.name="Dogs" and a.status="Approved"' +
+      '               THEN 1' +
+      '      END ,' +
+      '      CASE' +
+      '           WHEN pc.name <> "Dogs" and pc.name <> "cat" and a.status="Approved"' +
+      '               THEN 1' +
+      '      END ,' +
+      '      CASE' +
+      '           WHEN pc.name="Cats" and a.status<>"Approved"' +
+      '               THEN 1' +
+      '      END ,' +
+      '      CASE' +
+      '           WHEN pc.name="Dogs" and a.status<>"Approved"' +
+      '               THEN 1' +
+      '      END ,' +
+      '      CASE' +
+      '           WHEN pc.name <> "Dogs" and pc.name <> "Cats" and a.status="Approved"' +
+      '               THEN 1' +
+      '      END )' +
+      ' SELECT sum(counts.adoptedCats) adoptedCats, sum(counts.adoptedDogs) adoptedDogs, sum(counts.adoptedOther) adoptedOther, '+
+      ' sum(counts.availableCats) availableCats, sum(counts.availableDogs) availableDogs, sum(counts.availableOther) availableOther '+
+      ' FROM pet p left join counts on counts.petID = p.id ' +
+      ' WHERE 0 = 0';
+  
+      var whereClause = '';
+      
+      if(condition){
+        if(condition.keyword){
+          console.log('keyword')
+          var keyword = '%'+condition.keyword+'%';
+          whereClause+= ' AND (p.name LIKE "'+keyword+'" OR p.short_desc LIKE "' + keyword +'" OR p.description LIKE "' + keyword+'")';
+        }
+        if(condition.category){
+          whereClause+= ' AND p.categoryID = '+condition.category;
+        }
+        if(condition.neutered){
+          whereClause+= ' AND p.neutered = '+condition.neutered;
+        }
+        if(condition.adoption_status){
+          whereClause+= ' AND a.status = '+condition.adoption_status;
+        }
+      }
+      
+      queryString+=whereClause+';'
+      //console.log(queryString);
+  
+      db.all(queryString, [], (err, rows) => {
+        if(err) {
+          console.log(err);
+          return err;
+        }
+        console.log(queryString);
+        console.log("DB pet analytics query.");
+        callback(rows);
+      });
+    },
 
   // Pet Analytics
   analytics: function(param, callback, condition) {

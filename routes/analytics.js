@@ -44,8 +44,6 @@ router.get('/', function(req, res) {
       condition.end_date = req.query.end_date;
     }
 
-    console.log(condition)
-
     _analytics.selectGrouped("analytics" ,condition, function(data) {
       analytics = data;
       console.log('Analytics page analytics');

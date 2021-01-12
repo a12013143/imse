@@ -104,6 +104,7 @@ router.get('/', function(req, res) {
 
 /** GET by petID */
 router.get('/:petId', function(req, res) {
+
   console.log('Get pets get by petid');
   console.log(req.session);
   var categories = [];
@@ -263,6 +264,62 @@ router.delete('/:id', function(req, res) {
 });
 
 
+// /** GET Pet Analytics */
+// router.get('/analytics', function(req, res) {
+
+//   console.log('req.query pets get');
+//   console.log(req.query);
+
+//   var categories = [];  
+//   var userID = req.query.userId;
+//   if(!userID){
+//     userID=1;
+//   }
+//   var user = {ID:userID}
+//   sqlitebasics.selectone("user",userID, function(data) {
+//     user = data[0];
+//     console.log('user');
+//     console.log(user);
+//     condition={userID};    
+//     _adoption.selectall("adoption",condition, function(data) {
+//       if(user && data){
+//         user.adoptions = data;
+//         user.show_adoptions = user.adoptions.slice(0,3);
+//         console.log('show_adoptions');
+//         console.log(user.show_adoptions);
+//       }      
+      
+//       // Get categories
+//       var condition = {};
+//       if(req.query.category){
+//         condition.category = req.query.category;
+//       }
+//       if(req.query.neutered){
+//         condition.neutered = req.query.neutered;
+//       }
+//       if(req.query.keyword){
+//         condition.keyword = req.query.keyword;
+//       }
+//       sqlitebasics.selectall("pet_category" , function(data) {
+//         categories = data;
+//         console.log('Pets page categories');
+//         console.log(data);
+//         renderHtmlAfterCategoriesLoad();
+//       }, condition);          
+//     });
+//   });
+
+//   // Get pets by query data
+//   function renderHtmlAfterCategoriesLoad(){
+//     _pet.analytics("pet" , function(data) {
+//       pets = data;
+//       console.log('Pet analytics page analytics');
+//       console.log(data);
+//       var header_image = "/images/repo/petcare-large.jpg";
+//       res.render('petsanalytics', { title: 'Pets analytics' ,pets,categories,condition,header_image,user});
+//     }, condition);
+//   }
+// });
 
 module.exports = router;
 
