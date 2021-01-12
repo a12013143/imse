@@ -63,7 +63,7 @@ const article = {
 
 
   selectone: function(param, callback){
-    let queryString = 'SELECT * FROM(SELECT * FROM article WHERE ID = ' + param + ')INNER JOIN(SELECT profile_img_url FROM user WHERE ID = (SELECT userID from article WHERE ID = '+ param +'));';
+    let queryString = 'SELECT * FROM article WHERE ID = ' + param + ';';
     console.log(queryString);
     db.all(queryString, [], (err, rows) => {
       if(err) {

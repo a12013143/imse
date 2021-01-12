@@ -44,13 +44,16 @@ const sqlitebasics = {
       }
     }
     queryString = queryString + ' WHERE ' + condition + ';'
-
+    console.log('sqlitebasics.updateoneee');
     console.log(queryString);
+
     db.run(queryString, err => {
       if (err) {
+        console.log('err');
         console.log(err);
         return err;
       }
+      callback('Update success');
     });
     
   },

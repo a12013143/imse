@@ -9,12 +9,12 @@
       <div class="row">
         {{#gt article.ID 0}}
         <div class="col-xl-12 order-xl-1">
-          <div class="card card-profile shadow-none mb- d-block">
-            {{!-- <img src="{{article.profile_img_url}}" alt="Image placeholder" class="card-img-top" > --}}
+          <div class="card card-profile shadow-none mb- d-block text-center pt-4">
+            <img src="{{article.profile_img_url}}" alt="Image placeholder" class="card-img-top" style="max-width:100%; width:auto; max-height:550px;" >
    
             <div class="card-body pb-0">
               <div class="row">
-                <div class="col-6">
+                <div class="col-6 text-left">
                     <p class="">
                         <span class="description"><i class="ni calendar mr-2"></i>{{article.author}} ,</span> 
                         <span class="description"><i class="ni calendar mr-2"></i>{{article.updated_at}}</span>
