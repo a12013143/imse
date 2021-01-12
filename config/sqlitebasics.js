@@ -8,7 +8,7 @@ const db = connection.db;
 
 const sqlitebasics = {
   selectall: function(table, callback) {
-    let queryString = 'SELECT * FROM ' + table + ';';
+    let queryString = 'SELECT * FROM ' + table + ' ORDER BY ID DESC;';
     console.log(queryString);
     db.all(queryString, [], (err, rows) => {
       if(err) {

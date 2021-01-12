@@ -28,7 +28,7 @@ const adoption = {
         queryString += ' AND p.ownerID = '+condition.userID ;
       }
     }
-    queryString +=';';
+    queryString +=' ORDER BY ID DESC;';
     console.log(queryString);
     db.all(queryString, [], (err, rows) => {
       if(err) {

@@ -31,7 +31,7 @@ const pet = {
         whereClause+= ' AND categoryID = '+condition.category;
       }
     }
-    queryString+=whereClause+';'
+    queryString+=whereClause+' ORDER BY ID DESC;'
     console.log(queryString);
 
     db.all(queryString, [], (err, rows) => {

@@ -48,7 +48,7 @@ const article = {
       }
     }
 
-    queryString+=whereClause+';'
+    queryString+=whereClause+' ORDER BY ID DESC;'
     console.log(queryString);
     db.all(queryString, [], (err, rows) => {
       if(err) {
