@@ -59,36 +59,38 @@ router.get('/', function(req, res, next) {
   console.log('req.query pets get');
   console.log(req.query);
 
-
   var userID = req.query.userId;
   if(!userID){
     userID=1;
   }
-  user = {ID:userID}
+  var user = {ID:userID}
   sqlitebasics.selectone("user",userID, function(data) {
     user = data[0];
-    //console.log(pets);
-    renderHtmlAfterStatsLoad();
+    console.log('user');
+    console.log(user);
+    condition={userID};    
+    _adoption.selectall("adoption",condition, function(data) {
+      adoptions = data;
+      show_adoptions = adoptions.slice(0,3);
+      user.show_adoptions = show_adoptions;
+      console.log('show_adoptions');
+      console.log(user.show_adoptions);
+      renderHtmlAfterUserLoad();
+    });
   });
 
   //Get pet statistics
-  // var stats = {};
-  // _pet.stats("pet", function(data) {
-  //   stats = data;
-  //   console.log('Home page stats');
-  //   console.log(data);
-  //   renderHtmlAfterStatsLoad(res,stats);
-  // }, condition);
+  var stats = {};
 
   // Get pets by query data
-  function renderHtmlAfterStatsLoad(r){
+  function renderHtmlAfterUserLoad(r){
     sqlitebasics.selectall("pet", function(data) {
       pets = data;
       pets=pets.slice(0,3);
       console.log('Pets page');
       //console.log(pets);
       var header_image = "/images/repo/petcare-large.jpg";
-      res.render('index', { title: 'FosterPet - Home ' ,pets,stats,header_image,user});
+      res.render('index', { title: 'FosterPet - Home ' ,pets, stats,header_image,user});
     });
 }
 

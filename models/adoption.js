@@ -19,7 +19,9 @@ const adoption = {
 
   // select filtered
   selectall: function(table, condition, callback) {
-    let queryString = 'SELECT * FROM ' + table + ' t LEFT JOIN pet p on p.id = t.petID LEFT JOIN user u on p.ownerID = u.ID left join user u2 on u2.id = t.userID WHERE 0=0';    
+    console.log('_asoption.selectall')
+    let queryString = 'SELECT t.*,p.*,u2.*, u.name ownerName, p.name petName  FROM ' + table +
+     ' t LEFT JOIN pet p on p.id = t.petID LEFT JOIN user u on p.ownerID = u.ID left join user u2 on u2.id = t.userID WHERE 0=0';    
     var whereClause = ''; 
     if(condition){
       if(condition.userID){

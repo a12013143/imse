@@ -125,16 +125,17 @@
               <div class="dropdown-menu dropdown-menu-xl  dropdown-menu-right  py-0 overflow-hidden">
                 <!-- List group -->
                 <div class="list-group list-group-flush">
-                  {{#each user.adoptions}}
+                  {{#each user.show_adoptions}}
                   <a href="#!" class="list-group-item list-group-item-action">
                     <div class="row align-items-center">
                       <div class="col ml--2">
                         <div class="d-flex justify-content-between align-items-center">
                           <div>
-                            <h4 class="mb-0 text-sm">{{this.user.name}}</h4>
+                            <h4 class="mb-0 text-sm">{{this.name}}</h4>
+                            <h6>Adoption request for {{this.petName}}</h6>
                           </div>
                           <div class="text-right text-muted">
-                            <small>{{this.created_at}}</small>
+                            <small>Date: {{this.created_at}}</small>
                           </div>
                         </div>
                         <p class="text-sm mb-0">{{this.message}}</p>

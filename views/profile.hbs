@@ -29,7 +29,7 @@
         <div class="col-xl-9 order-xl-1">
           <div class="card shadow-none mt-0">
           <div class="tab-content">
-            <div id="edit" class="tab-pane tab-example-result fade {{#eq show_adoptions undefined }}active show{{/eq}}" role="tabpanel" aria-labelledby="alerts-edit-tab">
+            <div id="edit" class="tab-pane tab-example-result fade {{#eq user.show_adoptions undefined }}active show{{/eq}}" role="tabpanel" aria-labelledby="alerts-edit-tab">
 
                <!-- Alerts -->
               <div class="alert alert-success m-4 d-none" role="alert">
@@ -100,7 +100,7 @@
               </form>
 
             </div>
-            <div id="adoption-requests" class="tab-pane fade {{#eq show_adoptions '1'}}active show{{/eq}}" role="tabpanel" aria-labelledby="alerts-adoption-requests-tab">
+            <div id="adoption-requests" class="tab-pane fade {{#eq user.show_adoptions '1'}}active show{{/eq}}" role="tabpanel" aria-labelledby="alerts-adoption-requests-tab">
               <div class="card-header">
                    <h3 class="mb-0">Adoption requests</h3>            
               </div>

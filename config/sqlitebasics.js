@@ -21,8 +21,8 @@ const sqlitebasics = {
   },
 
   selectone: function(table, id, callback) {
-    let queryString = 'SELECT * FROM ' + table + ' WHERE 0 =0 ';
-    if(id){
+    let queryString = 'SELECT * FROM ' + table + ' WHERE 0 = 0 ';
+    if(id!=''){
       queryString+= " AND ID ="+id;
     }
     queryString+= ";";
