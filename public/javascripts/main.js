@@ -9,6 +9,7 @@
             insertInitialData();
         }
 
+
         //------------General functions------//
         //serialize data function
         function objectifyForm($form) {
@@ -380,7 +381,10 @@
             },2000);
         }
 
-         $('#analytics-table').DataTable();
+         $('#analytics-table').DataTable(function(){
+             //Style
+            $('.dataTables_wrapper input').addClass('form-control');
+         });
 
     });
 // });
