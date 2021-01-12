@@ -58,7 +58,6 @@ const pet = {
     console.log(queryString);
     db.all(queryString, [], (err, rows) => {
       if(err) {
-        console.log(err);
         return err;
       }
       console.log(queryString);

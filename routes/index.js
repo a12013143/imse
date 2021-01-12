@@ -54,7 +54,6 @@ user.adoptions =[{
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  var pets3 = pets.slice(0,3);
 
   console.log('req.query pets get');
   console.log(req.query);
@@ -107,6 +106,16 @@ router.get('/profile/:userId', function(req, res, next) {
   console.log('show_adoptions');
   console.log(show_adoptions);
   res.render('profile', {title:user.name,user,show_adoptions});
+}); 
+
+
+
+/* Insert initial data*/
+router.post('/initialInsert', function(req, res, next) {
+  console.log('Insert initial data');
+  sqlitebasics.initialInsert("", function(data) {
+    res.status(200).json(data);
+  });
 }); 
 
 

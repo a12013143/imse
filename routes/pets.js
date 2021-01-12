@@ -171,8 +171,20 @@ router.get('/:petId', function(req, res) {
       pet = data[0];
        console.log('pet---');
        console.log(pet);
-       var header_image = pet.profile_img_url;
-       res.render('pet', { title: 'Pets'+pet.name,pet,header_image,user});
+       if (data.err){
+         res.status(500).json({
+           'message': 'Internal Error.'
+         });
+       } else {
+        var header_image = '/images/petcare-large.jpg';
+        var title = 'Pet not found';
+         if(pet){
+           header_image = pet.profile_img_url;
+           title = 'Pets - '+pet.name;
+         }
+        res.render('pet', { title: title,pet,header_image,user});
+       }
+       
      });
   }
  
@@ -233,12 +245,22 @@ router.put('/:id', function(req, res) {
 });
 
 /** DELETE */
-router.delete('/delete/:id', function(req, res) {
-  let petId = req.params.petId;
+router.delete('/:id', function(req, res) {
+  let petId = req.params.id;
   let condition = 'ID = ' + petId;
 
-  sqlitebasics.delete("pet", condition)
-  res.redirect('/pets'); // send a message for success/error
+  console.log('Delete pet');
+  sqlitebasics.delete("pet", condition, function(data){
+    
+    console.log(data);
+    if (data.err){
+      res.status(500).json({
+        'message': 'Internal Error.'
+      });
+    } else {
+      res.status(200).json(data);
+    }
+  })
  
 });
 

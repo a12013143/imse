@@ -11,7 +11,8 @@ const article = {
     console.log(queryforID);
     db.all(queryforID, [], (err, rows) => {
       if(err) {
-        throw err;
+        console.log(err);
+        return err;
       }
       callback(rows);
     });
@@ -66,7 +67,8 @@ const article = {
     console.log(queryString);
     db.all(queryString, [], (err, rows) => {
       if(err) {
-        throw err;
+        console.log(err);
+        return err;
       }
       console.log(queryString);
       console.log("DB select one query (pet).");

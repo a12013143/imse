@@ -12,6 +12,7 @@
               <div class="form-group col-lg-5 col-11">
                 <input type="text" class="form-control" name="keyword" id="input-keyword" placeholder="Keyword" value="{{condition.keyword}}">
               </div>
+              {{#if categories}}
               <div class="form-group col-lg-5 col-11">
                 <select class="form-control" id="input-category" name="category">
                   <option id="0">{{this.ID}}</option>
@@ -20,6 +21,7 @@
                   {{/each}}
                 </select>
               </div>
+              {{/if}}
               <div class="form-group col-lg-1 col-1">
                 <button type="Submit" class="btn btn-primary">Filter</button>
               </div>
@@ -34,9 +36,9 @@
             <div class="col-xl-4 col-md-6">
               <div class="card">
                 <!-- Card body -->
-                {{!-- <div class="card-img-250" style="background-image:url('{{this.profile_img_url}}')"> --}}
+                <div class="card-img-250" style="background-image:url('{{this.profile_img_url}}')">
                   {{!-- <img class="card-img-top" src="{{this.profile_img_url}}" alt="{{this.pet_name}}"> --}}
-                {{!-- </div> --}}
+                </div>
                 <div class="card-body">
                   <h5 class="card-title">{{this.name}}</h5>
                   <p class="card-text">{{this.short_desc}}</p>

@@ -75,9 +75,10 @@
       </div>
 
       <div class="row">
+        {{#gt pet.ID 0}}
         <div class="col-xl-4 order-xl-2">
           <div class="card card-profile">
-            {{!-- <img src="{{pet.profile_img_url}}" alt="Image placeholder" class="card-img-top"> --}}
+            <img src="{{pet.profile_img_url}}" alt="Image placeholder" class="card-img-top">
    
             <div class="card-body pt-0">
               <div class="row">
@@ -105,13 +106,14 @@
                 <p class="h5 font-weight-300">
                   <i class="ni location_pin mr-2"></i>{{pet.address}}
                 </p>
-                <p data-userid = "{{pet.ownerID}}" class="h5 mt-4">
+                <p data-userid = "{{pet.userID}}" class="h5 mt-4">
                   <i class="ni business_briefcase-24 mr-2"></i>{{pet.owner}}
                 </p>
               </div>
             </div>
           </div>
         </div>
+        {{/gt}}
         <div class="col-xl-8 order-xl-1">
           <div class="card">
           <div class="tab-content">
@@ -127,11 +129,11 @@
                       <h3 class="mb-0">{{#eq pet.ID 0}}Fill profile info{{/eq}}{{#gt pet.ID 0}}Edit profile{{/gt}} </h3>
                     </div>
                     <div class="col-4 text-right">
-                      {{#if user.ID}}<input id="owner-id" name="id" type="hidden" value="{{user.ID}}">{{/if}}
                       {{#if pet.name}}<input id="pet-id" name="id" type="hidden" value="{{pet.ID}}">{{/if}}
-                      <input type="checkbox" class="form-control-input" id="input-publish"/>
-                      <label class="form-control-label" for="input-publish">Publish</label>
+                      {{!-- <input type="checkbox" class="form-control-input" id="input-publish"/> --}}
+                      {{!-- <label class="form-control-label" for="input-publish">Publish</label> --}}
                       <button type="submit" class="btn btn-primary">Save</button>
+                      <button id="delete" class="btn">Delete Pet</button>
                     </div>
                   </div>
                 </div>
@@ -142,7 +144,7 @@
                         <div class="col-lg-6">
                           <div class="form-group">
                             <label class="form-control-label" for="input-name">Name</label>
-                            <input type="text" name="pet_name" id="input-name" class="form-control" placeholder="Name" value="{{pet.name}}">
+                            <input type="text" id="input-name" class="form-control" placeholder="Name" value="{{pet.name}}">
                           </div>
                         </div>
                         <div class="col-lg-6">
@@ -175,13 +177,13 @@
                         <div class="col-lg-6">
                           <div class="form-group">
                             <label class="form-control-label" for="input-age_years">Age years</label>
-                            <input type="number" name="age_years" id="input-age_years" class="form-control" placeholder="Years" value="{{pet.age_year}}">
+                            <input type="number" id="input-age_years" class="form-control" placeholder="Years" value="{{pet.age_year}}">
                           </div>
                         </div>
                         <div class="col-lg-6">
                           <div class="form-group">
                             <label class="form-control-label" for="input-age_months">Age months</label>
-                            <input type="number" name="age_months"id="input-age_months" class="form-control" placeholder="Months" value="{{pet.age_month}}">
+                            <input type="number" id="input-age_months" class="form-control" placeholder="Months" value="{{pet.age_month}}">
                           </div>
                         </div>
                       </div>
@@ -225,7 +227,7 @@
                     <div class="pl-lg-4">
                       <div class="form-group">
                         <label class="form-control-label">Summary</label>
-                        <textarea name="short_content" rows="4" class="form-control" placeholder="Short summary">A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</textarea>
+                        <textarea name="short-content" rows="4" class="form-control" placeholder="Short summary">A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</textarea>
                       </div>
                     </div>
                     <div class="pl-lg-4">

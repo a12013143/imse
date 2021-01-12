@@ -123,7 +123,7 @@ router.get('/:articleId', function(req, res) {
   var articleId = req.params.articleId;
   let temp = articleId;
   if(articleId == "new"){
-    article = {ID : 0,name :"New article",profile_img_url:"/images/pawprint-blue.png"};
+    article = {ID:0, name :"New article",profile_img_url:"/images/pawprint-blue.png"};
     var header_image = article.profile_img_url;
     res.render('article', { title: article.name ,article, header_image,user});
   }else{
@@ -131,31 +131,26 @@ router.get('/:articleId', function(req, res) {
       article = data[0];
        console.log('article---');
        console.log(article);
-       var header_image = article.profile_img_url;
-       res.render('article', { title: article.name ,article, header_image,user});
+
+       if (data.err){
+        res.status(500).json({
+          'message': 'Internal Error.'
+        });
+      } else {
+        var header_image = '/images/petcare-large.jpg';
+        var title = 'Pet not found';
+         if(article){
+           header_image = pet.profile_img_url;
+           title = article.name;
+         }
+        res.render('pet', { title: title,article,header_image,user});
+       
+      }
      });
   }
  
 });
 
-/*
-router.get('/:articleId', function(req, res) {
-   article.selectAll(function(data) {
-     var hbsObj = { articles: data };
-     console.log('Articles page');
-     res.render('articles', { title: 'Articles' ,hbsObj});
-   });
-
-  var articleId = req.params.articleId;
-  if(articleId == "new"){
-    article = {id : 0,article_name :"New article",profile_img_url:"/images/pawprint-blue.png"};
-  }else{
-    article = articles[articleId-1];
-    console.log(article);
-  }
-  var header_image = article.profile_img_url;
-  res.render('article', { title: article.title ,article, header_image,user});
-});*/
 
 /** POST */
 router.post('/', function(req, res) {
@@ -182,20 +177,6 @@ router.post('/', function(req, res) {
     insertedArticleId = maxrowID; //Change this by reading from database
     res.redirect('/articles/'+insertedArticleId); // send a message for success/error
   });
-
-
-
-
-
-  // article.insertOne(
-  //   ['article_name', 'category_id'],
-  //   [req.body.article_name, false],
-  //   function() {
-  //     console.log('in callback');
-  //     res.redirect('/articles');
-  //   }
-  // );
-
 
   err = false;
   if (err){
@@ -234,12 +215,22 @@ router.put('/:id', function(req, res) {
 });
 
 /** DELETE */
-router.delete('/delete/:id', function(req, res) {
-  let petId = req.params.petId;
-  let condition = 'ID = ' + petId;
+router.delete('/:id', function(req, res) {
+  let petId = req.params.id;
+  let condition = 'ID = ' + articleId;
 
-  sqlitebasics.delete("pet", condition)
-  res.redirect('/pets'); // send a message for success/error
+  console.log('Delete article');
+  sqlitebasics.delete("article", condition, function(data){
+    
+    console.log(data);
+    if (data.err){
+      res.status(500).json({
+        'message': 'Internal Error.'
+      });
+    } else {
+      res.status(200).json(data);
+    }
+  })
  
 });
 

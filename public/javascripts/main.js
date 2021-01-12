@@ -95,6 +95,7 @@
         $(document).on('click', '.trash-pet', function(e) {
             e.preventDefault();
             var petId = $('#pet-id').val();
+            console.log(petId);
             $.ajax({
             url: '/pets/' + petId,
             type: 'DELETE',
@@ -343,6 +344,23 @@
             //return 'Are you sure you want to leave?'
         });
         
+
+        $('#insert-initial-data').on('click',function(){
+            $.ajax({
+                url: "/initialInsert",
+                type: "POST",
+                data: JSON.stringify({}),
+                contentType: "application/json",
+                success: function(data, status) {
+                    console.log('Inital data inserted!');
+                    console.log(data);
+                    windows.location.reload();
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        })
 
          $('#analytics-table').DataTable();
 
