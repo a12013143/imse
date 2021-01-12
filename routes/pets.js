@@ -190,7 +190,7 @@ router.post('/', function(req, res) {
         }
     }) 
 
-    let querytemp = '(' + maxrowID + ', ' + vals.userID +', "' + vals.name + '","' + vals.address + '", ' + vals.categoryID + ', ' + vals.neutered + ', ' + vals.age_year + ', ' + vals.age_month + ', "' + vals.short_desc + '", "' + vals.description + '","' + vals.created_at + '","' + vals.updated_at + '", ' + /*req.body.profile_img_url + '"'*/ '"/images/repo/ronald.jpg"';
+    let querytemp = '(' + maxrowID + ', ' + vals.ownerID +', "' + vals.name + '","' + vals.address + '", ' + vals.categoryID + ', ' + vals.neutered + ', ' + vals.age_year + ', ' + vals.age_month + ', "' + vals.short_desc + '", "' + vals.description + '","' + vals.created_at + '","' + vals.updated_at + '", ' + /*req.body.profile_img_url + '"'*/ '"/images/repo/ronald.jpg"';
     console.log('querytemp')
     console.log(querytemp)
     sqlitebasics.insertone("pet" , querytemp, function(data) {
