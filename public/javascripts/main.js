@@ -3,6 +3,12 @@
     $(document).ready(function() {
         "use strict";
 
+        // Initial
+        if($('#insert-initial-data').length){
+            console.log('Insert initial data');
+            insertInitialData();
+        }
+
         //------------General functions------//
         //serialize data function
         function objectifyForm($form) {
@@ -346,7 +352,13 @@
         });
         
 
-        $('#insert-initial-data').on('click',function(){
+        // Insert initial data if no data
+
+        // $('#insert-initial-data').on('click',function(){
+        //     insertInitialData();
+        // });
+
+        function insertInitialData(){
             $.ajax({
                 url: "/initialInsert",
                 type: "POST",
@@ -361,7 +373,11 @@
                     console.log(error);
                 }
             });
-        })
+
+            window.setTimeout(function(){
+                window.location.reload();
+            },2000);
+        }
 
          $('#analytics-table').DataTable();
 

@@ -213,12 +213,14 @@
             &copy; 2021 <a href="#" class="font-weight-bold ml-1" target="_blank">FosterPet</a>
           </div>
         </div>
+        {{#eq user.adoptions undefined}}
         <div class="col-lg-6">
-          <div class="text-center  text-lg-right  text-muted">
+          <div id="insert-initial-data" class="text-center  text-lg-right  text-muted">
               <!-- Post new pet button -->
-              <button id="insert-initial-data" class="btn btn-sm btn-neutral">Insert Dummy Data</button>
+              {{!-- <button id="insert-initial-data" class="btn btn-sm btn-neutral">Insert Dummy Data</button> --}}
           </div>
         </div>
+        {{/eq}}
       </div>
       </div>
     </footer>

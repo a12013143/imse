@@ -1,6 +1,4 @@
 // Connect to SQLite
-
-
 const sqlite3 = require("sqlite3").verbose();
 
 // const db = new sq...
@@ -30,7 +28,7 @@ sql_create3 = 'CREATE TABLE IF NOT EXISTS pet_category ( ID INT UNIQUE PRIMARY K
 sql_create4 = 'CREATE TABLE IF NOT EXISTS user ( ID INT UNIQUE PRIMARY KEY, name TEXT, email TEXT UNIQUE, phone TEXT, address TEXT, role TEXT, profile_img_url TEXT);';
 sql_create5 = 'CREATE TABLE IF NOT EXISTS favourite ( ID INT UNIQUE PRIMARY KEY, userID INT, petID INT, FOREIGN KEY(userID) REFERENCES user(ID), FOREIGN KEY(petID) REFERENCES pet(ID));';
 sql_create6 = 'CREATE TABLE IF NOT EXISTS article_cat ( ID INT UNIQUE PRIMARY KEY, name TEXT, description TEXT );';
-sql_create7 = 'CREATE TABLE IF NOT EXISTS adoption ( ID INT UNIQUE PRIMARY KEY, userID INT, petID INT, description TEXT, status TEXT, FOREIGN KEY(userID) REFERENCES user(ID), FOREIGN KEY(petID) REFERENCES pet(ID) );';
+sql_create7 = 'CREATE TABLE IF NOT EXISTS adoption ( ID INT UNIQUE PRIMARY KEY, userID INT, petID INT, description TEXT, status TEXT, created_at TEXT, updated_at TEXT, FOREIGN KEY(userID) REFERENCES user(ID), FOREIGN KEY(petID) REFERENCES pet(ID) );';
 //const sql_create8 = 'CREATE TABLE IF NOT EXISTS pet_galery ( ID INT, title TEXT, url TEXT );';
 sql_create9 = 'CREATE TABLE IF NOT EXISTS analytics ( ID INT UNIQUE PRIMARY KEY, url TEXT, userID INT, time INT, created_on TEXT );';
 
@@ -174,19 +172,19 @@ const connection = {
 
         // Adoption
         // ID, userID INT, petID INT, description TEXT, status 
-        sql_inserts.push('INSERT INTO adoption VALUES (1, 1, 1, "Description", "Approved") ; ');
-        sql_inserts.push('INSERT INTO adoption VALUES (2, 2, 2, "Description", "In Progress") ; ');
-        sql_inserts.push('INSERT INTO adoption VALUES (3, 2, 3, "Description", "Approved") ; ');
-        sql_inserts.push('INSERT INTO adoption VALUES (4, 3, 4, "Description", "") ; ');
-        sql_inserts.push('INSERT INTO adoption VALUES (5, 3, 5, "Description", "Declined") ; ');
-        sql_inserts.push('INSERT INTO adoption VALUES (7, 3, 5, "Description", "") ; ');
+        sql_inserts.push('INSERT INTO adoption VALUES (1, 1, 1, "Description", "Approved","01/11/2021", "01/11/2021") ; ');
+        sql_inserts.push('INSERT INTO adoption VALUES (2, 2, 2, "Description", "In Progress","01/11/2021", "01/11/2021") ; ');
+        sql_inserts.push('INSERT INTO adoption VALUES (3, 2, 3, "Description", "Approved","01/11/2021", "01/11/2021") ; ');
+        sql_inserts.push('INSERT INTO adoption VALUES (4, 3, 4, "Description", "Initiated","01/11/2021", "01/11/2021") ; ');
+        sql_inserts.push('INSERT INTO adoption VALUES (5, 3, 5, "Description", "Declined","01/11/2021", "01/11/2021") ; ');
+        sql_inserts.push('INSERT INTO adoption VALUES (7, 3, 5, "Description", "Initiated","01/11/2021", "01/11/2021") ; ');
         
-        sql_inserts.push('INSERT INTO adoption VALUES (8, 4, 1, "Description", "Approved") ; ');
-        sql_inserts.push('INSERT INTO adoption VALUES (9, 4, 2, "Description", "In Progress") ; ');
-        sql_inserts.push('INSERT INTO adoption VALUES (10, 4, 3, "Description", "Approved") ; ');
-        sql_inserts.push('INSERT INTO adoption VALUES (11, 5, 4, "Description", "") ; ');
-        sql_inserts.push('INSERT INTO adoption VALUES (12, 5, 5, "Description", "Declined") ; ');
-        sql_inserts.push('INSERT INTO adoption VALUES (13, 6, 5, "Description", "Approved") ; ');
+        sql_inserts.push('INSERT INTO adoption VALUES (8, 4, 1, "Description", "Approved","01/11/2021", "01/11/2021") ; ');
+        sql_inserts.push('INSERT INTO adoption VALUES (9, 4, 2, "Description", "In Progress","01/11/2021", "01/11/2021") ; ');
+        sql_inserts.push('INSERT INTO adoption VALUES (10, 4, 3, "Description", "Approved","01/11/2021", "01/11/2021") ; ');
+        sql_inserts.push('INSERT INTO adoption VALUES (11, 5, 4, "Description", "Initiated") ; ',"01/11/2021", "01/11/2021");
+        sql_inserts.push('INSERT INTO adoption VALUES (12, 5, 5, "Description", "Declined","01/11/2021", "01/11/2021") ; ');
+        sql_inserts.push('INSERT INTO adoption VALUES (13, 6, 5, "Description", "Approved","01/11/2021", "01/11/2021") ; ');
 
         // Favourite
         //ID,userID INT, petID INT,

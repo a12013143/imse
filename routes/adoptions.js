@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-//var adoption = require('../models/adoption.js');
+var _adoption = require('../models/adoption.js');
 
 const connection = require('../config/connection');
 const sqlitebasics = require('../config/sqlitebasics');
@@ -52,36 +52,11 @@ user.adoptions=adoptions;
 
 /*# GET */
 router.get('/', function(req, res) {
-  // adoption.selectAll(function(data) {
-  //   var hbsObj = { adoptions: data };
-  //   console.log('Adoptions page');
-  //   res.render('adoptions', { title: 'Adoptions' ,hbsObj});
-  // });
-  if (err){
-    res.status(500).json({
-      'message': 'Internal Error.'
-    });
-  } else {
-    res.status(200).json(adoptions);
-  }
-  
+  res.redirect('/profile?showAdoptions=1');
 });
 
 router.get('/:adoptionId', function(req, res) {
-  // adoption.selectOne(function(data) {
-  //   var hbsObj = { adoptions: data };
-  //   console.log('Adoptions page');
-  //   res.render('adoptions', { title: 'Adoptions' ,hbsObj});
-  // });
-
-  var adoption = {id:adoptionId};
-  if (err){
-    res.status(500).json({
-      'message': 'Internal Error.'
-    });
-  } else {
-    res.status(200).json(adoption);
-  }
+  res.redirect('/profile?showAdoptions=1');
 });
 
 
@@ -91,28 +66,42 @@ router.post('/', function(req, res) {
   console.log('req.body adoptions post');
   console.log(req.body);
 
-  // adoption.insertOne(
-  //   ['adoption_name', 'category_id'],
-  //   [req.body.adoption_name, false],
-  //   function() {
-  //     console.log('in callback');
-  //     res.redirect('/adoptions');
-  //   }
-  // );
+  let maxrowID = 0;
+  _adoption.getmaxid(function(data) {
+    maxrowID = data[0].ID + 1;
 
-  console.log('after insert');
-  insertedAdoptionId = 100; //Change this by reading from database
-  // res.redirect('/adoptions/'+insertedAdoptionId); // send a message for success/error
+    var vals = req.body;
+    var keys = Object.keys(req.body);
+    var i =0;
+    keys.forEach(function(key){;
+      var str = ['description','status'];
+        if(!vals[key] && !str.includes(key) ){
+          vals[key] = 'null';
+        }
+    }) 
+
+    //1, 1, 1, "Description", "Approved"
+    //ID, userID INT, petID INT, description TEXT, status TEXT, created_at, updated_at
+    let querytemp = '(' + maxrowID + ', ' + vals.userID +', ' + vals.petID + ', "' + vals.description + '", "Initiated", "' + vals.created_at + '", "' + vals.updated_at+ '"';
+    console.log('querytemp')
+    console.log(querytemp)
+    sqlitebasics.insertone("adoption" , querytemp, function(data) {
+      categories = data;
+      console.log('sqlitebasics.insertone');
+      console.log(data);
   
-  err = false;
-  if (err){
-    res.status(500).json({
-      'message': 'Internal Error.'
+      if (data){
+        res.status(200).json(data);
+      } else {      
+        res.status(500).json({
+          'message': 'Internal Error.'
+        });
+      }
     });
-  } else {
-    res.status(200).json(insertedAdoptionId);
-  }
+  });
 });
+
+
 
 /** PUT */
 router.put('/:id', function(req, res) {
