@@ -3,53 +3,6 @@ const sqlitebasics = require('../config/sqlitebasics');
 var _pet = require('../models/pet.js');
 var _adoption = require('../models/adoption.js');
 var router = express.Router();
-//var pets = require('../models/pet.js');
-
-
-// hardcoded user data
-var user = {
-  id: 1,
-  name: "Grese Hyseni",
-  email:"hysenigrese@gmail.com",
-  password: "hashvalue",
-  phone:"06763949302",
-  address:"Vienna, Austria",
-  profile_img_url: "/images/repo/user.png"
-};
-
-//hardcoded data
-user.adoptions =[{
-  id: 1,
-  pet_id: 3,
-  pet: {
-    id: 3,
-    pet_name: "Roko",
-    profile_img_url: "/images/repo/roko.jpg"},
-  user_id: 2,
-  user : {
-    id: 2,
-    name: "Hannah Poor",
-    profile_img_url:"/images/repo/user.png",
-    email:"test@gmail.com"},
-  status: "Initiated",
-  message: "I would like to adopt this lovely pet."
-},{
-  id: 2,
-  pet_id: 2,
-  pet: {
-    id: 3,
-    pet_name: "Ron",  
-    profile_img_url: "/images/repo/ronald.jpg"},
-  user_id: 3,
-  user : {
-    id: 3,
-    name: "User User",
-    profile_img_url:"/images/repo/user.png",
-    email:"test@gmail.com"},
-  status: "In progress",
-  message: "Hi, I am interested to adopt this pet."
-}];
-
 
 // -- END TEST MYSQL, delete after --------------------------------
 
@@ -70,9 +23,8 @@ router.get('/', function(req, res, next) {
     console.log(user);
     condition={userID};    
     _adoption.selectall("adoption",condition, function(data) {
-      adoptions = data;
-      show_adoptions = adoptions.slice(0,3);
-      user.show_adoptions = show_adoptions;
+      user.adoptions = data;
+      user.show_adoptions = user.adoptions.slice(0,3);
       console.log('show_adoptions');
       console.log(user.show_adoptions);
       renderHtmlAfterUserLoad();
@@ -121,19 +73,23 @@ router.get('/profile/:userId', function(req, res, next) {
   user = {ID:userID}
   sqlitebasics.selectone("user",userID, function(data) {
     user = data[0];
+    console.log('user');
     console.log(user);
     condition={userID};
     _adoption.selectall("adoption",condition, function(data) {
-      adoptions = data;
-      show_adoptions = adoptions.slice(0,3);
-      console.log(show_adoptions);
+      user.adoptions = data;
+      user.show_adoptions = user.adoptions.slice(0,3);
+      console.log('user.show_adoptions');
+      console.log(user.show_adoptions);
       renderHtmlAfterUserLoad();
     });
   });
 
 
   function renderHtmlAfterUserLoad(){
-    res.render('profile', {title:user.name,user,adoptions,show_adoptions});
+    var show_adoptions_param = req.query.showAdoptions;
+    var edit_param = req.query.edit;
+    res.render('profile', {title:user.name,user,show_adoptions_param,edit_param});
   }
   
 }); 

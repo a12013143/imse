@@ -29,7 +29,7 @@
         <div class="col-xl-9 order-xl-1">
           <div class="card shadow-none mt-0">
           <div class="tab-content">
-            <div id="edit" class="tab-pane tab-example-result fade {{#eq user.show_adoptions undefined }}active show{{/eq}}" role="tabpanel" aria-labelledby="alerts-edit-tab">
+            <div id="edit" class="tab-pane tab-example-result fade {{#if edit_param}}active show{{/if}}" role="tabpanel" aria-labelledby="alerts-edit-tab">
 
                <!-- Alerts -->
               <div class="alert alert-success m-4 d-none" role="alert">
@@ -100,7 +100,7 @@
               </form>
 
             </div>
-            <div id="adoption-requests" class="tab-pane fade {{#eq user.show_adoptions '1'}}active show{{/eq}}" role="tabpanel" aria-labelledby="alerts-adoption-requests-tab">
+            <div id="adoption-requests" class="tab-pane fade {{#if show_adoptions_param}}active show{{/if}}" role="tabpanel" aria-labelledby="alerts-adoption-requests-tab">
               <div class="card-header">
                    <h3 class="mb-0">Adoption requests</h3>            
               </div>
@@ -117,15 +117,15 @@
                         </tr>
                       </thead>
                       <tbody class="list">
-                        {{#each adoptions}}
-                        <tr data-adoption_id="{{this.id}}">
+                        {{#each user.adoptions}}
+                        <tr id="{{this.id}}" data-adoption_id="{{this.id}}">
                           <th scope="row">
                             <div class="media align-items-center">
                               <a href="#" class="avatar rounded-circle mr-3">
-                                <img alt="Image placeholder" src="{{this.profile_img_url}}">
+                                <img alt="Image placeholder" src="{{this.pet_profile_img_url}}">
                               </a>
                               <div class="media-body">
-                                <span class="name mb-0 text-sm">{{this.name}}</span>
+                                <span class="name mb-0 text-sm">{{this.petName}}</span>
                               </div>
                             </div>
                           </th>
@@ -158,7 +158,7 @@
                               <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                 <a id="update-adoption-status" data-status="Approved" class="dropdown-item" href="#">Approve</a>
                                 <a id="update-adoption-status" data-status="Declined" class="dropdown-item" href="#">Decline</a>
-                                <a class="dropdown-item" href="mailto:{{user.email}}">Contact by email</a>
+                                <a class="dropdown-item" href="mailto:{{this.email}}">Contact by email</a>
                               </div>
                             </div>
                           </td>
