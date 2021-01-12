@@ -4,29 +4,34 @@
         <div class="col-12">
           <h1 class="font-weight-bold text-white">{{title}}</h1>
           <!-- Search and filter -->
-          <form id="select-pets" method="get" action="/pets/analytics"> 
+          <form id="select-pets" method="get" action="/analytics/pets"> 
             <div class="row">
-              <div class="form-group col-lg-5 col-11">
+              <div class="form-group col-lg-3 col-11">
+                <label>Keyword</label>
                 <input type="text" class="form-control" name="keyword" id="input-keyword" placeholder="Keyword" value="{{condition.keyword}}">
               </div>
               {{#if categories}}
-              <div class="form-group col-lg-5 col-11">
+              <div class="form-group col-lg-3 col-11">
+                <label>Category</label>
                 <select class="form-control" id="input-category" name="category">
-                  <option id="0">{{this.ID}}</option>
+                  <option></option>
                   {{#each categories}}                     
                      <option  {{#eq this.ID ../condition.category}} selected {{/eq}}  value="{{this.ID}}">{{this.name}}</option>
                   {{/each}}
                 </select>
               </div>
               {{/if}}
-              <div class="form-group col-lg-5 col-11">
-                <select class="form-control" id="input-neutered" name="neutered">                
+              <div class="form-group col-lg-2 col-11">
+                <label>Neutered</label>
+                <select class="form-control" id="input-neutered" name="neutered">   
+                    <option></option>             
                      <option  {{#eq condition.neutered 1}} selected {{/eq}}  value="1">Yes</option>
                      <option  {{#eq condition.neutered 2}} selected {{/eq}}  value="2">No</option>
                      <option  {{#eq condition.neutered 3}} selected {{/eq}}  value="3">Uknnown</option>
                 </select>
               </div>
               <div class="form-group col-lg-1 col-1">
+                <label>.</label>
                 <button type="Submit" class="btn btn-primary">Filter</button>
               </div>
             </div>
@@ -51,30 +56,34 @@
               <table id="analytics-table" class="table align-items-center table-flush">
                 <thead class="thead-light">
                   <tr>
-                    <th scope="col" class="sort" data-sort="url">Page url</th>
-                    <th scope="col" class="sort" data-sort="visits">Visits</th>
-                    <th scope="col" class="sort" data-sort="time">Time</th>
-                    <th scope="col" class="sort" data-sort="visitors">Unique users</th>
-                     <th scope="col" class="sort" data-sort="created_at">Recent visit date</th>
+                    <th scope="col" class="sort" data-sort="url"Adoptions</th>
+                    <th scope="col" class="sort" data-sort="visits">Adopters</th>
+                    <th scope="col" class="sort" data-sort="time">Favourite (Liked)</th>
+                    <th scope="col" class="sort" data-sort="visitors"> Favouriters </th>
+                     <th scope="col" class="sort" data-sort="status">Status</th>
+                      <th scope="col" class="sort" data-sort="category">Category</th>                      
                   </tr>
                 </thead>
                 <tbody>
                   {{#each analytics}}
                   <tr data-index="{{this.page_id}}">
                     <th scope="row">
-                     {{this.url}}
+                     {{this.adoptions}}
                     </th>
                     <td>
-                      {{this.visits}}
+                      {{this.adopters}}
                     </td>
                     <td>
-                      {{this.time}}
+                      {{this.favourite}}
                     </td>
                     <td>
-                      {{this.visitors}}
+                      {{this.fans}}
                     </td>
                     <td>
-                      {{this.created_at}}
+                      {{this.status}}
+                    </td>
+                    <td>
+                      {{this.name}}
                     </td>
                   </tr>
                   {{/each}}

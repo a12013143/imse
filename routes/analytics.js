@@ -3,6 +3,7 @@ var router = express.Router();
 var sqlitebasics = require('../config/sqlitebasics.js');
 var _adoption = require('../models/adoption.js');
 var _analytics = require('../models/analytics.js');
+var _pet = require('../models/pet.js');
 
 
 /*# GET */
@@ -59,9 +60,68 @@ router.get('/', function(req, res) {
 
 /** GET One*/
 // Redirect to all
-router.get('/:analyticId', function(req, res) {
-  res.redirect('/analytics');
+
+/** GET Pet Analytics */
+router.get('/pets/', function(req, res) {
+
+  console.log('req.query pets get');
+  console.log(req.query);
+
+  var categories = [];  
+  var userID = req.query.userId;
+  if(!userID){
+    userID=1;
+  }
+  var user = {ID:userID}
+  sqlitebasics.selectone("user",userID, function(data) {
+    user = data[0];
+    console.log('user');
+    console.log(user);
+    condition={userID};    
+    _adoption.selectall("adoption",condition, function(data) {
+      if(user && data){
+        user.adoptions = data;
+        user.show_adoptions = user.adoptions.slice(0,3);
+        console.log('show_adoptions');
+        console.log(user.show_adoptions);
+      }      
+      
+      // Get categories
+      sqlitebasics.selectall("pet_category" , function(data) {
+        categories = data;
+        console.log('Pets page categories');
+        console.log(data);
+        renderHtmlAfterCategoriesLoad();
+      }, {});          
+    });
+  });
+
+  // Get pets by query data
+  function renderHtmlAfterCategoriesLoad(){
+    var condition = {};
+    if(req.query.category){
+      condition.category = req.query.category;
+    }
+    if(req.query.neutered){
+      condition.neutered = req.query.neutered;
+    }
+    if(req.query.keyword){
+      condition.keyword = req.query.keyword;
+    }
+
+    console.log(condition);
+    console.log('condition');
+    
+    _pet.analytics("pet" , function(data) {
+      analytics = data;
+      console.log('Pet analytics page analytics');
+      console.log(analytics);
+      var header_image = "/images/repo/petcare-large.jpg";
+      res.render('petsanalytics', { title: 'Pets analytics' ,analytics,categories,condition,header_image,user});
+    }, condition);
+  }
 });
+
 
 /** POST */
 router.post('/', function(req, res) {

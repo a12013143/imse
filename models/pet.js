@@ -80,10 +80,15 @@ const pet = {
   analytics: function(param, callback, condition) {
 
     let queryString = 
-    'SELECT count(a.id) adoptions, count(DISTINCT ua.ID) adopters, count(f.id) favourite, count(DISTINCT uf.ID) fans, a.status, = from pet p '+
-    ' LEFT JOIN adoption adopted on a.petID = p.ID" '+
+    'SELECT count(a.ID) adoptions, count(DISTINCT ua.ID) adopters, count(f.ID) favourite, count(DISTINCT uf.ID) fans,  a.status,pc.name,p.categoryID '+
+    // ', CASE p.neutered WHEN  "1" THEN "Neutered"'+
+    // '      when  "2" then "Not Neutered"'+
+    // '      else  "Unknown" end neuteredText'+
+    ' from pet p '+
+    ' LEFT JOIN adoption a on a.petID = p.ID '+
     ' LEFT JOIN favourite f on f.petID = p.ID '+
     ' LEFT JOIN user ua on ua.ID = a.userID'+
+    ' LEFT JOIN pet_category pc on pc.ID = p.categoryID'+
     ' LEFT JOIN user uf on uf.ID = f.userID WHERE 0=0 ';
 
     var whereClause = '';
@@ -105,7 +110,9 @@ const pet = {
       }
     }
     
-    queryString+=whereClause+';'
+    queryString+=whereClause+' ';
+
+    queryString+=' GROUP BY a.status, pc.ID ;';
     //console.log(queryString);
 
     db.all(queryString, [], (err, rows) => {
@@ -214,53 +221,6 @@ const pet = {
       });
     },
 
-  // Pet Analytics
-  analytics: function(param, callback, condition) {
-
-    // Database returns the number of pets and the
-    // adoptions statuses, adoptions for pets in each
-    // category, and other statistics.
-    // 4. System provides filters with categories and other pet
-    // features
-
-    let queryString = 
-    'SELECT COUNT(p.ID) count, pc.ID, pc.name, a.status, countAdoptionsApproved, countAdoptions  FROM pet p'+
-    ' LEFT JOIN pet_category pc on p.categoryID=pc.ID'+
-    ' LEFT JOIN ADOPTION a on p.ID = a.petID'
-    ' GROUP BY pc.ID, a.status,  WHERE 0 = 0';
-
-    var whereClause = '';
-    
-    if(condition){
-      if(condition.keyword){
-        console.log('keyword')
-        var keyword = '%'+condition.keyword+'%';
-        whereClause+= ' AND (p.name LIKE "'+keyword+'" OR p.short_desc LIKE "' + keyword +'" OR p.description LIKE "' + keyword+'")';
-      }
-      if(condition.category){
-        whereClause+= ' AND p.categoryID = '+condition.category;
-      }
-      if(condition.neutered){
-        whereClause+= ' AND p.neutered = '+condition.neutered;
-      }
-      if(condition.adoption_status){
-        whereClause+= ' AND a.status = '+condition.adoption_status;
-      }
-    }
-
-    queryString+=whereClause+';'
-    console.log(queryString);
-
-    db.all(queryString, [], (err, rows) => {
-      if(err) {
-        console.log(err);
-        return err;
-      }
-      console.log(queryString);
-      console.log("DB pet analytics query.");
-      callback(rows);
-    });
-  }
 }
 
 module.exports = pet;
