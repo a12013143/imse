@@ -1,6 +1,7 @@
 var express = require('express');
 const sqlitebasics = require('../config/sqlitebasics');
 var _pet = require('../models/pet.js');
+var _adoption = require('../models/adoption.js');
 var router = express.Router();
 //var pets = require('../models/pet.js');
 
@@ -58,34 +59,42 @@ router.get('/', function(req, res, next) {
   console.log('req.query pets get');
   console.log(req.query);
 
+
+  var userID = req.query.userId;
+  if(!userID){
+    userID=1;
+  }
+  user = {ID:userID}
+  sqlitebasics.selectone("user",userID, function(data) {
+    user = data[0];
+    //console.log(pets);
+    renderHtmlAfterStatsLoad();
+  });
+
   //Get pet statistics
-  var stats = {};
-  var condition = req.query;
-  // if(req.query.category){
-  //   condition.category = req.query.category;
-  // }
-  // if(req.query.keyword){
-  //   condition.keyword = req.query.keyword;
-  // }
-  _pet.stats("pet", function(data) {
-    stats = data;
-    console.log('Home page stats');
-    console.log(data);
-    renderHtmlAfterStatsLoad(res,stats);
-  }, condition);
+  // var stats = {};
+  // _pet.stats("pet", function(data) {
+  //   stats = data;
+  //   console.log('Home page stats');
+  //   console.log(data);
+  //   renderHtmlAfterStatsLoad(res,stats);
+  // }, condition);
+
+  // Get pets by query data
+  function renderHtmlAfterStatsLoad(r){
+    sqlitebasics.selectall("pet", function(data) {
+      pets = data;
+      pets=pets.slice(0,3);
+      console.log('Pets page');
+      //console.log(pets);
+      var header_image = "/images/repo/petcare-large.jpg";
+      res.render('index', { title: 'FosterPet - Home ' ,pets,stats,header_image,user});
+    });
+}
+
 });
 
-// Get pets by query data
-function renderHtmlAfterStatsLoad(res,stats){
-  sqlitebasics.selectall("pet", function(data) {
-    pets = data;
-    pets=pets.slice(0,3);
-    console.log('Pets page');
-    //console.log(pets);
-    var header_image = "/images/repo/petcare-large.jpg";
-    res.render('index', { title: 'FosterPet - Home ' ,pets,stats,header_image,user});
-  });
-}
+
 
 /* GET login page. */
 router.get('/login', function(req, res, next) {
@@ -102,10 +111,29 @@ router.get('/register', function(req, res, next) {
 /* GET profile page. */
 router.get('/profile/:userId', function(req, res, next) {
   console.log('Profile page');
-  var show_adoptions = req.query.showAdoptions;
-  console.log('show_adoptions');
-  console.log(show_adoptions);
-  res.render('profile', {title:user.name,user,show_adoptions});
+
+  var userID = req.params.userId;
+  if(!userID){
+    userID=1;
+  }
+  user = {ID:userID}
+  sqlitebasics.selectone("user",userID, function(data) {
+    user = data[0];
+    console.log(user);
+    condition={userID};
+    _adoption.selectall("adoption",condition, function(data) {
+      adoptions = data;
+      show_adoptions = adoptions.slice(0,3);
+      console.log(show_adoptions);
+      renderHtmlAfterUserLoad();
+    });
+  });
+
+
+  function renderHtmlAfterUserLoad(){
+    res.render('profile', {title:user.name,user,adoptions,show_adoptions});
+  }
+  
 }); 
 
 

@@ -20,6 +20,23 @@ const sqlitebasics = {
     });
   },
 
+  selectone: function(table, id, callback) {
+    let queryString = 'SELECT * FROM ' + table + ' WHERE 0 =0 ';
+    if(id){
+      queryString+= " AND ID ="+id;
+    }
+    queryString+= ";";
+    console.log(queryString);
+    db.all(queryString, [], (err, rows) => {
+      if(err) {
+        console.log(err);
+        return err;
+      }
+      console.log("DB select one.");
+      callback(rows);
+    });
+  },
+
   insertone: function(table, values, callback) {
     let queryString = 'INSERT INTO ' + table + ' VALUES ' + values +');';
     console.log(queryString);

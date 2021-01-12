@@ -117,15 +117,15 @@
                         </tr>
                       </thead>
                       <tbody class="list">
-                        {{#each user.adoptions}}
+                        {{#each adoptions}}
                         <tr data-adoption_id="{{this.id}}">
                           <th scope="row">
                             <div class="media align-items-center">
                               <a href="#" class="avatar rounded-circle mr-3">
-                                <img alt="Image placeholder" src="{{this.user.profile_img_url}}">
+                                <img alt="Image placeholder" src="{{this.profile_img_url}}">
                               </a>
                               <div class="media-body">
-                                <span class="name mb-0 text-sm">{{this.user.user_name}}</span>
+                                <span class="name mb-0 text-sm">{{this.name}}</span>
                               </div>
                             </div>
                           </th>
@@ -140,14 +140,14 @@
                           </td>
                           <td>
                             <div class="avatar-group">
-                              <a href="/profile/{{this.user.id}}" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="{{this.user.name}}">
-                                <img alt="Image placeholder" src="{{this.user.profile_img_url}}">
+                              <a href="/profile/{{this.userID}}" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="{{this.name}}">
+                                <img alt="Image placeholder" src="{{this.profile_img_url}}">
                               </a>
                             </div>
                           </td>
                           <td>
                             <div class="d-flex align-items-center">
-                              <p>{{this.message}}</p>
+                              <p>{{this.description}}</p>
                             </div>
                           </td>
                           <td class="text-right">
