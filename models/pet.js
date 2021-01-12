@@ -6,12 +6,8 @@ const db = connection.db;
 const pet = {
 
   selectall: function(table, callback, condition) {
-    // console.log('condition');
-    // console.log(condition);
-
     let queryString = 'SELECT * FROM ' + table + ' WHERE 0=0';    
-    var whereClause = '';
-    
+    var whereClause = ''; 
     if(condition){
       if(condition.keyword){
         console.log('keyword')
@@ -22,9 +18,9 @@ const pet = {
         whereClause+= ' AND categoryID = '+condition.category;
       }
     }
-
     queryString+=whereClause+';'
     console.log(queryString);
+
     db.all(queryString, [], (err, rows) => {
       if(err) {
         console.log(err);
@@ -53,11 +49,12 @@ const pet = {
 //this is a really bad sql query but it's 6 am and I want to sleep
   selectone: function(param, callback) {
     //let queryString = 'SELECT * FROM pet WHERE ID = ' + param +';';
-    let queryString = 'SELECT * FROM(SELECT * FROM(SELECT * FROM(SELECT COUNT(*) AS favourites from(SELECT * from favourite WHERE petID =' + param +' ))INNER JOIN(SELECT * from pet WHERE ID = '+ param +' ))INNER JOIN(SELECT COUNT(*) as applications FROM(SELECT * from adoption WHERE petID = ' + param + ')))INNER JOIN(SELECT address from user WHERE ID = (SELECT userID FROM pet WHERE ID = ' +param +'));';
-
+    let queryString = 'SELECT * FROM(SELECT * FROM(SELECT * FROM(SELECT COUNT(*) AS favourites from(SELECT * from favourite WHERE petID =' + param +' ))INNER JOIN(SELECT * from pet WHERE ID = '+ param +' ))INNER JOIN(SELECT COUNT(*) as applications FROM(SELECT * from adoption WHERE petID = ' + param + ')))INNER JOIN(SELECT address from user WHERE ID = (SELECT ownerID FROM pet WHERE ID = ' +param +'));';
     console.log(queryString);
+
     db.all(queryString, [], (err, rows) => {
       if(err) {
+        console.log(err);
         return err;
       }
       console.log(queryString);

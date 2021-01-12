@@ -12,6 +12,7 @@ const sqlitebasics = {
     console.log(queryString);
     db.all(queryString, [], (err, rows) => {
       if(err) {
+        console.log(err);
         return err;
       }
       console.log("DB select all query.");
@@ -24,7 +25,8 @@ const sqlitebasics = {
     console.log(queryString);
     db.run(queryString, err => {
       if (err) {
-        return console.error(err.message);
+        console.log(err);
+        return err;
       }
       console.log("DB insertion.");
       callback(err);
@@ -44,7 +46,8 @@ const sqlitebasics = {
     console.log(queryString);
     db.run(queryString, err => {
       if (err) {
-        return console.error(err.message);
+        console.log(err);
+        return err;
       }
       console.log("DB update.");
     });
@@ -55,7 +58,8 @@ const sqlitebasics = {
     console.log(queryString);
     db.run(queryString, err => {
       if (err) {
-        return console.error(err.message);
+        console.log(err);
+        return err;
       }
       console.log("DB delete.");
       //callback(err);

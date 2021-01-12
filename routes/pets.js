@@ -84,48 +84,59 @@ router.get('/', function(req, res) {
 });
 
 router.get('/:petId', function(req, res) {
-  console.log('req.session pets get by petid');
-  console.log(req.session);
-
+  console.log('Get pets get by petid');
+  console.log(req.query);
   var userId = req.query.userId;
   user = {ID:userId}
-  var petId = req.params.petId;
-  let temp = petId;
-  if(petId == "new"){
-    pet = {ID : 0,pet_name :"New pet",profile_img_url:"/images/pawprint-blue.png"};
-    var header_image = pet.profile_img_url;
-    res.render('pet', { title: 'Pets'+pet.name,pet,header_image,user});
-  }else{
-    //pet = pets[petId-1];
-    _pet.selectone(temp, function(data) {
-      pet = data[0];
-       console.log('pet---');
-       console.log(pet);
-       if (data.err){
-         res.status(500).json({
-           'message': 'Internal Error.'
-         });
-       } else {
-        var header_image = '/images/petcare-large.jpg';
-        var title = 'Pet not found';
-         if(pet){
-           header_image = pet.profile_img_url;
-           title = 'Pets - '+pet.name;
-         }
-        res.render('pet', { title: title,pet,header_image,user});
-       }
-       
-     });
+
+  // Get pets by query data
+  var categories = [];
+  sqlitebasics.selectall("pet_category" , function(data) {
+    categories = data;
+    console.log('Pets page categories');
+    console.log(data);
+    renderHtmlAfterCategoriesLoad();
+  }, {});
+
+
+  function renderHtmlAfterCategoriesLoad(){
+    var petId = req.params.petId;
+    let temp = petId;
+    if(petId == "new"){
+      pet = {ID : 0,pet_name :"New pet",profile_img_url:"/images/pawprint-blue.png"};
+      var header_image = pet.profile_img_url;
+      res.render('pet', { title: 'Pets'+pet.name,categories,pet,header_image,user});
+    }else{
+      //pet = pets[petId-1];
+      _pet.selectone(temp, function(data) {
+        pet = data[0];
+        console.log('pet---');
+        console.log(pet);
+        if (data.err){
+          res.status(500).json({
+            'message': 'Internal Error.'
+          });
+        } else {
+          var header_image = '/images/petcare-large.jpg';
+          var title = 'Pet not found';
+          if(pet){
+            header_image = pet.profile_img_url;
+            title = 'Pets - '+pet.name;
+          }
+          res.render('pet', { title: title,pet,categories,header_image,user});
+        }
+        
+      });
+    }
   }
  
 });
 
 /** POST */
 router.post('/', function(req, res) {
-
   console.log('req.body pets post');
   console.log(req.body);
-let maxrowID = 0;
+  let maxrowID = 0;
   _pet.getmaxid(function(data){
     maxrowID = (data[0].ID) + 1;
     let querytemp = '(' + maxrowID + ', ' + /*req.body.user_id*/'1' +', "' + req.body.pet_name + '", ' + req.body.category + ', ' + req.body.neutered + ', ' + req.body.age_years + ', ' + req.body.age_months + ', "' + req.body.short_content + '", "' + req.body.content + '", ' + /*req.body.profile_img_url + '"'*/ '"/images/repo/ronald.jpg"';

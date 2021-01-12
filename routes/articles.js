@@ -67,7 +67,6 @@ router.get('/', function(req, res) {
     condition.keyword = req.query.keyword;
   }
 
-
    // Get pets by query data
    var categories = [];
    sqlitebasics.selectall("article_cat" , function(data) {
