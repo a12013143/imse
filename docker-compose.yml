@@ -3,15 +3,15 @@ services:
   web:
     container_name: web_service
     volumes:
-      - db_data:/F/msc_uni/ISME/IMSE3/IMSE/data/
-      - nodes:/F/msc_uni/ISME/IMSE3/IMSE//node_modules/
+      - db_data:/data/
+      - nodes:/node_modules/
     build:
       context: ./
-      dockerfile: Dockerfile
+      dockerfile: dockerfile
     ports:
       - '9000:3000' 
     
 volumes:
     db_data: {}
-    nodes: {}
+   
 
